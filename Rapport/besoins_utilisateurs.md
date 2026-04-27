@@ -27,7 +27,7 @@
 
 => Un candidat veux avant tout trouver un emploi adapté à ses attentes sans laisser de place au hasard de l'algorithme
 
-**Entreprise**
+**Entreprises**
 - Publier des offres d'emploi afin de trouver des salariés
 
 - Entrer en contact rapidement et facilement avec les candidats
