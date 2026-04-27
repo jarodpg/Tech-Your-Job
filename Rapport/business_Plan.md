@@ -1,120 +1,85 @@
-# Fichier contenant tout le buisness plan de notre site
+# Business Plan : Tech Your Job
 
-Pour avoir une meilleur idee de comment monetiser notre produit il faut se renseigner sur ce qui se fait deja sur le marche Francais, europeen et mondiale
+Ce document détaille la stratégie de monétisation et le modèle économique de notre plateforme, en s'appuyant sur une analyse des marchés français, européen et mondial.
 
-## On peut noter 3 grande categories de source de revenu, celles issu des chercheur d'emploi, celle des emmeteurs d'emploie et les services hors site.
+---
 
-Si nous nous concentrons sur la premiere partie les chercheur d'emploi, on retrouve le meme models un peu partout en 2 grandes categories, 
-le Pay as you go ou l'abonnement pro.
+## 1. Analyse des modèles de revenus du marché
 
-### Pay as you go :
-le principe est similaire a une application mobile, on paye uniquement si on veut utiliser un service specifique, si nous n'en n'avons pas besoin on ne l'utilise pas et si on le veut on l'achete.
-Principe correcte mais repose sur de multiple micro achat ce qui peut cause lusieurs probleme, agacement de l'utilisateur, paiment uniquement 1 fois si on le garde a vie.
-Mais il permet de realise de multiple transaction qui ne coutent pas chere pour l'utilisateur.
+Nous avons identifié trois grandes catégories de sources de revenus : les chercheurs d'emploi, les émetteurs d'offres d'emploi et les services tiers.
 
-### Abonnement pro :
-Ce principe est le plus repondu, l'utilisateur paye un abonnement mentuel pour acceder a toute les fonctionnalite du site, customisation et mise en avant.
-Ce principe est bien il permet d'avoir des rentre d'argent stable pour notre produit, il est generalement bien accepte puisqu'inclus dans le mode de consommation mondiale.
-Mais il peut etre mieux optimise, il y a des methode plus otpimise pour rapporte plus
+### A. Côté Chercheurs d'emploi
+Le marché propose généralement deux modèles principaux :
 
+*   **Pay-as-you-go (Paiement à l'acte) :**
+    *   *Principe :* L'utilisateur paie uniquement pour un service spécifique lorsqu'il en a besoin.
+    *   *Avantages :* Transactions abordables, pas d'engagement.
+    *   *Inconvénients :* Risque d'agacement face aux micro-transactions, revenus moins prévisibles.
+*   **Abonnement Pro :**
+    *   *Principe :* Un montant mensuel pour accéder à toutes les fonctionnalités (customisation, mise en avant).
+    *   *Avantages :* Revenus stables, modèle bien accepté par les utilisateurs modernes.
+*   **Services et Formations :**
+    *   *Principe :* Coaching en ligne (préparation aux entretiens), formations sur la rédaction de CV, lettres de motivation ou gestion du stress.
+    *   *Avantages :* Services à haute valeur ajoutée, optionnels et bien perçus.
 
-### Service / Formation
-Ces deux categories peuvent etre separe des autres meme si elles restent a la demande, on peut parler de coching en ligne pour des entretiens ou tout conseilles ou informations. Egalement une formations, notamenet sur les CV, lettre de motivation, gestion du stress, ...
+### B. Côté Employeurs (Entreprises)
+Les options sont plus variées pour les recruteurs :
 
-BEaocup de plateforme inclu ces fonctiallites, elles ne sont pas juges comme derangeant dans la mesure ou elles sont uniquement optionnel.
+*   **Pay-per-X (Paiement au résultat) :**
+    *   *Principe :* L'entreprise paie au clic (PPC) ou à la performance réelle, garantissant des résultats tangibles.
+*   **Boost de visibilité :**
+    *   *Principe :* Variante classique où l'entreprise paie pour être mise en avant, sans garantie de clics.
+*   **Employer Branding (Marque Employeur) :**
+    *   *Principe :* Fonctions de personnalisation avancées pour le compte entreprise (design libre, création d'événements dédiés).
+    *   *Constat :* Utile pour les grands groupes, mais souvent boudé par les PME qui préfèrent rediriger vers leur site carrière.
 
+### C. Services Externes (Hors-site)
+Revenus générés par des acteurs tiers :
 
-Si nous nous concentrons maintenant sur la deuxieme categorie celle des fournisseur d'emploi, les entreprises nous avons beacoup plus de choix et de methode differentes trouvable.
+*   **Publicité ciblée :** Affichage pour des écoles, centres de formation ou services de logement. Moins intrusif si natif, mais risque d'agacement si trop présent.
+*   **Frais d'intégration ATS :** Accès payant pour connecter les outils de tracking de données internes des entreprises à notre plateforme.
+*   **Data (Données de marché) :** Revente de rapports trimestriels sur les tendances (salaires, secteurs en vogue, technologies recherchées). *Note : Concerne uniquement les données agrégées et anonymes, jamais les données personnelles.*
 
-### Pay per X
-cette methode emergente des derniers annees est beaocup plus avantageuse pour les entreprise/ emmetteur.
-ILs ne payent que pour les resultats tengible et non pour une promesse.
-Par exemple un PPC (Pay-par-click) : l'entreprise paye uniquement pour le nombre de personne qui clique sur le post et non pour le nombre d'utilisateur qui verront la publication
+---
 
-et justement
+## 2. Notre Plan Stratégique
 
-### Booste
-Cette methode qui porte surement un nom different est comme cite avant une variante plus ancienne de Pay per X, les entreprise ne paye pas en fonction des reultats mais en fonction de la visibilite, ils ne sont donc pas sur des resultats en terme de traffic et de clique.
+### Stratégie d'acquisition
+Nous adoptons une stratégie hybride **B2B et B2C** :
+- **Réseaux sociaux & Publicité ciblée :** Pour la propagation rapide.
+- **Partenariats Écoles :** Avantages exclusifs et cours sur la rédaction de CV pour générer un flux constant de jeunes diplômés.
+- **Salons professionnels :** Développement du réseau et bouche-à-oreille auprès des recruteurs.
 
-Entre ces deux methiode le Pay per X est la plus adapte et la plus sofistique
+---
 
-### L'Employer Branding
-Cette methode consiste a proposer aux entreprise des fonctionnalites supplementaire de customisation et d'evenements.
-COncretement on alisse carte blanche sur leur compte entreprise au niveau design, la creation de features supplementaire et de creation d'evement sur le site.
+## 3. Modèle Financier de Tech Your Job
 
-Fonctionnalite qui marchent generalement sur les sites analyser mais en peu de quantite, beaocup d'entreprise n'y voit pas d'interet specifique ou redirige directement vers leurs propre site
+Nous avons choisi de coupler plusieurs principes pour maximiser la viabilité du projet.
 
+### A. Côté Chercheur d'emploi
+L'utilisateur a le choix entre l'achat à l'unité ou un **Abonnement Professionnel Mensuel** incluant :
+*   **Analyses supplémentaires :** Statistiques de vue du profil, consultation des liens, etc.
+*   **Analyse d'écart par IA :** Comparaison entre le profil de l'utilisateur et un objectif métier pour identifier les compétences manquantes.
+*   **Optimisation IA (CV & Lettre) :** Revue automatique des documents pour les rendre plus attractifs.
+*   **Simulateur d'entretien (Chatbot) :** Entraînement interactif (écrit ou oral) basé sur l'entreprise visée.
+*   *Option hors abonnement :* **Boost de profil** (pour augmenter la visibilité ponctuellement).
 
+### B. Côté Employeur
+L'entreprise peut choisir l'achat à l'unité ou un **Abonnement Entreprise +** incluant :
+*   **Résumé intelligent :** Fiche synthétique générée par IA pour chaque candidat.
+*   **Sourcing passif :** Algorithme allant chercher des informations pertinentes sur le web (Stack Overflow, forums tech) pour compléter le profil.
+*   **Benchmark Market Intelligent :** Prédictions sur l'attractivité d'une offre selon le salaire, la localisation, etc.
+*   **Quota d'offres étendu :** Augmentation du nombre de postes publiables.
+*   **Tests techniques étendus :** Augmentation de la limite de candidats pouvant passer les tests sur une offre.
+*   *Option hors abonnement :* **Boost de poste** (mise en avant temporaire de l'offre).
 
-Enfin il nous reste la troiseme partie, elle ne concerne pas directement des achats par les utilisateur ou emmeteur d'emploi mais des acteurs exterieur.
+### C. Sources de revenus complémentaires
+*   **Vente de rapports de tendances :** Données macro-économiques trimestrielles sur le marché de l'emploi tech.
+*   **Affiliation (Relocalisation & Équipement) :** Mise en relation avec des services de logement, banques ou fournisseurs de matériel informatique.
+*   **API Payante :** Vente de tokens pour accéder aux données de notre API (flux d'offres spécifiques).
 
-### Publicite cible
-Faire payer des ecole, centre formations, logements, ... pour que nous leurs proposeont un publique adapte et receptif qa leurs demandent.
-Ce sont donc les entreprise/ etabliessement exterieur qui paye, les mutilisateurs ne sont que les visionnaire et ne payent pas.
+---
 
-Technique la plus rpesente sur le web et presente egalement dans les sites analyser, sous differentes formes, en banderoles ou publicite native, c'est devenu une norme mais leurs nombres peu agace et cause plus d'effet negatif que remunerateur.
+## 4. Roadmap Produit et Technique
 
-### Frais d'integration ATS
-Certaines entreprise possedent leurs propres service de tracking de donnes, pour leurs laisser acces sur notre plateforme un frais s'applique.
-
-Plutot puissant, si les entreprises veulent l'utiliser elles peuvent mais doivent payer et si elels ne veulentn pas elles utilise l'outil de base fourni par notre application
-
-### Data
-Ce genre de site produit enormement de donnes sur plusieurs dommaines, tendances, secteur en vogue, salaires, ...
-Tout ces donnes peuvent etre revendu sous forme de rapport trimestriel.
-
-Tres courant, un peu mal percu car souvent confondu avec donnes personnell qui elles ne sont normalement pas touche.
-
-
-
-
-
-
-## Maintenant que nous avons regarder ce qui se faisait en genrale sur internet nous allons pouvoir etablir notre plan :
-
-### 1 Strategie d'acquisition :
-
-Strategie B2B et B2C, nous allons pour propager l'application nous servir des reseauz sociaux, et publicite ciles.
-Creer des partenaria avec des ecoles pour donner des avantages ou des cours de CV ou autre directement dans les etablissement pour ammener du flux sur notre site
-Se rendre dans les salons professionnel pour pouvoir propager grace au bouche a oreille
-
-
-### 2 Model financier :
-
-Pour notre model financier nous allons coupler plusieurs principes vu precedament.
-
-Cote chercheur d'emploi :
-- Fonctionnalites payante au choix, et abonnement professionnel.
-
-Un utilisateur se voit offrir deux choix, le premier correspond a des fonctionnalites payantes au choix, parmis ces choix nous retrouvons :
-- Acces aux analyse supplementaire des donnees, (nombre de vu du profil, nombre consultattion liens, ...)
-- Boost de mise en avant du profile , (augmentation )
-- Analyse d'ecart par IA, (l'utilisateur indique un metier ou objectif et l'ia lui indique quel competence il faudrait encore travailler pour y avoir acces actuellement)
-- Analyse et amelioration de CV & lettre motivation, (une ia passe sur les documents et indique ce qui est en trop, pas assez ou doit etre modifier sur les documents pour le rendre attractif de nos jours)
-- Chatbot simulateur d'entretien d'embauche, (permet d'avoir une conversation orale ou ecrite avec un bot renseigner sur l'entreprise et les questions les plus courantes)
-
-SOit l'utilisateur paye ces fonctionnalites a l'unite pour les debloquer ou alors il peut payer l'abonnement professionnel mentuelle et toute les obtenir d'un coup excepte le boot, a l'achat l'utilisateur s'en voit offrir . et c'est tout
-
-Cote demandeur d'emploi :
-- Fonctionnalites payante au choix ou abonnement entreprise +.
-
-Une entreprise se voit offrir deux choix, le premier corresponda a des fonctionnalites oayantes au choix, parmis ces choix:
-- Boost de poste, (l'entreprise peut payer pour booster son poste en avant du site pendant une duree determinee)
-- Augmenter la limite d'utilisateur pouvant realiser un test technique sur un poste, (l'entreprise paye pour augmenter la limite donc avoir plus de resultats)
-- Resume intelligent d'un cadidat(l'entreprise peut payer pour obtenir une ia qui va realiser une petit fiche technique de chaque utilisateur qui a postuler a son offre)
-- Sourcing passif, (un algorithme va aller chercher et resume les differents profils trovable du demandeur d'emploi, uniquement les sites qui sont en rappoirt avec l'offre, par exemple les postes stack overflow, forum, ...)
-- Benchmark market intelligent, (permet a une entreprise de previsualiser des predictions sur une offre selon tel ou tel parametre, par exemple en fonction du salaire, temps d'etude, localisation, motricite, ...)
-- Augmenter le nombre d'offre publie, (permet aux entreprises d'augmenter le nombre d'offre qu'elle veulent publier)
-
-Les entreprises ont le choix entre payer chaque features independamment ou alors de prendre un abonnement entreprise + qui contient directement toute ces features sauf le boost, a chaque paiment l'entreprise en recois  mais c'est tout
-
-Autre cote :
-- Vente de donnes tendance trimestrielle --> Tout les trimestre nous mettrons a la vente les donnes sur le trimestre en cours u passe concernant les tendances actuelle du marche, cela peut aller des metiers, au salaires, a la tranche d'ages, ... Mais aucune donnes personnelle qui pourrait etre identifie.
-- Affilliation avec des entreprises de diverse secteur --> Relocalisation, si une personne chercher un nouveau travaiulle nous pouvons le mettre en realtion avec une entreprise pour lui trouver un nouveau logements. De meme pour els banques, equipement informatique ou bureautique
-- Vente de token pour notre API, certaines informations comme certaines offres, .. peuvent etre obtenu avec notre API payante.
-
-
-
-### 3 Roadmap produit et technique :
-
-Maintenant que nous avons toute nos features qui seront presentes dans notre projet, nous allons definir leurs ordres de priorites et definir celles qui seront presentes lors de notre prototype grandeur nature.
+Maintenant que les fonctionnalités sont définies, nous allons prioriser leur développement pour le prototype grandeur nature (MVP).
