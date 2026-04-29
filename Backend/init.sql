@@ -1,13 +1,11 @@
 CREATE TABLE entreprise (
     id_entreprise INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     type_contrat TEXT[],
-    nom_compagnie TEXT,
+    nom_compagnie TEXT UNIQUE,
     seo_alias TEXT,
     logo BYTEA,
     type_entreprise TEXT,
     secteur_entreprise TEXT[],
-    latitude DOUBLE PRECISION,
-    longitude DOUBLE PRECISION,
     ville TEXT
 );
 
@@ -29,6 +27,8 @@ CREATE TABLE poste (
     categorie TEXT,
     display_name_en TEXT,
     display_name_fr TEXT,
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
     skills JSONB,
     titre TEXT,
     ranking INT,
@@ -62,7 +62,7 @@ CREATE TABLE utilisateur(
 CREATE TABLE profil_utilisateur(
     id_profil INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-    description TEXTE,
+    description TEXT,
     nb_vues_profil INTEGER DEFAULT 0,
     candidatures_envoyees INTEGER DEFAULT 0,
     candidatures_consultees INTEGER DEFAULT 0,
