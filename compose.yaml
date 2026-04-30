@@ -38,3 +38,8 @@ services:
       - "5050:80"
     depends_on:
       - db
+
+  # service de mise a jour de la db avec du scrap
+  scheduler:
+    build: ./Data
+    container_name: scheduler
