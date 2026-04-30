@@ -1,8 +1,8 @@
 const express = require("express");
-const { Pool } = require('pg');
-const port = process.env.PORT_BACK;
-
 const app = express();
+const port = process.env.PORT_BACK;
+const { Pool } = require("pg");
+const routes = require("./Routes")
 
 app.listen(port, () => {
     console.log("Le serveur est en ligne !");
@@ -27,3 +27,5 @@ connection.connect((err, client) => {
     client.release();
     console.log("Test de connexion terminé !");
 });
+
+app.use("/", routes);

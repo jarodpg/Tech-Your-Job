@@ -53,5 +53,7 @@ services:
       - DB_NAME=${DB_NAME}
     ports:
       - "${PORT_BACK}:5000"
+    volumes:
+      - ./Backend:/usr/local/app
     depends_on:
       - db
