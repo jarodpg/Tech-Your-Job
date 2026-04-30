@@ -5,7 +5,7 @@ function Header (){
 
 
                 <div className="flex items-center">
-                    <img style={{width:"20vh"}} src='techyourjob.png' alt="photologo"/>
+                    <img style={{width:"17vh"}} src='techyourjob.png' alt="photologo"/>
 
                     <p className="font-extrabold text-[3vh]">
                         Tech Your Job
