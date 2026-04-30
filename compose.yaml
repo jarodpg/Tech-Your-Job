@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "${PORT_FRONT}:3000"
     env_file:
       - .env
 
@@ -17,11 +17,11 @@ services:
     restart: always
     container_name: db
     environment:
-      - POSTGRES_USER=${DBusername}
-      - POSTGRES_PASSWORD=${DBMDP}
-      - POSTGRES_DB=${DBname}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
-      - '5432:5432'
+      - '${PORT_DB}:5432'
     volumes: 
       - ./db:/var/lib/postgresql/data
       - ./Backend/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -32,10 +32,10 @@ services:
     container_name: pgadmin
     restart: always
     environment:
-      - PGADMIN_DEFAULT_EMAIL=arialdetrax@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=JarodPutman60
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
     ports:
-      - "5050:80"
+      - "${PORT_PGADMIN}:80"
     depends_on:
       - db
 
@@ -43,3 +43,19 @@ services:
   scheduler:
     build: ./Data
     container_name: scheduler
+  # backend
+  backend:
+    build: 
+      context: ./Backend/
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      - PORT_BACK=${PORT_BACK}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - "${PORT_BACK}:5000"
+    depends_on:
+      - db

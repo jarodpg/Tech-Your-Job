@@ -3,6 +3,7 @@ CREATE TABLE entreprise (
     type_contrat TEXT[],
     nom_compagnie TEXT UNIQUE,
     seo_alias TEXT,
+    logo BYTEA,
     type_entreprise TEXT,
     secteur_entreprise TEXT[],
     ville TEXT
@@ -46,6 +47,7 @@ CREATE TABLE utilisateur(
     id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom TEXT,
     prenom TEXT,
+    document BYTEA,
     latitude_secteur DOUBLE PRECISION,
     longitude_secteur DOUBLE PRECISION,
     role TEXT,
