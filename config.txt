@@ -1,4 +1,6 @@
 jsonpath-ng
+import psycopg
+pip install python-dotenv
 express
 nodemon
 pg
