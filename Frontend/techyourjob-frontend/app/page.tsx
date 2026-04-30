@@ -1,7 +1,7 @@
 "use client";
 
 import {Search, PlayCircle, ArrowRightCircle } from "lucide-react";
-import Header from "./header"
+import Header from "./components/header"
 
 
 export default function HomePage() {
