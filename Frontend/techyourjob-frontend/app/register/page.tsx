@@ -1,80 +1,77 @@
 export default function RegisterPage() {
   return (
     <main className="min-h-screen w-full bg-[#242424] flex">
+      
+      {/* formulaire*/}
+      <div className="w-full md:w-[45%] flex flex-col items-center justify-center p-6 space-y-10">
+        
+        {/* tech your job titre */}
+        <div className="text-center space-y-5">
+          <h1 className="text-white text-7xl font-bold">
+            Tech Your Job
+          </h1>
+          <button className="cursor-pointer text-[#7288c9] font-bold flex ml-1">
+            Already have an account?
+          </button>
+        </div>
+        
 
-      {/* LEFT SIDE - FORM */}
-      <div className="w-full md:w-1/2 flex items-center justify-center px-6">
-        <div className="w-full max-w-md">
-          {/* HEADER */}
-          <div className="mb-6">
-            <h1 className="text-white text-3xl font-semibold">
-              Tech Your Job
+        {/* formulaire */}
+        <div className="w-full max-w-xl bg-[#2c2c2c] rounded-[40px] py-15 px-10 shadow-2xl">
+          
+          <div className="text-center mb-11">
+            <h1 className="text-white text-6xl font-bold">
+              Welcome!
             </h1>
-            <p className="text-gray-400 text-sm mt-1">
-              <span className="text-blue-400 cursor-pointer hover:underline">
-                Already have an account?
-              </span>
-            </p>
           </div>
 
-          {/* CARD */}
-          <div className="bg-[#2c2c2c] rounded-2xl p-8 shadow-xl">
-            <h2 className="text-white text-2xl font-semibold mb-6">
-              Welcome back !
-            </h2>
-
-            <form className="space-y-4">
-              <input
-                placeholder="Your name"
-                className="w-full bg-[#242424] text-white placeholder-gray-500 px-4 py-3 rounded-xl outline-none border border-gray-600 focus:border-gray-400"
-              />
+          <form className="space-y-3">
+            <div className="space-y-6 mb-10">
               <input
                 type="email"
-                placeholder="Your email"
-                className="w-full bg-[#242424] text-white placeholder-gray-500 px-4 py-3 rounded-xl outline-none border border-gray-600 focus:border-gray-400"
+                placeholder="First name"
+                className="w-full bg-[#242424] text-white font-bold placeholder:font-bold placeholder-[#8e8e8e] px-6 py-4 rounded-full outline-none border-2 border-[#8e8e8e] focus:border-[#7288C9] transition-all"
+              />
+
+                <input
+                type="email"
+                placeholder="Last Name"
+                className="w-full bg-[#242424] text-white font-bold placeholder:font-bold placeholder-[#8e8e8e] px-6 py-4 rounded-full outline-none border-2 border-[#8e8e8e] focus:border-[#7288C9] transition-all"
+              />
+
+                <input
+                type="email"
+                placeholder="Email address"
+                className="w-full bg-[#242424] text-white font-bold placeholder:font-bold placeholder-[#8e8e8e] px-6 py-4 rounded-full outline-none border-2 border-[#8e8e8e] focus:border-[#7288C9] transition-all"
               />
 
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full bg-[#242424] text-white placeholder-gray-500 px-4 py-3 rounded-xl outline-none border border-gray-600 focus:border-gray-400"
+                className="w-full bg-[#242424] text-white placeholder:font-bold placeholder-[#8e8e8e] px-6 py-4 rounded-full outline-none border-2 border-[#8e8e8e] focus:border-[#7288C9] transition-all"
               />
-              <input
-                type="password"
-                placeholder="Confirm password"
-                className="w-full bg-[#242424] text-white placeholder-gray-500 px-4 py-3 rounded-xl outline-none border border-gray-600 focus:border-gray-400"
-              />
+            </div>
 
-
-              <div className="">
-                <a
-                  href="#"
-                  className="text-xs text-blue-400 hover:underline"
-                >
-                  Forgot your password ?
-                </a>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#242424] text-white border border-gray-600 font-medium py-3 rounded-2xl hover:bg-[#8208D4] transition"
-              >
-                Connexion
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              className="cursor-pointer block mx-auto bg-[#242424] text-xl border-2 border-[#8e8e8e] text-[#7288c9] font-bold py-4 px-25 rounded-full"
+            >
+              Connexion
+            </button>
+          </form>
         </div>
       </div>
 
-      <div className="hidden md:block w-1/2 relative">
+      {/* img */}
+      <div className="hidden md:flex w-[55%] h-screen items-center justify-center p-8">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="w-full h-full rounded-[70px] bg-cover bg-center shadow-2xl"
           style={{
-            backgroundImage:
-              "url('image 3.png')",
-          }}/>
-        <div className="absolute inset-0 bg-black/40" />
+            backgroundImage: "url('image 3.png')",
+          }}
+        />
       </div>
+
     </main>
   );
 }

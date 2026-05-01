@@ -21,7 +21,7 @@ export default function LoginPage() {
             Tech Your Job
           </h1>
           <h1 className="text-[#adadad] font-bold text-s flex ml-1">
-            Does not have an Account? <span className="text-[#7288C9]">Register</span>
+            Does not have an Account? <span className="text-[#7288C9] cursor-pointer underline">Register</span>
           </h1>
         </div>
         
