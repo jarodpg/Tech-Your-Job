@@ -1,5 +1,6 @@
 const express = require("express");
 const connection = require("../DB");
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 router.post("/register", async (req,res) => {
@@ -13,11 +14,12 @@ router.post("/register", async (req,res) => {
         }
 
         const sqlInsert = "INSERT INTO utilisateur (nom, prenom, email, mdp) VALUES ($1, $2, $3, $4)";
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const values = [
             req.body.name,
             req.body.firstname,
             req.body.email,
-            req.body.password
+            hashedPassword
         ];
         
         await connection.query(sqlInsert, values);
