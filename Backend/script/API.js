@@ -1,21 +1,12 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT_BACK;
-const { Pool } = require("pg");
-const routes = require("./Routes")
+const connection = require("./DB")
+const routes = require("./Routes/index")
 
 app.listen(port, () => {
     console.log("Le serveur est en ligne !");
 })
-
-//Paramètres de connexion à la DB
-const connection = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.PORT_DB
-});
 
 //Test de connexion à la DB
 connection.connect((err, client) => {
@@ -28,4 +19,5 @@ connection.connect((err, client) => {
     console.log("Test de connexion terminé !");
 });
 
+app.use(express.json());
 app.use("/", routes);
