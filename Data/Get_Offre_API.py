@@ -60,7 +60,3 @@ def Get_All_Data():
 
     with open('./Data.json', 'w') as json_file:
         json.dump(all_data, json_file, indent=4, ensure_ascii=False)
-        
-
-
-Get_All_Data()

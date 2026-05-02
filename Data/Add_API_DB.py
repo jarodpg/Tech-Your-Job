@@ -29,10 +29,10 @@ def Insert_Data_entreprise(value):
     try:
         conn = psycopg.connect(
             host="localhost",
-            dbname=os.getenv("DBname"),
-            user=os.getenv("DBusername"),
-            password=os.getenv("DBMDP"),
-            port="5432"
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            port=os.getenv("DB_PORT")
         )
         
         with conn:
@@ -89,10 +89,10 @@ def get_entreprise_id(company_name):
     try:
         conn = psycopg.connect(
             host="localhost",
-            dbname=os.getenv("DBname"),
-            user=os.getenv("DBusername"),
-            password=os.getenv("DBMDP"),
-            port="5432"
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            port=os.getenv("DB_PORT")
         )
         with conn:
             with conn.cursor() as cur:
@@ -176,10 +176,10 @@ def Insert_Data_poste(value):
     try:
         conn = psycopg.connect(
             host="localhost",
-            dbname=os.getenv("DBname"),
-            user=os.getenv("DBusername"),
-            password=os.getenv("DBMDP"),
-            port="5432"
+            dbname=os.getenv("DB_USER"),
+            user=os.getenv("DB_NAME"),
+            password=os.getenv("DB_PASSWORD"),
+            port=os.getenv("DB_PORT")
         )
         
         with conn:
