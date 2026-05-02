@@ -41,8 +41,11 @@ services:
 
   # service de mise a jour de la db avec du scrap
   scheduler:
-    build: ./Data
+    build: ./Data/Get_Data_API
     container_name: scheduler
+
+
+    
   # backend
   backend:
     build: 
