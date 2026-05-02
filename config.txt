@@ -6,3 +6,4 @@ nodemon
 pg
 psycopg[binary]
 dotenv
+pre-commit
