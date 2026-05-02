@@ -10,9 +10,7 @@ export default function RegisterPage() {
           <h1 className="text-white text-7xl font-bold">
             Tech Your Job
           </h1>
-          <button className="cursor-pointer text-[#7288c9] font-bold flex ml-1">
-            Already have an account?
-          </button>
+          <a href="/login" className="text-[#7288C9] flex justify-start font-bold ml-1 cursor-pointer underline">Already have an account ?</a>
         </div>
         
 

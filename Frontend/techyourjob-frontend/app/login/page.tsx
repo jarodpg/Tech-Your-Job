@@ -21,7 +21,7 @@ export default function LoginPage() {
             Tech Your Job
           </h1>
           <h1 className="text-[#adadad] font-bold text-s flex ml-1">
-            Does not have an Account? <span className="text-[#7288C9] cursor-pointer underline">Register</span>
+            Does not have an Account? <a href="/register" className="text-[#7288C9] ml-1 cursor-pointer underline">Register</a>
           </h1>
         </div>
         
@@ -53,9 +53,7 @@ export default function LoginPage() {
             </div>
 
             <div className="flex justify-start ml-2 mb-15">
-              <a href="#" className="text-s font-bold text-[#7288C9] hover:opacity-95 transition">
-                Forgot password?
-              </a>
+              <a href="/forgotpassword" className="text-[#7288C9] ml-1 cursor-pointer font-bold underline">Forgot Password?</a>
             </div>
 
             <button
