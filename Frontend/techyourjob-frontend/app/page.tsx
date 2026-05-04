@@ -1,6 +1,8 @@
 "use client";
 
 import {Search, PlayCircle, ArrowRightCircle } from "lucide-react";
+import { FaRegArrowAltCircleDown } from "react-icons/fa";
+
 import Header from "./header"
 
 
@@ -19,17 +21,18 @@ return (
           <p className="text-xl text-gray-300 mb-8">Plus de 4435 jobs vous attendent</p>
 
           {/* Barre de recherche */}
-          <div className="max-w-2xl mx-auto flex items-center bg-[#226979] rounded-full p-2 mb-6 border border-gray-700">
-            <div className="flex items-center gap-2 px-4 flex-1">
-              <Search className="w-5 h-5" />
+          <div className="max-w-2xl mx-auto mb-4 flex items-center bg-[#226979] rounded-[20px] overflow-hidden">
+            <div className="flex items-center gap-3 px-6 flex-1 py-4">
+              <Search className="w-6 h-6 text-white stroke-[3px]" />
               <input 
                 type="text" 
                 placeholder="Chercher un job, un domaine, une entreprise" 
-                className="text-sm w-full outline-none"
+                className="bg-transparent text-white placeholder-gray-200 text-lg w-full outline-none font-medium"
               />
             </div>
-            <button className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 transition">
-              <Search className="w-4 h-4" /> Rechercher
+            <button className="bg-[#47AD95] text-white px-8 h-full py-4 rounded-[20px] flex items-center gap-3 transition self-stretch">
+              <Search className="w-6 h-6 text-white stroke-[3px]" />
+              <span className="text-lg font-bold">Rechercher</span>
             </button>
           </div>
 
@@ -38,8 +41,8 @@ return (
             <br />
             Pour cela nous utilisons un système unique de projet intégré !
           </p>
-          <button className="mt-4 text-lg flex items-center gap-2 mx-auto hover:underline">
-            Découvrir <PlayCircle className="w-4 h-4" />
+          <button className="mt-4 text-xl flex items-center gap-2 mx-auto hover:underline">
+            Découvrir <FaRegArrowAltCircleDown className="w-6 h-6" />
           </button>
 
         </header>
@@ -51,35 +54,71 @@ return (
             <h2 className="text-3xl font-bold mb-10">Explorer nos offres</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-800 hover:border-purple-500 transition group">
-                  <h3 className="font-bold text-lg mb-2">Developpeur Web</h3>
-                  <p className="text-xs text-gray-400 mb-4">+ 350 offres <br/> Top 5</p>
-                  <button className="w-full py-2 bg-white text-purple-700 rounded-full text-xs font-bold hover:bg-purple-100 transition">
-                    Découvrir +
-                  </button>
+                <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
+                  { /* Top of card */}
+                  <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
+                    <h3 className="font-bold text-2xl justify-center">Développeur Web</h3>
+                  </div>
+                  <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
+                    <div className="w-full flex justify-start">
+                      <p className="text-white text-xl p-4">+ 350 offres <br/> Top 5</p>
+                    </div>
+                    <div className="w-full flex justify-center">
+                      <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
+                        Découvrir +
+                      </button>
+                    </div>
+                  </div>
+                  
                 </div>
-                <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-800 hover:border-purple-500 transition group">
-                  <h3 className="font-bold text-lg mb-2">Data Engineer</h3>
-                    <p className="text-xs text-gray-400 mb-4">+ 350 offres <br/> Top 5</p>
-                    <button className="w-full py-2 bg-white text-purple-700 rounded-full text-xs font-bold hover:bg-purple-100 transition">
-                      Découvrir +
-                    </button>
+                <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
+                  { /* Top of card */}
+                  <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
+                    <h3 className="font-bold text-2xl justify-center">Développeur IA</h3>
+                  </div>
+                  <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
+                    <div className="w-full flex justify-start">
+                      <p className="text-white text-xl p-4">+ 350 offres <br/> Top 5</p>
+                    </div>
+                    <div className="w-full flex justify-center">
+                      <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
+                        Découvrir +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
+                  { /* Top of card */}
+                  <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
+                    <h3 className="font-bold text-2xl justify-center">Data Engineer</h3>
+                  </div>
+                  <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
+                    <div className="w-full flex justify-start">
+                      <p className="text-white text-xl p-4">+ 350 offres <br/> Top 5</p>
+                    </div>
+                    <div className="w-full flex justify-center">
+                      <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
+                        Découvrir +
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-800 hover:border-purple-500 transition group">
-                  <h3 className="font-bold text-lg mb-2">Développeur IA</h3>
-                  <p className="text-xs text-gray-400 mb-4">+ 350 offres <br/> Top 5</p>
-                  <button className="w-full py-2 bg-white text-purple-700 rounded-full text-xs font-bold hover:bg-purple-100 transition">
-                    Découvrir +
-                  </button>
-                </div>
-
-                <div className="bg-[#2a2a2a] rounded-xl p-6 border border-gray-800 hover:border-purple-500 transition group">
-                  <h3 className="font-bold text-lg mb-2">Développeur Web</h3>
-                  <p className="text-xs text-gray-400 mb-4">+ 350 offres <br/> Top 5</p>
-                  <button className="w-full py-2 bg-white text-purple-700 rounded-full text-xs font-bold hover:bg-purple-100 transition">
-                    Découvrir +
-                  </button>
+                <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
+                  { /* Top of card */}
+                  <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
+                    <h3 className="font-bold text-2xl justify-center">Développeur IA</h3>
+                  </div>
+                  <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
+                    <div className="w-full flex justify-start">
+                      <p className="text-white text-xl p-4">+ 350 offres <br/> Top 5</p>
+                    </div>
+                    <div className="w-full flex justify-center">
+                      <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
+                        Découvrir +
+                      </button>
+                    </div>
+                  </div>
                 </div>
             </div>
 
@@ -141,13 +180,14 @@ return (
 
           {/* Right side colored boxes */}
           <div className="relative h-[300px]">
-            <div className="absolute top-0 left-0 w-48 h-48 bg-teal-800 rounded-md p-4 shadow-xl z-10 flex items-center justify-center font-bold">
+            <div className="absolute top-0 left-0 w-48 h-48 bg-teal-800 rounded-md p-4 shadow-xl z-10 flex justify-center font-bold text-black">
               1 question
             </div>
-            <div className="absolute bottom-0 left-4 w-48 h-48 bg-teal-500 rounded-md p-4 shadow-xl z-20 flex items-end justify-start font-bold text-black">
-              reponses infini
+            <div className="absolute bottom-0 left-4 w-48 h-48 bg-teal-500 rounded-md p-4 shadow-xl z-20 flex justify-center font-bold text-black">
+              <span>réponses</span>
+              <span><br/>inifini</span>
             </div>
-            <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 w-48 h-48 bg-purple-700 rounded-md p-4 shadow-xl z-30 flex items-start justify-end font-bold uppercase italic">
+            <div className="absolute top-1/2 right-40 transform -translate-y-1/2 w-48 h-48 bg-purple-700 rounded-md p-4 shadow-xl z-30 flex items-start justify-end font-bold uppercase italic">
               1 consigne
             </div>
           </div>
