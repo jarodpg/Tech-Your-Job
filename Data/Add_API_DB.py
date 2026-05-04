@@ -6,7 +6,6 @@ import os
 import datetime
 
 
-
 def Insert_Data_entreprise(value):
     """
     Fonction qui a pour but d'inserer les donnees des entreprise dans la db entreprise.
@@ -18,12 +17,12 @@ def Insert_Data_entreprise(value):
     load_dotenv()
     sql = """INSERT INTO entreprise (type_contrat, nom_compagnie, seo_alias, type_entreprise, secteur_entreprise, ville) VALUES (%s, %s, %s, %s, %s, %s)"""
     data = (
-        value.get("contractTypes"), 
-        value.get("companyName"), 
+        value.get("contractTypes"),
+        value.get("companyName"),
         value.get("seo_alias"),
-        value.get("companyTypeExplicit"), 
-        value.get("sectors"), 
-        value.get("formattedPlaces")
+        value.get("companyTypeExplicit"),
+        value.get("sectors"),
+        value.get("formattedPlaces"),
     )
 
     try:
@@ -32,17 +31,15 @@ def Insert_Data_entreprise(value):
             dbname=os.getenv("DBname"),
             user=os.getenv("DBusername"),
             password=os.getenv("DBMDP"),
-            port="5432"
+            port="5432",
         )
-        
+
         with conn:
             with conn.cursor() as cur:
                 cur.execute(sql, data)
                 print("1 row inserted successfully.")
     except Exception as e:
         print(f"Error: {e}")
-
-
 
 
 def Entreprise_Into_DB():
@@ -54,13 +51,22 @@ def Entreprise_Into_DB():
     Ne renvoie rien mais insert directement dans la db entreprise les informations sans doublon
     """
     nameVU = []
-    Parametre_garder_entreprise = ["companyId", "contractTypes", "seoAlias", "companyName", "companyTypeExplicit", "sectors", "_geoloc", "formattedPlaces"]
-    with open('./Data.json', 'r') as json_file:
+    Parametre_garder_entreprise = [
+        "companyId",
+        "contractTypes",
+        "seoAlias",
+        "companyName",
+        "companyTypeExplicit",
+        "sectors",
+        "_geoloc",
+        "formattedPlaces",
+    ]
+    with open("./Data.json", "r") as json_file:
         donnee = json.load(json_file)
         for entreprise in donnee:
             infos_entreprise = {}
             for parametre in Parametre_garder_entreprise:
-                expr = parse(f'$..{parametre}')
+                expr = parse(f"$..{parametre}")
                 matches = expr.find(entreprise)
                 if matches:
                     infos_entreprise[parametre] = matches[0].value
@@ -70,11 +76,6 @@ def Entreprise_Into_DB():
             if infos_entreprise.get("companyName") not in nameVU:
                 Insert_Data_entreprise(infos_entreprise)
                 nameVU.append(infos_entreprise.get("companyName"))
-
-
-
-
-
 
 
 def get_entreprise_id(company_name):
@@ -92,23 +93,19 @@ def get_entreprise_id(company_name):
             dbname=os.getenv("DBname"),
             user=os.getenv("DBusername"),
             password=os.getenv("DBMDP"),
-            port="5432"
+            port="5432",
         )
         with conn:
             with conn.cursor() as cur:
                 cur.execute(
                     "SELECT id_entreprise FROM entreprise WHERE nom_compagnie = %s",
-                    (company_name,)
+                    (company_name,),
                 )
                 row = cur.fetchone()
                 return row[0] if row else None
     except Exception as e:
         print("Error get_entreprise_id:", e)
         return None
-
-
-
-
 
 
 def Insert_Data_poste(value):
@@ -131,7 +128,7 @@ def Insert_Data_poste(value):
     ) 
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    
+
     geoloc = value.get("_geoloc", [])
     lat = geoloc[0].get("lat") if geoloc else None
     lng = geoloc[0].get("lng") if geoloc else None
@@ -139,38 +136,44 @@ def Insert_Data_poste(value):
 
     CreateAt = value.get("createdAt")
     PublishDate = value.get("publishDate")
-    created_at_dt = datetime.datetime.fromtimestamp(CreateAt / 1000000.0) if CreateAt else None
-    publish_date_dt = datetime.datetime.fromtimestamp(PublishDate / 1000000.0) if PublishDate else None
+    created_at_dt = (
+        datetime.datetime.fromtimestamp(CreateAt / 1000000.0) if CreateAt else None
+    )
+    publish_date_dt = (
+        datetime.datetime.fromtimestamp(PublishDate / 1000000.0)
+        if PublishDate
+        else None
+    )
 
     data = (
-    Id_entreprise,
-    json.dumps(value.get("contracts")),
-    created_at_dt,
-    value.get("descriptionPreview"),
-    value.get("locale"),
-    value.get("daysPerWeek"),
-    value.get("frequency"),
-    value.get("requiredExperience"),
-    value.get("currency"),
-    value.get("min"),
-    value.get("max"),
-    value.get("recurrence"),
-    publish_date_dt,
-    value.get("algoliaKeyword"),
-    value.get("displayName"),
-    value.get("displayName"),  
-    lat,
-    lng,
-    json.dumps(value.get("skillsList")),
-    value.get("title"),
-    value.get("ranking"),
-    value.get("applications"),
-    value.get("applyBtnClicks"),
-    value.get("atsApplications"),
-    value.get("ctr"),
-    value.get("totalApplications"),
-    value.get("remoteApplications"),
-    value.get("visitsCount") 
+        Id_entreprise,
+        json.dumps(value.get("contracts")),
+        created_at_dt,
+        value.get("descriptionPreview"),
+        value.get("locale"),
+        value.get("daysPerWeek"),
+        value.get("frequency"),
+        value.get("requiredExperience"),
+        value.get("currency"),
+        value.get("min"),
+        value.get("max"),
+        value.get("recurrence"),
+        publish_date_dt,
+        value.get("algoliaKeyword"),
+        value.get("displayName"),
+        value.get("displayName"),
+        lat,
+        lng,
+        json.dumps(value.get("skillsList")),
+        value.get("title"),
+        value.get("ranking"),
+        value.get("applications"),
+        value.get("applyBtnClicks"),
+        value.get("atsApplications"),
+        value.get("ctr"),
+        value.get("totalApplications"),
+        value.get("remoteApplications"),
+        value.get("visitsCount"),
     )
 
     try:
@@ -179,16 +182,14 @@ def Insert_Data_poste(value):
             dbname=os.getenv("DBname"),
             user=os.getenv("DBusername"),
             password=os.getenv("DBMDP"),
-            port="5432"
+            port="5432",
         )
-        
+
         with conn:
             with conn.cursor() as cur:
                 cur.execute(sql, data)
     except Exception as e:
         print(f"Error: {e}")
-
-
 
 
 def Poste_Into_DB():
@@ -199,16 +200,45 @@ def Poste_Into_DB():
 
     Ne return rien mais appelle la fonction Insert_Data_poste avec les infos selectionner
     """
-    Parametre_garder_poste = ["id", "companyName", "contracts", "createdAt", "descriptionPreview", "locale", "daysPerWeek", "locale", "frequency", "requiredExperience", "currency", "max", "min", "recurrence", "publishDate", "algoliaKeyword", "displayName", "displayName", "skillsList", "title", "ranking", "applications", "applyBtnClicks", "atsApplications", "ctr", "totalApplications", "remoteApplications", "visitsCount"]
-    with open('./Data.json', 'r') as json_file:
+    Parametre_garder_poste = [
+        "id",
+        "companyName",
+        "contracts",
+        "createdAt",
+        "descriptionPreview",
+        "locale",
+        "daysPerWeek",
+        "locale",
+        "frequency",
+        "requiredExperience",
+        "currency",
+        "max",
+        "min",
+        "recurrence",
+        "publishDate",
+        "algoliaKeyword",
+        "displayName",
+        "displayName",
+        "skillsList",
+        "title",
+        "ranking",
+        "applications",
+        "applyBtnClicks",
+        "atsApplications",
+        "ctr",
+        "totalApplications",
+        "remoteApplications",
+        "visitsCount",
+    ]
+    with open("./Data.json", "r") as json_file:
         donnee = json.load(json_file)
         for job in donnee:
             infos_entreprise = {}
-            
+
             for parametre in Parametre_garder_poste:
-                expr = parse(f'$..{parametre}')
+                expr = parse(f"$..{parametre}")
                 matches = expr.find(job)
-                
+
                 if matches:
                     infos_entreprise[parametre] = matches[0].value
                 else:

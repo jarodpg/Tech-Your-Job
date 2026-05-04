@@ -44,7 +44,7 @@ CREATE TABLE poste (
 
 
 CREATE TABLE utilisateur(
-    id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom TEXT,
     prenom TEXT,
     document BYTEA,
