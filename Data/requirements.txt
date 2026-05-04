@@ -1,3 +1,0 @@
-jsonpath-ng
-psycopg[binary]
-dotenv
