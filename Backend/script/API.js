@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT_BACK;
 const connection = require("./DB")
@@ -20,4 +21,5 @@ connection.connect((err, client) => {
 });
 
 app.use(express.json());
+app.use(cookieParser());
 app.use("/", routes);
