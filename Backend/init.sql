@@ -40,11 +40,11 @@ CREATE TABLE poste (
     nb_remote_applications INT,
     date_update TIMESTAMP WITHOUT TIME ZONE,
     total_visits INT
-
 );
 
+
 CREATE TABLE utilisateur(
-    id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nom TEXT,
     prenom TEXT,
     document BYTEA,

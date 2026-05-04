@@ -2,6 +2,7 @@
 
 import {Search, PlayCircle, ArrowRightCircle } from "lucide-react";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
+import Header from "./components/header"
 
 import Header from "./components/header"
 
@@ -12,6 +13,8 @@ return (
     <div className="min-h-screen bg-[#121212] text-white font-sans">
           <div>
       <Header />
+      
+      
     </div>
       {/* HEAD SECTION */}
       <div className="bg-[#313030]">

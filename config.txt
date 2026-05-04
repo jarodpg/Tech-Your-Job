@@ -1,4 +1,11 @@
 jsonpath-ng
+import psycopg
+pip install python-dotenv
 express
 nodemon
 pg
+psycopg[binary]
+dotenv
+pre-commit
+bcrypt
+jsonwebtoken

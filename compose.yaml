@@ -39,6 +39,13 @@ services:
     depends_on:
       - db
 
+  # service de mise a jour de la db avec du scrap
+  scheduler:
+    build: ./Data/Get_Data_API
+    container_name: scheduler
+
+
+    
   # backend
   backend:
     build: 
@@ -51,7 +58,10 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - SECRET_KEY=${SECRET_KEY}
     ports:
       - "${PORT_BACK}:5000"
+    volumes:
+      - ./Backend:/usr/local/app
     depends_on:
       - db
