@@ -7,3 +7,5 @@ pg
 psycopg[binary]
 dotenv
 pre-commit
+bcrypt
+jsonwebtoken

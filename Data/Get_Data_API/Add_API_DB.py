@@ -71,7 +71,7 @@ def Entreprise_Into_DB():
                 Insert_Data_entreprise(infos_entreprise)
                 nameVU.append(infos_entreprise.get("companyName"))
 
-
+# Entreprise_Into_DB()
 
 
 
@@ -215,3 +215,5 @@ def Poste_Into_DB():
                     infos_entreprise[parametre] = None
 
             Insert_Data_poste(infos_entreprise)
+
+Poste_Into_DB()
