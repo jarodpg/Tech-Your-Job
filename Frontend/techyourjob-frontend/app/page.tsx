@@ -3,8 +3,7 @@
 import {Search, PlayCircle, ArrowRightCircle } from "lucide-react";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
 
-import Header from "./header"
-
+import Header from "./components/header"
 
 export default function HomePage() {
 
