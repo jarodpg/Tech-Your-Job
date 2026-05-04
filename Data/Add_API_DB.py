@@ -76,7 +76,7 @@ def Entreprise_Into_DB():
             if infos_entreprise.get("companyName") not in nameVU:
                 Insert_Data_entreprise(infos_entreprise)
                 nameVU.append(infos_entreprise.get("companyName"))
-
+Entreprise_Into_DB()
 
 def get_entreprise_id(company_name):
     """

@@ -131,7 +131,7 @@ def Insert_Data_poste(value):
     ) 
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    
+
     geoloc = value.get("_geoloc", [])
     lat = geoloc[0].get("lat") if geoloc else None
     lng = geoloc[0].get("lng") if geoloc else None
@@ -176,12 +176,12 @@ def Insert_Data_poste(value):
     try:
         conn = psycopg.connect(
             host="localhost",
-            dbname=os.getenv("DB_USER"),
-            user=os.getenv("DB_NAME"),
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
             port=os.getenv("DB_PORT")
         )
-        
+
         with conn:
             with conn.cursor() as cur:
                 cur.execute(sql, data)
@@ -204,11 +204,11 @@ def Poste_Into_DB():
         donnee = json.load(json_file)
         for job in donnee:
             infos_entreprise = {}
-            
+
             for parametre in Parametre_garder_poste:
                 expr = parse(f'$..{parametre}')
                 matches = expr.find(job)
-                
+
                 if matches:
                     infos_entreprise[parametre] = matches[0].value
                 else:
@@ -217,3 +217,5 @@ def Poste_Into_DB():
             Insert_Data_poste(infos_entreprise)
 
 Poste_Into_DB()
+
+ 
