@@ -79,4 +79,4 @@ CREATE TABLE profil_utilisateur(
     titre_profession VARCHAR(100)
 )
 
-
+CREATE EXTENSION postgis;

@@ -6,7 +6,21 @@ const { auth } = require("../Middleware");
 router.get("/user", auth, async (req, res) => {
     try {
         // infos de la table utilisateur
-        const sqlSelectUtilisateur = "SELECT * FROM utilisateur WHERE email = $1";
+        const sqlSelectUtilisateur = `
+            SELECT 
+                id_utilisateur,
+                nom,
+                prenom,
+                document,
+                latitude_secteur,
+                longitude_secteur,
+                role,
+                email,
+                telephone,
+                age
+            FROM utilisateur 
+            WHERE email = $1
+        `;
         const selectUtilisateurRequest = await connection.query(sqlSelectUtilisateur, [req.token.email]);
 
         // infos de la table profil_utilisateur
@@ -41,7 +55,7 @@ router.get("/user", auth, async (req, res) => {
         }
 
         // sinon je renvoie tout
-        console.log("User data retrieved")
+        console.log("User data retrieved");
         return res.status(200).json({
             ...selectUtilisateurRequest.rows[0], 
             ...selectProfil_UtilisateurRequest.rows[0]

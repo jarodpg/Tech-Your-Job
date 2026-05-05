@@ -9,7 +9,7 @@ La route user permet de récupérer les informations d'un utilisateur via son to
 
 ### Flux de donnees
 - token (id et email)
-- colonnes de la table "utilisateur"
+- colonnes de la table "utilisateur" sauf le mot de passe
 - colonnes de la table "profil_utilisateur"
 
 ### 🧠 Logique de fonctionnement
