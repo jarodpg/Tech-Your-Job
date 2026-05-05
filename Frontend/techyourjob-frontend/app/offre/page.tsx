@@ -90,7 +90,7 @@ export default function Offre_Page() {
           <h1 className="font-bold text-4xl">Recommandation Job</h1>
           <button>Filtres</button>
         </div>
-        <div className="grid grid-cols-[0.6fr_2.4fr]">
+        <div className="mt-[2%] grid grid-cols-[0.6fr_2.4fr]">
           {/* Sidebar filtres — Client Component */}
           <div className="bg-[#242424]">
             <SideBareFiltre />

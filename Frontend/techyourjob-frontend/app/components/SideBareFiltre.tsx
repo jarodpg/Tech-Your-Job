@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FaChevronDown, FaCalendarAlt, FaTimes } from "react-icons/fa";
 
+import * as Slider from "@radix-ui/react-slider";
+
 // Type de contrat disponible
 const TypeContrat = [
   "CDD",
@@ -14,8 +16,19 @@ const TypeContrat = [
   "Stage",
 ];
 
+const NombreAnnee = ["Bac", "Bac+1", "Bac+2", "Bac+3", "Master"];
+
 export default function SideBareFiltre() {
+  // Value double curseur
+  const [value, setValue] = useState([20, 80]);
+
+  // Value simple experience curseur
+  const [valueExperience, setValueExperience] = useState([50]);
+
   const [selected, setSelected] = useState<string[]>([]);
+
+  const [ActivePresentiel, setActivePresentiel] = useState(false);
+  const [ActiveRemote, setActiveRemote] = useState(false);
 
   // Date
   const [startDate, setStartDate] = useState("");
@@ -44,10 +57,14 @@ export default function SideBareFiltre() {
       prev.includes(item) ? prev.filter((v) => v !== item) : [...prev, item],
     );
 
+  const toggleYears = (item: string) => {
+    setSelected([item]);
+  };
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="px-3 flex flex-col gap-6">
       {/* Dropdown langue */}
-      <div className="ml-[50%]">
+      {/* <div className="ml-[50%]">
         <Menu as="div" className="relative inline-block">
           <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring-1 inset-ring-white/5 hover:bg-white/20">
             Langue demandée
@@ -80,7 +97,7 @@ export default function SideBareFiltre() {
             </div>
           </MenuItems>
         </Menu>
-      </div>
+      </div> */}
 
       {/* Chips type de contrat */}
       <div className="flex flex-col gap-3">
@@ -231,6 +248,131 @@ export default function SideBareFiltre() {
         )}
 
         <div className="border-t border-white/10 mt-3" />
+
+        {/* Etude */}
+        {/* <div className="flex flex-col text-center">
+          <div>
+            <h2>Etude</h2>
+          </div>
+          <div className="bg-white/10 w-full rounded-2xl">
+            <div className="first:ml-2 flex fle-row gap-4">
+            {NombreAnnee.map((item) => {
+            const isActiveYears = selected.includes(item);
+
+            return (
+              <h4
+                key={item}
+                onClick={() => toggle(item)}
+                className={`
+                  rounded-2xl my-2 px-2hover:bg-purple-50 hover:border-purple-400 hover:text-purple-3 mx-auto
+                  ${isActiveYears
+                    ? "bg-purple-50 border-purple-400 text-purple-800 py-2 px-2"
+                    : "border-white/20 text-gray-300 hover:bg-white/20 hover:border-white/30 py-2 px-1"
+                  }
+                `}
+              >
+                {item}
+              </h4>
+              );
+            })}
+            </div>
+          </div>
+        </div> */}
+
+        {/* Type de contract */}
+        <div className="flex flex-col mt-10 text-center">
+          <h2>Type contract</h2>
+          <div className="flex flex-row mx-auto gap-5">
+            <button
+              onClick={() => setActivePresentiel(!ActivePresentiel)}
+              className={`
+                rounded-2xl p-2
+                ${
+                  ActivePresentiel
+                    ? "bg-purple-50 border-purple-400 text-purple-800 py-2 px-2"
+                    : "bg-white/15 text-white"
+                }
+              `}
+            >
+              Presentiel
+            </button>
+
+            <button
+              onClick={() => setActiveRemote(!ActiveRemote)}
+              className={`
+                  rounded-2xl p-2
+                  ${
+                    ActiveRemote
+                      ? "bg-purple-50 border-purple-400 text-purple-800 py-2 px-2"
+                      : "bg-white/15 text-white"
+                  }
+                `}
+            >
+              Remote
+            </button>
+          </div>
+        </div>
+
+        {/* Salaire  */}
+        <div className="flex mt-10 flex-col">
+          <div className="flex flex-row justify-between">
+            <h5>Salaire minimum</h5>
+            <h5>Salaire maximum</h5>
+          </div>
+          <div>
+            <Slider.Root
+              value={value}
+              onValueChange={setValue}
+              min={0}
+              max={100}
+              step={1}
+              className="relative flex items-center w-64 h-5"
+            >
+              <Slider.Track className="bg-gray-300 relative grow rounded-none h-1">
+                <Slider.Range className="absolute bg-purple-500 h-full rounded-none" />
+              </Slider.Track>
+
+              <Slider.Thumb className="block w-4 h-4 bg-purple-600 rounded-full cursor-pointer" />
+              <Slider.Thumb className="block w-4 h-4 bg-purple-600 rounded-full cursor-pointer" />
+            </Slider.Root>
+          </div>
+          <div className="flex flex-row justify-between">
+            <h5>0$</h5>
+            <h5>1000$</h5>
+            <h5>5000$</h5>
+            <h5>max$</h5>
+          </div>
+        </div>
+
+        {/* Experience demande */}
+        <div className="flex flex-col mt-10">
+          <div>
+            <h2>Annee experience</h2>
+          </div>
+          <div>
+            <Slider.Root
+              value={valueExperience}
+              onValueChange={setValueExperience}
+              min={0}
+              max={9}
+              step={1}
+              className="relative flex items-center w-64 h-5"
+            >
+              <Slider.Track className="bg-purple-500 relative grow rounded-none h-1">
+                <Slider.Range className="absolute bg-purple-500 h-full rounded-none" />
+              </Slider.Track>
+
+              <Slider.Thumb className="block w-4 h-4 bg-purple-600 rounded-full cursor-pointer" />
+            </Slider.Root>
+          </div>
+          <div className="flex flex-row">
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, "9+"].map((number) => (
+              <p key={number} className="px-2">
+                {number}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
