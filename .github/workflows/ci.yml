@@ -19,15 +19,15 @@ jobs:
 
       - name: Install backend deps
         run: |
-          cd backend
+          cd Backend
           npm install
 
       - name: Lint backend
         run: |
-          cd backend
+          cd Backend
           npm run lint
 
       - name: Run backend tests
         run: |
-          cd backend
+          cd Backend
           npm test
