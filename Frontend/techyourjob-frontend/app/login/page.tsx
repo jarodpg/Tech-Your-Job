@@ -1,69 +1,83 @@
+"use client";
+import { Login } from "../services/auth.service";
+import { useState } from "react";
+
 export default function LoginPage() {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  function handleLogin(e) {
+    e.preventDefault();
+    Login(Email, Password);
+  }
+
   return (
     <main className="min-h-screen w-full bg-[#242424] flex">
       {/* LEFT SIDE - IMAGE */}
-      <div className="hidden md:block w-1/2 relative">
+      <div className="hidden md:flex w-[55%] h-screen items-center justify-center p-8">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="w-full h-full rounded-[70px] bg-cover bg-center shadow-2xl"
           style={{
-            backgroundImage:
-              "url('image 3.png')",
-          }}/>
-        <div className="absolute inset-0 bg-black/40" />
+            backgroundImage: "url('image 3.png')",
+          }}
+        />
       </div>
 
-      {/* RIGHT SIDE - FORM */}
-      <div className="w-full md:w-1/2 flex items-center justify-center px-6">
-        <div className="w-full max-w-md">
-          {/* HEADER */}
-          <div className="mb-6">
-            <h1 className="text-white text-3xl font-semibold">
-              Tech Your Job
-            </h1>
-            <p className="text-gray-400 text-sm mt-1">
-              Does not have an account?{" "}
-              <span className="text-blue-400 cursor-pointer hover:underline">
-                Register
-              </span>
-            </p>
+      {/* RIGHT SIDE */}
+      <div className="w-full md:w-[45%] flex flex-col items-center justify-center p-6 space-y-18">
+        {/* tech your job titre */}
+        <div className="text-center space-y-5">
+          <h1 className="text-white text-7xl font-bold">Tech Your Job</h1>
+          <h1 className="text-[#adadad] font-bold text-s flex ml-1">
+            Does not have an Account?{" "}
+            <a
+              href="/register"
+              className="text-[#7288C9] ml-1 cursor-pointer underline"
+            >
+              Register
+            </a>
+          </h1>
+        </div>
+
+        {/* formulaire */}
+        <div className="w-full max-w-xl bg-[#2c2c2c] rounded-[40px] py-15 px-10 shadow-2xl">
+          <div className="text-center mb-18">
+            <h1 className="text-white text-6xl font-bold">Welcome Back!</h1>
           </div>
 
-          {/* CARD */}
-          <div className="bg-[#2c2c2c] rounded-2xl p-8 shadow-xl">
-            <h2 className="text-white text-2xl font-semibold mb-6">
-              Welcome back !
-            </h2>
-
-            <form className="space-y-4">
+          <form className="space-y-3">
+            <div className="space-y-16">
               <input
                 type="email"
-                placeholder="Your email"
-                className="w-full bg-[#242424] text-white placeholder-gray-500 px-4 py-3 rounded-xl outline-none border border-gray-600 focus:border-gray-400"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="w-full bg-[#242424] text-white font-bold placeholder:font-bold placeholder-[#8e8e8e] px-6 py-4 rounded-full outline-none border-2 border-[#8e8e8e] focus:border-[#7288C9] transition-all"
               />
 
               <input
                 type="password"
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full bg-[#242424] text-white placeholder-gray-500 px-4 py-3 rounded-xl outline-none border border-gray-600 focus:border-gray-400"
+                className="w-full bg-[#242424] text-white placeholder:font-bold placeholder-[#8e8e8e] px-6 py-4 rounded-full outline-none border-2 border-[#8e8e8e] focus:border-[#7288C9] transition-all"
               />
+            </div>
 
-              <div className="">
-                <a
-                  href="#"
-                  className="text-xs text-blue-400 hover:underline"
-                >
-                  Forgot your password ?
-                </a>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#242424] text-white border border-gray-600 font-medium py-3 rounded-2xl hover:bg-[#8208D4] transition"
+            <div className="flex justify-start ml-2 mb-15">
+              <a
+                href="/forgotpassword"
+                className="text-[#7288C9] ml-1 cursor-pointer font-bold underline"
               >
-                Connexion
-              </button>
-            </form>
-          </div>
+                Forgot Password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              className="block mx-auto bg-[#242424] text-xl border-2 border-[#8e8e8e] text-[#7288c9] font-bold py-4 px-25 rounded-full"
+            >
+              Connexion
+            </button>
+          </form>
         </div>
       </div>
     </main>

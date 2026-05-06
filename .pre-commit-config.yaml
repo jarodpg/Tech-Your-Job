@@ -21,3 +21,15 @@ repos:
               package-lock.json|
               pnpm-lock.yaml
           )$
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx eslint --fix
+        language: system
+        files: \.(ts|tsx|js|jsx)$
+        exclude: |
+          (?x)^(
+            node_modules/|
+            .next/
+          )$

@@ -1,5 +1,4 @@
 services:
-
   # front
   frontend:
     build:
@@ -8,6 +7,8 @@ services:
     container_name: frontend
     ports:
       - "${PORT_FRONT}:3000"
+    volumes:
+      - ./Frontend/techyourjob-frontend:/app
     env_file:
       - .env
 
@@ -23,8 +24,8 @@ services:
       - TZ=Europe/Paris
       - PGTZ=Europe/Paris
     ports:
-      - '${PORT_DB}:5432'
-    volumes: 
+      - "${PORT_DB}:5432"
+    volumes:
       - ./db:/var/lib/postgresql/data
       - ./Backend/init.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -46,11 +47,9 @@ services:
     build: ./Data/Get_Data_API
     container_name: scheduler
 
-
-    
   # backend
   backend:
-    build: 
+    build:
       context: ./Backend/
       dockerfile: Dockerfile
     container_name: backend
@@ -68,5 +67,6 @@ services:
       - "${PORT_BACK}:5000"
     volumes:
       - ./Backend:/usr/local/app
+      - /usr/local/app/node_modules
     depends_on:
       - db

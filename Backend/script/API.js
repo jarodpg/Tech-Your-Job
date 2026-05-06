@@ -1,25 +1,53 @@
+// const express = require("express");
+// const app = express();
+// const port = process.env.PORT_BACK || 5000;
+// const connection = require("./DB")
+// const routes = require("./Routes/index")
+
+// app.listen(port, "0.0.0.0",() => {
+//     console.log("Le serveur est en ligne !");
+// })
+
+// //Test de connexion à la DB
+// connection.connect((err, client) => {
+//     if(err){
+//         console.error("Erreur de connexion !" + err.stack)
+//         return;
+//     }
+//     console.log("Connexion à la DB réussie !");
+//     client.release();
+//     console.log("Test de connexion terminé !");
+// });
+
+// app.use(express.json());
+// app.use("/", routes);
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
-const port = process.env.PORT_BACK;
-const connection = require("./DB")
-const routes = require("./Routes/index")
+const port = process.env.PORT_BACK || 5000;
+const connection = require("./DB");
+const routes = require("./Routes/index");
 
-app.listen(port, () => {
-    console.log("Le serveur est en ligne !");
-})
+app.use(cors({ origin: "http://localhost:3000" }));
+app.use(express.json());
+app.use("/", routes);
 
-//Test de connexion à la DB
+app.listen(port, "0.0.0.0", () => {
+  console.log("Le serveur est en ligne !");
+});
+
 connection.connect((err, client) => {
-    if(err){
-        console.error("Erreur de connexion !" + err.stack)
-        return;
-    }
-    console.log("Connexion à la DB réussie !");
-    client.release();
-    console.log("Test de connexion terminé !");
+  if (err) {
+    console.error("Erreur de connexion !" + err.stack);
+    return;
+  }
+  console.log("Connexion à la DB réussie !");
+  client.release();
 });
 
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", routes);
+module.exports = app;

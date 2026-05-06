@@ -46,7 +46,7 @@ CREATE TABLE poste (
 
 
 CREATE TABLE utilisateur(
-    id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom TEXT,
     prenom TEXT,
     document BYTEA,
@@ -62,7 +62,7 @@ CREATE TABLE utilisateur(
 
 
 CREATE TABLE profil_utilisateur(
-    id_profil INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_profil INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
     description TEXT,
     nb_vues_profil INTEGER DEFAULT 0,
