@@ -45,3 +45,5 @@ connection.connect((err, client) => {
   console.log("Connexion à la DB réussie !");
   client.release();
 });
+
+module.exports = app;
