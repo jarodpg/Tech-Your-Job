@@ -1,32 +1,36 @@
 on:
   push:
-    branches: ["test"]
+    branches: ["PROD"]
   pull_request:
-    branches: ["test"]
+    branches: ["PROD"]
 
 jobs:
   ci:
     runs-on: self-hosted
 
     steps:
+      # va chercher les fichiers du repo
       - name: Checkout
         uses: actions/checkout@v4
 
+      # on install Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # install dependances du backend
       - name: Install backend deps
         run: |
           cd Backend
           npm install
 
+      # verifie la qualite du push et le code
       - name: Lint backend
         run: |
           cd Backend
           npm run lint
-
+      # lance les test pour les routes du backend
       - name: Run backend tests
         run: |
           cd Backend
