@@ -15,7 +15,7 @@ function normalizeText(text) {
 // je fais une requête vers une API externe pour avoir les coordonnées d'un lieu
 // uniquement si le lieu n'est pas enregistré dans "loc.json"
 async function geoCoding(location, json) {
-  const url = `https://nominatim.openstreetmap.org/search?q=${location}&format=json`;
+  const url = `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`;
 
   const res = await fetch(url);
   const data = await res.json();
@@ -39,7 +39,6 @@ async function geoCoding(location, json) {
 async function getLoc(location) {
   const cache = JSON.parse(fs.readFileSync("/usr/local/app/JSON/loc.json"));
   if (cache[location]) {
-    console.log("ok");
     return cache[location];
   }
 
