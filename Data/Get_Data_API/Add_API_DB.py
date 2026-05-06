@@ -53,9 +53,15 @@ def Entreprise_Into_DB():
 
     Ne renvoie rien mais insert directement dans la db entreprise les informations sans doublon
     """
+
+    # Récupère le dossier où se trouve le script Add_API_DB.py
+    base_path = os.path.dirname(os.path.abspath(__file__))
+# Construit le chemin complet vers Data.json
+    json_path = os.path.join(base_path, 'Data.json')
+
     nameVU = []
     Parametre_garder_entreprise = ["companyId", "contractTypes", "seoAlias", "companyName", "companyTypeExplicit", "sectors", "_geoloc", "formattedPlaces"]
-    with open('./Data.json', 'r') as json_file:
+    with open(json_path, 'r') as json_file:
         donnee = json.load(json_file)
         for entreprise in donnee:
             infos_entreprise = {}
@@ -71,7 +77,7 @@ def Entreprise_Into_DB():
                 Insert_Data_entreprise(infos_entreprise)
                 nameVU.append(infos_entreprise.get("companyName"))
 
-# Entreprise_Into_DB()
+#Entreprise_Into_DB()
 
 
 
@@ -199,8 +205,14 @@ def Poste_Into_DB():
 
     Ne return rien mais appelle la fonction Insert_Data_poste avec les infos selectionner
     """
+
+        # Récupère le dossier où se trouve le script Add_API_DB.py
+    base_path = os.path.dirname(os.path.abspath(__file__))
+# Construit le chemin complet vers Data.json
+    json_path = os.path.join(base_path, 'Data.json')
+
     Parametre_garder_poste = ["id", "companyName", "contracts", "createdAt", "descriptionPreview", "locale", "daysPerWeek", "locale", "frequency", "requiredExperience", "currency", "max", "min", "recurrence", "publishDate", "algoliaKeyword", "displayName", "displayName", "skillsList", "title", "ranking", "applications", "applyBtnClicks", "atsApplications", "ctr", "totalApplications", "remoteApplications", "visitsCount"]
-    with open('./Data.json', 'r') as json_file:
+    with open(json_path, 'r') as json_file:
         donnee = json.load(json_file)
         for job in donnee:
             infos_entreprise = {}
@@ -216,6 +228,6 @@ def Poste_Into_DB():
 
             Insert_Data_poste(infos_entreprise)
 
-Poste_Into_DB()
+# Poste_Into_DB()
 
  
