@@ -52,6 +52,8 @@ router.get("/grouped_posts/:start", async (req, res) => {
         const contract = req.query.permanent;
         const remote = req.query.remote;
         const language = req.query.language;
+        const experience = req.query.experience;
+        const age = req.query.age;
 
         // j'initialise la latitude et longitude à null
         let lat;
@@ -78,26 +80,25 @@ router.get("/grouped_posts/:start", async (req, res) => {
                 entreprise.nom_compagnie,
                 skills,
                 description,
-                salaire_min,
-                salaire_max,
-                date_publication
+                (salaire_min + salaire_max) / 2 AS salaire_moyen,
+                TO_CHAR(AGE(NOW(), date_publication), 'DD "jours" HH24"h"MI') AS days_ago
             FROM poste 
             JOIN entreprise ON poste.id_entreprise = entreprise.id_entreprise
             WHERE id_poste >= $1
             AND (
-                salaire_min >= $2 
-                OR $2 IS NULL
+                $2::integer IS NULL
+                OR salaire_min >= $2 
             )
             AND (
-                salaire_max <= $3 
-                OR $3 IS NULL
+                $3::integer IS NULL
+                OR salaire_max <= $3 
             )
             AND (
                 $4::float8 IS NULL OR $5::float8 IS NULL OR $6::float8 IS NULL
                 OR ST_DWithin(
                     geography(ST_MakePoint(longitude, latitude)),
                     geography(ST_MakePoint($4::float8, $5::float8)),
-                    $6::float8*1000
+                    $6::float8 * 1000
                 )
             )
             AND (
@@ -111,6 +112,14 @@ router.get("/grouped_posts/:start", async (req, res) => {
             AND (
                 $9::text IS NULL
                 OR langues = $9::text
+            )
+            AND (
+                $10::integer IS NULL
+                OR annee_experience <= $10::integer
+            )
+            AND (
+                $11::integer IS NULL
+                OR date_publication >= NOW() - INTERVAL '1 day' * $11::integer
             )
             ORDER BY id_poste ASC
             LIMIT 15
@@ -127,7 +136,9 @@ router.get("/grouped_posts/:start", async (req, res) => {
             distance ?? null,
             contract ?? null,
             remote ?? null,
-            language ?? null
+            language ?? null,
+            experience ?? null,
+            age ?? null
         ]);
 
         if (selectPosteRequest.rows.length === 0) {

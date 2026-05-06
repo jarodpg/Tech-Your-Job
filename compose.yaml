@@ -20,6 +20,8 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+      - TZ=Europe/Paris
+      - PGTZ=Europe/Paris
     ports:
       - '${PORT_DB}:5432'
     volumes: 

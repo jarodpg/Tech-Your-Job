@@ -16,8 +16,6 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.3",
     "make-fetch-happen": "^15.0.5",
-    "node-fetch": "^3.3.2",
-    "node-fetch-npm": "^2.0.4",
     "nodemon": "^3.1.14",
     "pg": "^8.20.0"
   }
