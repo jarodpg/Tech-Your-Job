@@ -14,13 +14,15 @@ services:
 
   # db
   db:
-    image: postgres:15.3-alpine3.18
+    image: postgis/postgis:15-3.3
     restart: always
     container_name: db
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+      - TZ=Europe/Paris
+      - PGTZ=Europe/Paris
     ports:
       - "${PORT_DB}:5432"
     volumes:
@@ -51,6 +53,9 @@ services:
       context: ./Backend/
       dockerfile: Dockerfile
     container_name: backend
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     environment:
       - PORT_BACK=${PORT_BACK}
       - DB_HOST=${DB_HOST}

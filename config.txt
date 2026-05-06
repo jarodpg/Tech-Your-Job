@@ -9,3 +9,4 @@ dotenv
 pre-commit
 bcrypt
 jsonwebtoken
+cookie-parser

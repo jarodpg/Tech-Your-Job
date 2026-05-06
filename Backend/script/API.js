@@ -23,6 +23,7 @@
 // app.use("/", routes);
 
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT_BACK || 5000;
@@ -46,4 +47,7 @@ connection.connect((err, client) => {
   client.release();
 });
 
+app.use(express.json());
+app.use(cookieParser());
+app.use("/", routes);
 module.exports = app;

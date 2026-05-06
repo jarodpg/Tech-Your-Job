@@ -1,3 +1,5 @@
+ALTER DATABASE techyourjob SET timezone TO 'Europe/Paris';
+
 CREATE TABLE entreprise (
     id_entreprise INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     type_contrat TEXT[],
@@ -13,7 +15,7 @@ CREATE TABLE poste (
     id_poste INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_entreprise INT REFERENCES entreprise(id_entreprise),
     type_contrat TEXT,
-    date_creation TIMESTAMP WITHOUT TIME ZONE,
+    date_creation TIMESTAMP WITH TIME ZONE,
     description TEXT,
     langues TEXT,
     remote_policy INT,
@@ -23,7 +25,7 @@ CREATE TABLE poste (
     salaire_min INT,
     salaire_max INT,
     recurrence TEXT,
-    date_publication TIMESTAMP WITHOUT TIME ZONE,
+    date_publication TIMESTAMP WITH TIME ZONE,
     categorie TEXT,
     display_name_en TEXT,
     display_name_fr TEXT,
@@ -77,4 +79,6 @@ CREATE TABLE profil_utilisateur(
     photo_profil TEXT,
     banniere TEXT,
     titre_profession VARCHAR(100)
-);
+)
+
+CREATE EXTENSION postgis;
