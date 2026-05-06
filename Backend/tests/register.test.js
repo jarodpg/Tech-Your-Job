@@ -2,7 +2,7 @@ const request = require("supertest");
 const express = require("express");
 
 // On mock la db pour ne pas faire les test sur la vrai db
-jest.mock("../script./DB", () => ({ query: jest.fn() }));
+jest.mock("../script/DB", () => ({ query: jest.fn() }));
 
 const db = require("../script/DB");
 const router = require("../script/Routes/register");
