@@ -4,7 +4,7 @@ const express = require("express");
 // On mock la db pour ne pas faire les test sur la vrai db
 jest.mock("../DB", () => ({ query: jest.fn() }));
 
-const db = require("../DB");
+const db = require("../script/DB");
 const router = require("../script/Routes/register");
 
 const app = express();
