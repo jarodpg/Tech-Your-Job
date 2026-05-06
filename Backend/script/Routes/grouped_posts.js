@@ -47,8 +47,9 @@ async function getLoc(location) {
 }
 
 // route
-router.get("/grouped_posts/:start", async (req, res) => {
+router.get("/grouped_posts/:reverse/:start", async (req, res) => {
   try {
+    const reverse = req.params.reverse;
     const start = req.params.start;
     const minsalary = req.query.minsalary;
     const maxsalary = req.query.maxsalary;
@@ -59,6 +60,22 @@ router.get("/grouped_posts/:start", async (req, res) => {
     const language = req.query.language;
     const experience = req.query.experience;
     const age = req.query.age;
+
+    // je vérifie si reverse est bien un booléen
+    if (reverse !== "true" && reverse !== "false") {
+      console.error("The reverse parameter must be a Boolean");
+      return res
+        .status(400)
+        .json({ msg: "The reverse parameter must be a Boolean" });
+    }
+
+    // je vérifie si start est un entier
+    if (!Number.isInteger(Number(start))) {
+      console.error("The start parameter must be an Integer");
+      return res
+        .status(400)
+        .json({ msg: "The start parameter must be an Integer" });
+    }
 
     // j'initialise la latitude et longitude à null
     let lat;
@@ -90,7 +107,7 @@ router.get("/grouped_posts/:start", async (req, res) => {
                     WHEN NOW() - date_publication < INTERVAL '1 day'
                         THEN TO_CHAR(AGE(NOW(), date_publication), 'HH24"h"MI')
 
-                    WHEN NOW() - date_publication < '2 day'
+                    WHEN NOW() - date_publication < INTERVAL '2 day'
                         THEN TO_CHAR(AGE(NOW(), date_publication), 'DD "jour" HH24"h"MI')
 
                     ELSE 
@@ -98,50 +115,58 @@ router.get("/grouped_posts/:start", async (req, res) => {
                 END AS since_posted
             FROM poste 
             JOIN entreprise ON poste.id_entreprise = entreprise.id_entreprise
-            WHERE id_poste >= $1
-            AND (
-                $2::integer IS NULL
-                OR salaire_min >= $2 
+            WHERE 
+            (
+                ($1::boolean = false AND id_poste >= $2::integer)
+                OR
+                ($1::boolean = true AND id_poste <= $2::integer)
             )
             AND (
                 $3::integer IS NULL
-                OR salaire_max <= $3 
+                OR salaire_min >= $3 
             )
             AND (
-                $4::float8 IS NULL OR $5::float8 IS NULL OR $6::float8 IS NULL
+                $4::integer IS NULL
+                OR salaire_max <= $4 
+            )
+            AND (
+                $5::float8 IS NULL OR $6::float8 IS NULL OR $7::float8 IS NULL
                 OR ST_DWithin(
                     geography(ST_MakePoint(longitude, latitude)),
-                    geography(ST_MakePoint($4::float8, $5::float8)),
-                    $6::float8 * 1000
+                    geography(ST_MakePoint($5::float8, $6::float8)),
+                    $7::float8 * 1000
                 )
             )
             AND (
-                $7::boolean IS NULL
-                OR (poste.type_contrat::jsonb->>'permanent')::boolean = $7::boolean
-            )
-            AND (
-                $8::text IS NULL
-                OR poste.frequency_remote = $8::text
+                $8::boolean IS NULL
+                OR (poste.type_contrat::jsonb->>'permanent')::boolean = $8::boolean
             )
             AND (
                 $9::text IS NULL
-                OR langues = $9::text
+                OR poste.frequency_remote = $9::text
             )
             AND (
-                $10::integer IS NULL
-                OR annee_experience <= $10::integer
+                $10::text IS NULL
+                OR langues = $10::text
             )
             AND (
                 $11::integer IS NULL
-                OR date_publication >= NOW() - INTERVAL '1 day' * $11::integer
+                OR annee_experience <= $11::integer
             )
-            ORDER BY id_poste ASC
+            AND (
+                $12::integer IS NULL
+                OR date_publication >= NOW() - INTERVAL '1 day' * $12::integer
+            )
+            ORDER BY
+                CASE WHEN $1::boolean = false THEN id_poste END ASC,
+                CASE WHEN $1::boolean = true  THEN id_poste END DESC
             LIMIT 15
         `;
     // paramètre ?? null signifie :
     // est-ce que ce paramètre existe ?
     // si non, je le mets null
     const selectPosteRequest = await connection.query(sqlSelectPoste, [
+      reverse,
       start,
       minsalary ?? null,
       maxsalary ?? null,
