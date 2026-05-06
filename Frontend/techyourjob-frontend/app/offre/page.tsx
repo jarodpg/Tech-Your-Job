@@ -1,7 +1,11 @@
+"use client";
 import Header from "../components/header";
 import SearchBar from "../components/searchBar";
 import Postlite from "../components/post-lite";
 import SideBareFiltre from "../components/SideBareFiltre";
+import Offre_Preview from "../components/Offre_Preview";
+
+import { useState } from "react";
 
 const test = [
   {
@@ -77,6 +81,7 @@ const test = [
 ];
 
 export default function Offre_Page() {
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col bg-[#242424] min-h-screen">
       <Header />
@@ -104,6 +109,10 @@ export default function Offre_Page() {
               ))}
             </div>
           </div>
+
+          <button onClick={() => setOpen(true)}>OPEN</button>
+
+          {open && <Offre_Preview onClose={() => setOpen(false)} />}
         </div>
       </div>
     </div>
