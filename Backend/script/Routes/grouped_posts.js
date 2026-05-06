@@ -49,6 +49,9 @@ router.get("/grouped_posts/:start", async (req, res) => {
         const maxsalary = req.query.maxsalary;
         const location = req.query.location;
         const distance = req.query.distance;
+        const contract = req.query.permanent;
+        const remote = req.query.remote;
+        const language = req.query.language;
 
         // j'initialise la latitude et longitude à null
         let lat;
@@ -81,8 +84,14 @@ router.get("/grouped_posts/:start", async (req, res) => {
             FROM poste 
             JOIN entreprise ON poste.id_entreprise = entreprise.id_entreprise
             WHERE id_poste >= $1
-            AND (salaire_min >= $2 OR $2 IS NULL)
-            AND (salaire_max <= $3 OR $3 IS NULL)
+            AND (
+                salaire_min >= $2 
+                OR $2 IS NULL
+            )
+            AND (
+                salaire_max <= $3 
+                OR $3 IS NULL
+            )
             AND (
                 $4::float8 IS NULL OR $5::float8 IS NULL OR $6::float8 IS NULL
                 OR ST_DWithin(
@@ -91,6 +100,19 @@ router.get("/grouped_posts/:start", async (req, res) => {
                     $6::float8*1000
                 )
             )
+            AND (
+                $7::boolean IS NULL
+                OR (poste.type_contrat::jsonb->>'permanent')::boolean = $7::boolean
+            )
+            AND (
+                $8::text IS NULL
+                OR poste.frequency_remote = $8::text
+            )
+            AND (
+                $9::text IS NULL
+                OR langues = $9::text
+            )
+            ORDER BY id_poste ASC
             LIMIT 15
         `;
         // paramètre ?? null signifie :
@@ -102,7 +124,10 @@ router.get("/grouped_posts/:start", async (req, res) => {
             maxsalary ?? null,
             lon ?? null,
             lat ?? null,
-            distance ?? null
+            distance ?? null,
+            contract ?? null,
+            remote ?? null,
+            language ?? null
         ]);
 
         if (selectPosteRequest.rows.length === 0) {
