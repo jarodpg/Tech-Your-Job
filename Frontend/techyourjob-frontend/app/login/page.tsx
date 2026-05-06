@@ -45,7 +45,7 @@ export default function LoginPage() {
             <h1 className="text-white text-6xl font-bold">Welcome Back!</h1>
           </div>
 
-          <form className="space-y-3">
+          <form onSubmit={handleLogin} className="space-y-3">
             <div className="space-y-16">
               <input
                 type="email"
