@@ -53,9 +53,15 @@ def Entreprise_Into_DB():
 
     Ne renvoie rien mais insert directement dans la db entreprise les informations sans doublon
     """
+
+    # Récupère le dossier où se trouve le script Add_API_DB.py
+    base_path = os.path.dirname(os.path.abspath(__file__))
+# Construit le chemin complet vers Data.json
+    json_path = os.path.join(base_path, 'Data.json')
+
     nameVU = []
     Parametre_garder_entreprise = ["companyId", "contractTypes", "seoAlias", "companyName", "companyTypeExplicit", "sectors", "_geoloc", "formattedPlaces"]
-    with open('./Data.json', 'r') as json_file:
+    with open(json_path, 'r') as json_file:
         donnee = json.load(json_file)
         for entreprise in donnee:
             infos_entreprise = {}
@@ -71,7 +77,7 @@ def Entreprise_Into_DB():
                 Insert_Data_entreprise(infos_entreprise)
                 nameVU.append(infos_entreprise.get("companyName"))
 
-# Entreprise_Into_DB()
+#Entreprise_Into_DB()
 
 
 
@@ -131,7 +137,7 @@ def Insert_Data_poste(value):
     ) 
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    
+
     geoloc = value.get("_geoloc", [])
     lat = geoloc[0].get("lat") if geoloc else None
     lng = geoloc[0].get("lng") if geoloc else None
@@ -176,12 +182,12 @@ def Insert_Data_poste(value):
     try:
         conn = psycopg.connect(
             host="localhost",
-            dbname=os.getenv("DB_USER"),
-            user=os.getenv("DB_NAME"),
+            dbname=os.getenv("DB_NAME"),
+            user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
             port=os.getenv("DB_PORT")
         )
-        
+
         with conn:
             with conn.cursor() as cur:
                 cur.execute(sql, data)
@@ -199,16 +205,22 @@ def Poste_Into_DB():
 
     Ne return rien mais appelle la fonction Insert_Data_poste avec les infos selectionner
     """
+
+        # Récupère le dossier où se trouve le script Add_API_DB.py
+    base_path = os.path.dirname(os.path.abspath(__file__))
+# Construit le chemin complet vers Data.json
+    json_path = os.path.join(base_path, 'Data.json')
+
     Parametre_garder_poste = ["id", "companyName", "contracts", "createdAt", "descriptionPreview", "locale", "daysPerWeek", "locale", "frequency", "requiredExperience", "currency", "max", "min", "recurrence", "publishDate", "algoliaKeyword", "displayName", "displayName", "skillsList", "title", "ranking", "applications", "applyBtnClicks", "atsApplications", "ctr", "totalApplications", "remoteApplications", "visitsCount"]
-    with open('./Data.json', 'r') as json_file:
+    with open(json_path, 'r') as json_file:
         donnee = json.load(json_file)
         for job in donnee:
             infos_entreprise = {}
-            
+
             for parametre in Parametre_garder_poste:
                 expr = parse(f'$..{parametre}')
                 matches = expr.find(job)
-                
+
                 if matches:
                     infos_entreprise[parametre] = matches[0].value
                 else:
@@ -216,4 +228,6 @@ def Poste_Into_DB():
 
             Insert_Data_poste(infos_entreprise)
 
-Poste_Into_DB()
+# Poste_Into_DB()
+
+ 
