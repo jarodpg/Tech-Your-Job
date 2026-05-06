@@ -81,7 +81,16 @@ router.get("/grouped_posts/:start", async (req, res) => {
                 skills,
                 description,
                 (salaire_min + salaire_max) / 2 AS salaire_moyen,
-                TO_CHAR(AGE(NOW(), date_publication), 'DD "jours" HH24"h"MI') AS days_ago
+                CASE
+                    WHEN NOW() - date_publication < INTERVAL '1 day'
+                        THEN TO_CHAR(AGE(NOW(), date_publication), 'HH24"h"MI')
+
+                    WHEN NOW() - date_publication < '2 day'
+                        THEN TO_CHAR(AGE(NOW(), date_publication), 'DD "jour" HH24"h"MI')
+
+                    ELSE 
+                        TO_CHAR(AGE(NOW(), date_publication), 'DD "jours" HH24"h"MI')
+                END AS since_posted
             FROM poste 
             JOIN entreprise ON poste.id_entreprise = entreprise.id_entreprise
             WHERE id_poste >= $1
