@@ -1,74 +1,171 @@
+"use client";
+
 import { MdOutlinePlace, MdHomeWork } from "react-icons/md";
 import { TbBrandDaysCounter } from "react-icons/tb";
 import { IoFileTray } from "react-icons/io5";
+import { FaBookmark, FaTimes, FaBriefcase } from "react-icons/fa";
 
-export default function Offre_Preview({ onClose }) {
+interface PosteInfo {
+  PP: string;
+  Entreprise: string;
+  SinceAgo: string;
+  Titre: string;
+  Description: string;
+  Skills: string[];
+  TypeContract: string;
+  Pays: string;
+  Salaire: number;
+  Type: string;
+  TypeRemote: string;
+  JourRemote: number;
+  AnneExperience: number;
+  DevisMoney: string;
+}
+
+export default function Offre_Preview({
+  onClose,
+  Poste,
+}: {
+  onClose: () => void;
+  Poste: PosteInfo;
+}) {
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center">
-      {/* Flou */}
+      {/* bg blur */}
       <div
-        className="absolute inset-0 backdrop-blur-md bg-black/40"
+        className="absolute inset-0 backdrop-blur-md bg-black/50"
         onClick={onClose}
       />
-      {/* Card */}
-      <div className="relative z-10 w-[65%] bg-amber-400 rounded-2xl p-8">
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-row justify-between items-center">
-            <div className="bg-blue-200 rounded-full p-5">PP</div>
-            <div className="border border-b-blue-900 border- rounded-2xl text-center px-5 py-2">
-              Save
-            </div>
-          </div>
-          <div className="flex flex-row justify-between mt-5">
-            <h2>ENtreprise</h2>
-            <h4>17h ago</h4>
-          </div>
 
-          <div className="grid grid-cols-[2.1fr_0.9fr]">
-            {/* Partie de Gauche */}
-            <div className="max-w-[70ch]">
-              <h1>Titre poste</h1>
-              <p>
-                sdsd sd sd s ds ds ds d sdsjgsdhgshd shdgsh dghsdg hsdg hsgdhs
-                gdhsghd sgdh s ds gdh sgdshdg shdghs dghsdg sh dghsd hsgd h
-                sdghsdsjds sd shdjshdss{" "}
+      {/* carte */}
+      <div className="relative z-10 w-[680px] max-h-[90vh] overflow-y-auto bg-[#0f0f1a] border border-white/10 rounded-2xl shadow-2xl">
+        {/* header */}
+        <div className="flex items-start justify-between p-6 border-b border-white/10">
+          <div className="flex items-center gap-4">
+            {/* Logo*/}
+            <div className="w-12 h-12 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-purple-300 font-semibold text-sm">
+              {Poste.PP}
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 uppercase tracking-widest mb-0.5">
+                Entreprise
               </p>
-              <h2>Les skills</h2>
-              <div className="flex flex-col"></div>
+              <h3 className="text-gray-200 font-medium text-base leading-tight">
+                {Poste.Entreprise}
+              </h3>
             </div>
+          </div>
 
-            {/* Partie de droite avec la poup */}
-            <div className="bg-gray-900 rounded-xl">
-              <div className="flex flex-col gap-1 ml-4">
-                <div className="flex flex-row items-center">
-                  <MdOutlinePlace /> France
-                </div>
-                <h1 className="mt-1">$123,400</h1>
-                <h6>Salaire annuel</h6>
-                <h1 className="mt-3">Detail</h1>
-                <div className="grid grid-cols-[0.6fr_2.4fr] ml-2">
-                  {/* COl gauche de la popup */}
-                  <div className="flex flex-col gap-4">
-                    <IoFileTray />
-                    <MdHomeWork />
-                    <TbBrandDaysCounter />
-                  </div>
-                  {/* COl droite de la popup */}
-                  <div className="flex flex-col gap-4">
-                    <h6>Backend</h6>
-                    <h6>Frequency</h6>
-                    <h6>2 j</h6>
-                  </div>
-                  <button className="bg-purple-400 rounded-2xl px-3 py-2">
-                    Postuler
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div className="flex items-center gap-2">
+            {/* save */}
+            <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-gray-400 hover:bg-white/5 hover:text-gray-200 transition-all text-sm">
+              <FaBookmark size={11} />
+              Sauvegarder
+            </button>
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center rounded-lg border border-white/10 text-gray-500 hover:bg-white/5 hover:text-gray-200 transition-all"
+            >
+              <FaTimes size={12} />
+            </button>
           </div>
         </div>
 
-        <button onClick={onClose}></button>
+        <div className="grid grid-cols-[1fr_220px] gap-0">
+          {/* gauche avec description */}
+          <div className="p-6 border-r border-white/10 flex flex-col gap-5">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] uppercase tracking-widest text-gray-600">
+                  il y a {Poste.SinceAgo}
+                </span>
+              </div>
+              <h1 className="text-xl font-semibold text-white leading-snug">
+                {Poste.Titre}
+              </h1>
+            </div>
+
+            <p className="text-sm text-gray-400 leading-relaxed">
+              {Poste.Description}
+            </p>
+
+            {/* competences */}
+            <div>
+              <h2 className="text-xs uppercase tracking-widest text-gray-500 mb-3">
+                Compétences requises
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {Poste.Skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs border border-purple-800/40 bg-purple-950/30 text-purple-300"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* type contrat*/}
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-white/10 bg-white/5 text-gray-300">
+                <FaBriefcase size={10} />
+                {Poste.TypeContract}
+              </span>
+            </div>
+          </div>
+
+          {/* Partie droite — Détails */}
+          <div className="p-5 flex flex-col gap-5">
+            {/* Localisation */}
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <MdOutlinePlace size={15} className="text-purple-400 shrink-0" />
+              <span>{Poste.Pays}</span>
+            </div>
+
+            {/* Salaire */}
+            <div className="bg-purple-950/30 border border-purple-800/30 rounded-xl p-4">
+              <p className="text-[10px] uppercase tracking-widest text-gray-600 mb-1">
+                Salaire annuel
+              </p>
+              <p className="text-2xl font-semibold text-purple-300">
+                {Poste.Salaire}, {Poste.DevisMoney}
+              </p>
+            </div>
+
+            {/* Infos */}
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-600 mb-3">
+                Détails
+              </p>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3 text-sm">
+                  <IoFileTray size={14} className="text-gray-500 shrink-0" />
+                  <span className="text-gray-300">{Poste.Type}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <MdHomeWork size={14} className="text-gray-500 shrink-0" />
+                  <span className="text-gray-300">{Poste.TypeRemote}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <TbBrandDaysCounter
+                    size={14}
+                    className="text-gray-500 shrink-0"
+                  />
+                  <span className="text-gray-300">
+                    {Poste.JourRemote} j / semaine
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bouton Postuler */}
+            <button className="mt-auto w-full bg-purple-600 hover:bg-purple-500 active:scale-[0.98] text-white text-sm font-medium rounded-xl px-4 py-2.5 transition-all">
+              Postuler
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
