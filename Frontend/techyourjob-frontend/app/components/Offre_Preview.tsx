@@ -1,34 +1,34 @@
 "use client";
+import { useState, useEffect } from "react";
+import { Get_Unique_Offre } from "../services/Offre_Unique_Service";
 
 import { MdOutlinePlace, MdHomeWork } from "react-icons/md";
 import { TbBrandDaysCounter } from "react-icons/tb";
 import { IoFileTray } from "react-icons/io5";
 import { FaBookmark, FaTimes, FaBriefcase } from "react-icons/fa";
 
-interface PosteInfo {
-  PP: string;
-  Entreprise: string;
-  SinceAgo: string;
-  Titre: string;
-  Description: string;
-  Skills: string[];
-  TypeContract: string;
-  Pays: string;
-  Salaire: number;
-  Type: string;
-  TypeRemote: string;
-  JourRemote: number;
-  AnneExperience: number;
-  DevisMoney: string;
-}
-
 export default function Offre_Preview({
   onClose,
   Poste,
 }: {
   onClose: () => void;
-  Poste: PosteInfo;
+  Poste: Record<string, any>;
 }) {
+  const [DataPoste, setDataPoste] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await Get_Unique_Offre(Poste.id_poste);
+        setDataPoste(data);
+        console.log(DataPoste);
+      } catch (err) {
+        console.error("Erreur API :", err);
+      }
+    }
+
+    load();
+  }, [Poste.id_poste]);
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center">
       {/* bg blur */}
@@ -44,14 +44,14 @@ export default function Offre_Preview({
           <div className="flex items-center gap-4">
             {/* Logo*/}
             <div className="w-12 h-12 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-purple-300 font-semibold text-sm">
-              {Poste.PP}
+              {/* {Poste.PP} */}
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-widest mb-0.5">
                 Entreprise
               </p>
               <h3 className="text-gray-200 font-medium text-base leading-tight">
-                {Poste.Entreprise}
+                {DataPoste?.nom_compagnie}
               </h3>
             </div>
           </div>
@@ -78,16 +78,16 @@ export default function Offre_Preview({
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[10px] uppercase tracking-widest text-gray-600">
-                  il y a {Poste.SinceAgo}
+                  il y a {DataPoste?.since_posted}
                 </span>
               </div>
               <h1 className="text-xl font-semibold text-white leading-snug">
-                {Poste.Titre}
+                {DataPoste?.display_name_fr}
               </h1>
             </div>
 
             <p className="text-sm text-gray-400 leading-relaxed">
-              {Poste.Description}
+              {Poste.description}
             </p>
 
             {/* competences */}
@@ -96,12 +96,12 @@ export default function Offre_Preview({
                 Compétences requises
               </h2>
               <div className="flex flex-wrap gap-2">
-                {Poste.Skills.map((skill) => (
+                {DataPoste?.skills?.map((skill) => (
                   <span
-                    key={skill}
+                    key={skill.name}
                     className="inline-flex items-center px-3 py-1 rounded-full text-xs border border-purple-800/40 bg-purple-950/30 text-purple-300"
                   >
-                    {skill}
+                    {skill.name}
                   </span>
                 ))}
               </div>
@@ -111,7 +111,7 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-white/10 bg-white/5 text-gray-300">
                 <FaBriefcase size={10} />
-                {Poste.TypeContract}
+                {DataPoste?.categorie}
               </span>
             </div>
           </div>
@@ -121,7 +121,9 @@ export default function Offre_Preview({
             {/* Localisation */}
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <MdOutlinePlace size={15} className="text-purple-400 shrink-0" />
-              <span>{Poste.Pays}</span>
+              <span>
+                {DataPoste?.place?.[0]} {DataPoste?.place?.[1] || "France"}
+              </span>
             </div>
 
             {/* Salaire */}
@@ -130,7 +132,7 @@ export default function Offre_Preview({
                 Salaire annuel
               </p>
               <p className="text-2xl font-semibold text-purple-300">
-                {Poste.Salaire}, {Poste.DevisMoney}
+                {DataPoste?.salaire_moyen_annuel}, {DataPoste?.salaire_currency}
               </p>
             </div>
 
@@ -142,11 +144,13 @@ export default function Offre_Preview({
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 text-sm">
                   <IoFileTray size={14} className="text-gray-500 shrink-0" />
-                  <span className="text-gray-300">{Poste.Type}</span>
+                  <span className="text-gray-300">{DataPoste?.categorie}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <MdHomeWork size={14} className="text-gray-500 shrink-0" />
-                  <span className="text-gray-300">{Poste.TypeRemote}</span>
+                  <span className="text-gray-300">
+                    {DataPoste?.frequency_remote}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <TbBrandDaysCounter
@@ -154,7 +158,7 @@ export default function Offre_Preview({
                     className="text-gray-500 shrink-0"
                   />
                   <span className="text-gray-300">
-                    {Poste.JourRemote} j / semaine
+                    {DataPoste?.remote_policy} j / semaine
                   </span>
                 </div>
               </div>

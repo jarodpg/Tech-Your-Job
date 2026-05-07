@@ -14,7 +14,7 @@ import * as Slider from "@radix-ui/react-slider";
 
 const TypeContrat = [
   "CDD",
-  "CDI",
+  "permanent",
   "Temps partiel",
   "Temps plein",
   "Alternance",
@@ -59,7 +59,7 @@ function Section({
 }
 
 // ===== Composant principal ============================
-export default function SideBareFiltre() {
+export default function SideBareFiltre({ onFilterChange }) {
   // Sections ouvertes
   const [openContrat, setOpenContrat] = useState(true);
   const [openDate, setOpenDate] = useState(false);
@@ -68,15 +68,23 @@ export default function SideBareFiltre() {
   const [openExperience, setOpenExperience] = useState(false);
 
   // Filtres
-  const [selected, setSelected] = useState<string[]>([]);
   const [activePresentiel, setActivePresentiel] = useState(false);
   const [activeRemote, setActiveRemote] = useState(false);
   const [activeHybride, setActiveHybride] = useState(false);
 
-  // Salaire double curseur
-  const [salaire, setSalaire] = useState([20, 80]);
-  const salaireMin = Math.round((salaire[0] / 100) * 10000);
-  const salaireMax = Math.round((salaire[1] / 100) * 10000);
+  // Pour le type contract
+  const [TypeSelectionner, setTypeSelectionner] = useState<string | null>(null);
+
+  // Pour le salaire
+  const [salaire, setSalaire] = useState([0, 100]);
+
+  const salaireMin = salaire[0];
+  const salaireMax = salaire[1];
+
+  // Salaire double curseur affichage
+  const [salaireTxt, setSalaireTxt] = useState([20, 80]);
+  const salaireMinTxt = Math.round((salaire[0] / 100) * 10000);
+  const salaireMaxTxt = Math.round((salaire[1] / 100) * 10000);
 
   // Experience curseur simple
   const [experience, setExperience] = useState([0]);
@@ -99,11 +107,6 @@ export default function SideBareFiltre() {
             86400000,
         )
       : null;
-
-  const toggle = (item: string) =>
-    setSelected((prev) =>
-      prev.includes(item) ? prev.filter((v) => v !== item) : [...prev, item],
-    );
 
   //  Chip
   const Chip = ({
@@ -158,8 +161,12 @@ export default function SideBareFiltre() {
             <Chip
               key={item}
               label={item}
-              active={selected.includes(item)}
-              onClick={() => toggle(item)}
+              active={TypeSelectionner === item}
+              onClick={() => {
+                const newVal = TypeSelectionner === item ? null : item;
+                setTypeSelectionner(newVal);
+                onFilterChange({ contract: newVal });
+              }}
             />
           ))}
         </div>
@@ -176,17 +183,35 @@ export default function SideBareFiltre() {
           {[
             {
               label: "Présentiel",
+              value: "no",
               state: activePresentiel,
               set: setActivePresentiel,
             },
-            { label: "Remote", state: activeRemote, set: setActiveRemote },
-            { label: "Hybride", state: activeHybride, set: setActiveHybride },
-          ].map(({ label, state, set }) => (
+            {
+              label: "Remote",
+              value: "fullTime",
+              state: activeRemote,
+              set: setActiveRemote,
+            },
+            {
+              label: "Hybride",
+              value: "hybrid",
+              state: activeHybride,
+              set: setActiveHybride,
+            },
+          ].map(({ label, value, state, set }) => (
             <Chip
               key={label}
               label={label}
               active={state}
-              onClick={() => set(!state)}
+              onClick={() => {
+                const newState = !state;
+                set(newState);
+
+                onFilterChange({
+                  remote: newState ? value : null,
+                });
+              }}
             />
           ))}
         </div>
@@ -292,18 +317,24 @@ export default function SideBareFiltre() {
           {/* Valeurs */}
           <div className="flex items-center justify-between">
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
-              {salaireMin.toLocaleString("fr-FR")} €
+              {salaireMinTxt.toLocaleString("fr-FR")} €
             </span>
             <span className="text-xs text-gray-600">—</span>
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
-              {salaireMax.toLocaleString("fr-FR")} €
+              {salaireMaxTxt.toLocaleString("fr-FR")} €
             </span>
           </div>
 
           {/* Slider */}
           <Slider.Root
             value={salaire}
-            onValueChange={setSalaire}
+            onValueChange={(value) => {
+              setSalaire(value);
+              onFilterChange({
+                minsalary: value[0],
+                maxsalary: value[1],
+              });
+            }}
             min={0}
             max={100}
             step={1}
@@ -351,7 +382,10 @@ export default function SideBareFiltre() {
           {/* Slider */}
           <Slider.Root
             value={experience}
-            onValueChange={setExperience}
+            onValueChange={(e) => {
+              setExperience(e);
+              onFilterChange({ experience: e[0] });
+            }}
             min={0}
             max={9}
             step={1}
