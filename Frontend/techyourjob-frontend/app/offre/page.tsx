@@ -9,64 +9,22 @@ import { useState } from "react";
 
 const test = [
   {
-    id: 1,
-    title: "Développeur React",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
+    PP: "/logo.png", // imageUrl
+    Entreprise: "TechCorp", // companyName
+    SinceAgo: "Il y a 3 jours", // postedDaysAgo
+    Titre: "Développeur React", // title
+    Description: "Développement d'interfaces modernes.",
+
+    Skills: ["React", "Frontend"], // tags[].text
+
+    TypeContract: "CDI", // valeur par défaut (à adapter)
+    Pays: "France", // valeur par défaut
+    Salaire: 45, // extrait de "45€/h"
+    Type: "Temps plein", // valeur par défaut
+    TypeRemote: "Hybride", // valeur par défaut
+    JourRemote: 2, // valeur par défaut
+    AnneExperience: 2, // valeur par défaut
+    DevisMoney: "€/h", // extrait de "45€/h"
   },
   {
     id: 2,
@@ -82,6 +40,8 @@ const test = [
 
 export default function Offre_Page() {
   const [open, setOpen] = useState(false);
+
+  const [selectedPost, setSelectedPost] = useState(null);
   return (
     <div className="flex flex-col bg-[#242424] min-h-screen">
       <Header />
@@ -105,14 +65,26 @@ export default function Offre_Page() {
           <div className="bg-[#242424]">
             <div className="grid grid-cols-3 gap-10 px-5 mr-8">
               {test.map((item, i) => (
-                <Postlite key={i} job={item} />
+                <Postlite
+                  key={i}
+                  job={item}
+                  onClick={() => {
+                    setSelectedPost(item);
+                    setOpen(true);
+                  }}
+                />
               ))}
             </div>
           </div>
 
           <button onClick={() => setOpen(true)}>OPEN</button>
 
-          {open && <Offre_Preview onClose={() => setOpen(false)} />}
+          {open && selectedPost && (
+            <Offre_Preview
+              onClose={() => setOpen(false)}
+              Poste={selectedPost}
+            />
+          )}
         </div>
       </div>
     </div>
