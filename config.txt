@@ -10,3 +10,5 @@ pre-commit
 bcrypt
 jsonwebtoken
 cookie-parser
+make-fetch-happen
+fs

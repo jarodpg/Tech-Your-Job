@@ -101,7 +101,8 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
                 entreprise.nom_compagnie,
                 skills,
                 description,
-                (salaire_min + salaire_max) / 2 AS salaire_moyen,
+                salaire_currency,
+                (salaire_min + salaire_max) / 2 || 'K' AS salaire_annuel_moyen,
                 CASE
                     WHEN NOW() - date_publication < INTERVAL '1 day'
                         THEN TO_CHAR(AGE(NOW(), date_publication), 'HH24"h"MI')
