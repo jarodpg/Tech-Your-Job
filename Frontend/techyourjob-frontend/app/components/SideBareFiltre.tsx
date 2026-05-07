@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaChevronDown,
   FaCalendarAlt,
@@ -9,16 +9,35 @@ import {
   FaMapMarkerAlt,
   FaEuroSign,
   FaStar,
+  FaGlobe,
 } from "react-icons/fa";
 import * as Slider from "@radix-ui/react-slider";
 
 const TypeContrat = [
-  "CDD",
-  "permanent",
-  "Temps partiel",
-  "Temps plein",
-  "Alternance",
-  "Stage",
+  {
+    display: "CDD",
+    value: "fixedTerm",
+  },
+  {
+    display: "CDI",
+    value: "permanent",
+  },
+  {
+    display: "Temps partiel",
+    value: "partTime",
+  },
+  {
+    display: "Freelance",
+    value: "freelance",
+  },
+  {
+    display: "Stage",
+    value: "internship",
+  },
+  {
+    display: "Apprentissage",
+    value: "apprenticeship",
+  },
 ];
 
 // Composant accordeon flexible
@@ -61,7 +80,7 @@ function Section({
 // ===== Composant principal ============================
 export default function SideBareFiltre({ onFilterChange }) {
   // Sections ouvertes
-  const [openContrat, setOpenContrat] = useState(true);
+  const [openContrat, setOpenContrat] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [openLieu, setOpenLieu] = useState(false);
   const [openSalaire, setOpenSalaire] = useState(false);
@@ -86,12 +105,24 @@ export default function SideBareFiltre({ onFilterChange }) {
   const salaireMinTxt = Math.round((salaire[0] / 100) * 10000);
   const salaireMaxTxt = Math.round((salaire[1] / 100) * 10000);
 
+  // languagge
+  const [openLangue, setOpenLangue] = useState(false);
+  const [langueSelectionnee, setLangueSelectionnee] = useState<string | null>(
+    null,
+  );
+
   // Experience curseur simple
   const [experience, setExperience] = useState([0]);
 
   // Dates
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      onFilterChange({ age: jourEntreDate });
+    }
+  }, [startDate, endDate]);
 
   const formatDate = (d: string) =>
     new Date(d + "T00:00:00").toLocaleDateString("fr-FR", {
@@ -149,6 +180,32 @@ export default function SideBareFiltre({ onFilterChange }) {
 
   return (
     <div className="px-3 flex flex-col gap-1">
+      {/* Quel language  */}
+      <Section
+        icon={<FaGlobe size={12} />}
+        label="Langue"
+        open={openLangue}
+        onToggle={() => setOpenLangue(!openLangue)}
+      >
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "Français", value: "fr" },
+            { label: "Anglais", value: "en" },
+            { label: "Autre", value: "other" },
+          ].map(({ label, value }) => (
+            <Chip
+              key={value}
+              label={label}
+              active={langueSelectionnee === value}
+              onClick={() => {
+                const newVal = langueSelectionnee === value ? null : value;
+                setLangueSelectionnee(newVal);
+                onFilterChange({ language: newVal });
+              }}
+            />
+          ))}
+        </div>
+      </Section>
       {/*  Type de contrat*/}
       <Section
         icon={<FaBriefcase size={12} />}
@@ -157,13 +214,13 @@ export default function SideBareFiltre({ onFilterChange }) {
         onToggle={() => setOpenContrat(!openContrat)}
       >
         <div className="flex flex-wrap gap-2">
-          {TypeContrat.map((item) => (
+          {TypeContrat.map(({ display, value }) => (
             <Chip
-              key={item}
-              label={item}
-              active={TypeSelectionner === item}
+              key={value}
+              label={display}
+              active={TypeSelectionner === value}
               onClick={() => {
-                const newVal = TypeSelectionner === item ? null : item;
+                const newVal = TypeSelectionner === value ? null : value;
                 setTypeSelectionner(newVal);
                 onFilterChange({ contract: newVal });
               }}
@@ -279,7 +336,7 @@ export default function SideBareFiltre({ onFilterChange }) {
           {startDate && endDate ? (
             <p className="text-[11px] text-purple-400">
               {formatDate(startDate)} → {formatDate(endDate)}
-              <span className="text-gray-600 ml-1">· {jourEntreDate}j</span>
+              <span className="text-gray-600 ml-1">- {jourEntreDate}j</span>
             </p>
           ) : startDate ? (
             <p className="text-[11px] text-purple-400">

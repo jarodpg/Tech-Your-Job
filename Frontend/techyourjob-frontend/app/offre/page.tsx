@@ -47,7 +47,7 @@ export default function Offre_Page() {
             FIltre.age ?? null,
           )) || [];
         console.log("DATA :", data);
-        setTest(data);
+        setTest(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Erreur API :", err);
       } finally {
@@ -88,7 +88,7 @@ export default function Offre_Page() {
           {/* Liste des offres */}
           <div className="bg-[#242424]">
             <div className="grid grid-cols-3 gap-10 px-5 mr-8">
-              {test.map((item, i) => (
+              {(test ?? []).map((item, i) => (
                 <Postlite
                   key={i}
                   job={item}
