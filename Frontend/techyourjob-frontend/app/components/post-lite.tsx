@@ -1,15 +1,13 @@
 "use client";
-import Image from "next/image";
 
 export interface Post {
-  id: number;
-  title: string;
-  companyName: string;
-  imageUrl: string;
-  tags: { text: string }[];
+  id_poste: number;
+  display_name_fr: string | null;
+  nom_compagnie: string;
+  skills: { name: string; value: number }[];
   description: string;
-  hourlyRate: string;
-  postedDaysAgo: number;
+  salaire_moyen: number | null;
+  since_posted: string;
 }
 
 const getTagStyle = (
@@ -52,29 +50,32 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
   if (!job) return null;
 
   return (
-    <div className="bg-[#111113] rounded-2xl p-5 border border-white/[0.06] flex flex-col gap-4 text-neutral-100 transition-all hover:border-white/[0.12] hover:bg-[#161618] group cursor-pointer">
+    <div
+      onClick={onClick}
+      className="bg-[#111113] rounded-2xl p-5 border border-white/[0.06] flex flex-col gap-4 text-neutral-100 transition-all hover:border-white/[0.12] hover:bg-[#161618] group cursor-pointer"
+    >
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0">
-          <Image
+          {/* <Image
             src={job.imageUrl}
             alt={`${job.companyName} logo`}
             fill
             className="object-cover"
-          />
+          /> */}
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-base font-semibold text-gray-100 leading-snug truncate">
-            {job.title}
+            {job.display_name_fr}
           </h3>
-          <p className="text-xs text-gray-500 mt-0.5">{job.companyName}</p>
+          <p className="text-xs text-gray-500 mt-0.5">{job.nom_compagnie}</p>
         </div>
       </div>
 
       {/* Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        {job.tags?.map((tag, index) => {
-          const style = getTagStyle(tag.text);
+        {job.skills?.map((tag, index) => {
+          const style = getTagStyle(tag.name);
           return (
             <span
               key={index}
@@ -85,7 +86,7 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
                 borderColor: style.border,
               }}
             >
-              {tag.text}
+              {tag.name}
             </span>
           );
         })}
@@ -103,14 +104,14 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-1">
           <span className="text-purple-300 font-semibold text-base">
-            {job.hourlyRate}
+            {job.salaire_moyen}
           </span>
           <span className="text-[10px] text-gray-600 uppercase tracking-widest font-medium">
-            / heure
+            / ans
           </span>
         </div>
         <span className="text-[11px] text-gray-600">
-          Il y a {job.postedDaysAgo}j
+          Il y a {job.since_posted}j
         </span>
       </div>
     </div>

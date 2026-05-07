@@ -9,7 +9,7 @@ export default function RegisterPage() {
   const [Password, setPassword] = useState("");
 
   function handleRegister(e) {
-    e.preventDefault(); // empêche le refresh
+    e.preventDefault(); // empeche le refresh
     Register(LastName, FirstName, Email, Password);
   }
   return (

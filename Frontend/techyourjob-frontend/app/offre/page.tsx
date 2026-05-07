@@ -5,41 +5,58 @@ import Postlite from "../components/post-lite";
 import SideBareFiltre from "../components/SideBareFiltre";
 import Offre_Preview from "../components/Offre_Preview";
 
-import { useState } from "react";
-
-const test = [
-  {
-    PP: "/logo.png", // imageUrl
-    Entreprise: "TechCorp", // companyName
-    SinceAgo: "Il y a 3 jours", // postedDaysAgo
-    Titre: "Développeur React", // title
-    Description: "Développement d'interfaces modernes.",
-
-    Skills: ["React", "Frontend"], // tags[].text
-
-    TypeContract: "CDI", // valeur par défaut (à adapter)
-    Pays: "France", // valeur par défaut
-    Salaire: 45, // extrait de "45€/h"
-    Type: "Temps plein", // valeur par défaut
-    TypeRemote: "Hybride", // valeur par défaut
-    JourRemote: 2, // valeur par défaut
-    AnneExperience: 2, // valeur par défaut
-    DevisMoney: "€/h", // extrait de "45€/h"
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-];
+import { useState, useEffect } from "react";
+import { Get_Offre } from "../services/Offre_Service";
 
 export default function Offre_Page() {
   const [open, setOpen] = useState(false);
+  const [test, setTest] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [FIltre, setFIltre] = useState({
+    reverse: "false",
+    page: 1,
+    remote: null,
+    contract: null,
+    minsalary: null,
+    maxsalary: null,
+    location: null,
+    distance: null,
+    language: null,
+    experience: null,
+    age: null,
+  });
+
+  useEffect(() => {
+    console.log("Filtres mis à jour :", FIltre);
+    async function load() {
+      try {
+        setLoading(true);
+        const data =
+          (await Get_Offre(
+            FIltre.reverse,
+            FIltre.page,
+            FIltre.minsalary ?? null,
+            FIltre.maxsalary ?? null,
+            FIltre.location ?? null,
+            FIltre.distance ?? null,
+            FIltre.contract ?? null,
+            FIltre.remote ?? null,
+            FIltre.language ?? null,
+            FIltre.experience ?? null,
+            FIltre.age ?? null,
+          )) || [];
+        console.log("DATA :", data);
+        setTest(data);
+      } catch (err) {
+        console.error("Erreur API :", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, [FIltre]);
 
   const [selectedPost, setSelectedPost] = useState(null);
   return (
@@ -58,7 +75,14 @@ export default function Offre_Page() {
         <div className="mt-[2%] grid grid-cols-[0.6fr_2.4fr]">
           {/* Sidebar filtres — Client Component */}
           <div className="bg-[#242424]">
-            <SideBareFiltre />
+            <SideBareFiltre
+              onFilterChange={(newFilters) =>
+                setFIltre((prev) => ({
+                  ...prev,
+                  ...newFilters,
+                }))
+              }
+            />
           </div>
 
           {/* Liste des offres */}
@@ -76,8 +100,6 @@ export default function Offre_Page() {
               ))}
             </div>
           </div>
-
-          <button onClick={() => setOpen(true)}>OPEN</button>
 
           {open && selectedPost && (
             <Offre_Preview
