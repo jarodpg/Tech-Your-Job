@@ -54,7 +54,7 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
     const maxsalary = req.query.maxsalary;
     const location = req.query.location;
     const distance = req.query.distance;
-    const contract = req.query.permanent;
+    const contract = req.query.contract;
     const remote = req.query.remote;
     const language = req.query.language;
     const experience = req.query.experience;
@@ -138,8 +138,8 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
                 )
             )
             AND (
-                $8::boolean IS NULL
-                OR (poste.type_contrat::jsonb->>'permanent')::boolean = $8::boolean
+                $8::text IS NULL
+                OR poste.type_contrat = $8::text
             )
             AND (
                 $9::text IS NULL

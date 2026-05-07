@@ -52,8 +52,8 @@ La route grouped_posts prend 9 paramètres facultatifs :
 
 **Remarque :** les paramètres **location** et **distance** fonctionnent de pair. Si un n'est pas défini, alors aucun filtre de localisation n'est pris en compte.
 
-- **permanent :** booléen  
-  Indique si le contrat est un CDD (false) ou un CDI (true)?
+- **contract :** chaine de caractères
+  Filtre selon le type de contrat désiré.
 
 - **remote :** chaine de caractères ("no", "hybrid" ou "fullTime")  
   Filtre selon l'importance du télétravail dans une offre.
