@@ -2,10 +2,11 @@ const express = require("express");
 const fetch = require("make-fetch-happen");
 const connection = require("../DB");
 const fs = require("fs");
+const { json } = require("stream/consumers");
 const router = express.Router();
 
 // je récupère la ville à partir des coordonnées via une requête
-//uniquement si les coordonnées ne sont pas déjà enregistrées dans le json
+// uniquement si les coordonnées ne sont pas déjà enregistrées dans le json
 async function reverseGeoCoding(lat, lon, json) {
   const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&limit=1`;
 
