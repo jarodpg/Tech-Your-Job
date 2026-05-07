@@ -12,7 +12,7 @@ async function reverseGeoCoding(lat, lon, json) {
   const res = await fetch(url);
   const data = await res.json();
 
-  if (data.length === 0) {
+  if (data.length === 0 || data.error) {
     return null;
   }
 
@@ -43,6 +43,13 @@ async function getPlace(lat, lon) {
 router.get("/post/:id", async (req, res) => {
   try {
     const id = req.params.id;
+
+    if (!Number.isInteger(Number(id))) {
+      console.error("The id parameter must be an Integer");
+      return res
+        .status(400)
+        .json({ msg: "The id parameter must be an Integer" });
+    }
 
     const sqlSelectFullPost = `
             SELECT
@@ -82,33 +89,43 @@ router.get("/post/:id", async (req, res) => {
       id,
     ]);
 
-    let place;
+    if (selectFullPostRequest.rows.length !== 0) {
+      let place;
 
-    if (
-      selectFullPostRequest.rows[0].latitude &&
-      selectFullPostRequest.rows[0].longitude
-    ) {
-      const result = await getPlace(
-        selectFullPostRequest.rows[0].latitude,
-        selectFullPostRequest.rows[0].longitude,
-      );
+      if (
+        selectFullPostRequest.rows[0].latitude &&
+        selectFullPostRequest.rows[0].longitude
+      ) {
+        const result = await getPlace(
+          selectFullPostRequest.rows[0].latitude,
+          selectFullPostRequest.rows[0].longitude,
+        );
 
-      if (result) {
-        place = { place: result };
+        if (result) {
+          place = { place: result };
 
-        console.log("Posts found");
-        return res.status(200).json({
-          ...selectFullPostRequest.rows,
-          ...place,
-        });
-      } else {
-        console.error("Location not found");
-        return res.status(500).json({ msg: "Location not found" });
+          console.log("Posts found");
+          return res.status(200).json({
+            ...selectFullPostRequest.rows[0],
+            ...place,
+          });
+        } else {
+          place = { place: "Not found" };
+
+          console.log("Post found, but not the place");
+          return res.status(200).json({
+            ...selectFullPostRequest.rows[0],
+            ...place,
+          });
+        }
       }
+
+      console.log("Post found");
+      return res.status(200).json(selectFullPostRequest.rows);
     }
 
-    console.log("Posts found");
-    return res.status(200).json(selectFullPostRequest.rows);
+    console.error("0 post found");
+    return res.status(500).json({ msg: "0 post found" });
   } catch (err) {
     console.error("Internal server error:", err);
     return res.status(500).json({ msg: "Internal server error" });
