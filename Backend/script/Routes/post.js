@@ -2,7 +2,6 @@ const express = require("express");
 const fetch = require("make-fetch-happen");
 const connection = require("../DB");
 const fs = require("fs");
-const { json } = require("stream/consumers");
 const router = express.Router();
 
 // je récupère la ville à partir des coordonnées via une requête
