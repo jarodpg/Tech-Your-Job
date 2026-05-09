@@ -22,6 +22,8 @@
 // app.use(express.json());
 // app.use("/", routes);
 
+require("dotenv").config();
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -48,7 +50,5 @@ connection.connect((err, client) => {
   console.log("Test de connexion terminé !");
 });
 
-app.use(express.json());
 app.use(cookieParser());
-app.use("/", routes);
 module.exports = app;
