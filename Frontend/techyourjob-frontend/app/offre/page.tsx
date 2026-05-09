@@ -18,6 +18,16 @@ export default function Offre_Page() {
   // pour connaitre le dernier ID
   const [actuelId, setactuelId] = useState(1);
 
+  //cordonnee de la recherche
+  const [mapCentre, setMapCentre] = useState<[number, number]>([
+    48.8566, 2.3522,
+  ]);
+
+  // tout les points des postes
+  const [pointsPoste, setPointsPoste] = useState<[number, number][]>([]);
+
+  const [data, setData] = useState();
+
   const [open, setOpen] = useState(false);
   const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,8 +66,24 @@ export default function Offre_Page() {
             FIltre.language,
             FIltre.experience,
             FIltre.age,
-          )) || [];
-        setTest(Array.isArray(data) ? data : []);
+          )) || {};
+        // setTest(Array.isArray(data) ? data : []);
+        const posts = Array.isArray(data.posts) ? data.posts : [];
+        setTest(posts);
+        setPointsPoste(
+          posts
+            .filter((p) => p.latitude && p.longitude)
+            // .map(p => [p.latitude, p.longitude] as [number, number])
+            .map((p) => ({
+              id: p.id_poste,
+              lat: p.latitude,
+              lon: p.longitude,
+            })),
+        );
+
+        if (data.filters) {
+          setMapCentre([data.filters.entry_lat, data.filters.entry_lon]);
+        }
       } catch (err) {
         console.error("Erreur API :", err);
       } finally {
@@ -107,8 +133,16 @@ export default function Offre_Page() {
         {showMap ? (
           <div className="px-5 py-2 h-[75vh]">
             <MapView
-              location={FIltre.location ?? [48.8566, 2.3522]} // Paris par default
+              location={mapCentre}
               distance={FIltre.distance}
+              points={pointsPoste}
+              onMarkerClick={(id) => {
+                const poste = test.find((p) => p.id_poste === id);
+                if (poste) {
+                  setSelectedPost(poste);
+                  setOpen(true);
+                }
+              }}
             />
           </div>
         ) : (

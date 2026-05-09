@@ -1,5 +1,7 @@
 "use client";
-import { MapContainer, TileLayer, Circle, Marker } from "react-leaflet";
+
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Circle, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -15,14 +17,25 @@ const iconBleu = L.divIcon({
   iconAnchor: [7, 7],
 });
 
-const test = [[50.799999, 1.6]];
+// Ce composant force la carte à se recentrer quand location change
+function RecenterMap({ location }: { location: [number, number] }) {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(location, map.getZoom());
+  }, [location]);
+  return null;
+}
 
 export default function MapView({
   location,
   distance,
+  points,
+  onMarkerClick,
 }: {
   location: [number, number];
   distance: number | null;
+  points: { id: number; lat: number; lon: number }[];
+  onMarkerClick: (id: number) => void;
 }) {
   return (
     <MapContainer
@@ -34,14 +47,16 @@ export default function MapView({
       {/* Marker de la recherche */}
       <Marker position={location} icon={iconBleu} />
 
+      <RecenterMap location={location} />
+
       {/* .Map pour afficher tout les markers des postes */}
-      {test.map((point, i) => (
+      {points.map((point, i) => (
         <Marker
           key={i}
           position={point as [number, number]}
           icon={iconViolet}
           eventHandlers={{
-            click: () => console.log("Marker cliqué :", point),
+            click: () => onMarkerClick(point.id),
           }}
         />
       ))}

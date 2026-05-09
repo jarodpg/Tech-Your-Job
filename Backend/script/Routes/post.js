@@ -121,7 +121,8 @@ router.get("/post/:id", async (req, res) => {
       }
 
       console.log("Post found");
-      return res.status(200).json(selectFullPostRequest.rows);
+      // return res.status(200).json(selectFullPostRequest.rows);
+      return res.status(200).json(selectFullPostRequest.rows[0]);
     }
 
     console.error("0 post found");
