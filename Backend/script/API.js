@@ -32,6 +32,7 @@ const port = process.env.PORT_BACK || 5000;
 const connection = require("./DB");
 const routes = require("./Routes/index");
 
+app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use("/", routes);
@@ -50,5 +51,4 @@ connection.connect((err, client) => {
   console.log("Test de connexion terminé !");
 });
 
-app.use(cookieParser());
 module.exports = app;

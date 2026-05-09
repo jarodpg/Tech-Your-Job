@@ -4,9 +4,9 @@ const router = express.Router();
 const { auth } = require("../Middleware");
 
 router.get("/user", auth, async (req, res) => {
-    try {
-        // infos de la table utilisateur
-        const sqlSelectUtilisateur = `
+  try {
+    // infos de la table utilisateur
+    const sqlSelectUtilisateur = `
             SELECT 
                 id_utilisateur,
                 nom,
@@ -21,10 +21,13 @@ router.get("/user", auth, async (req, res) => {
             FROM utilisateur 
             WHERE email = $1
         `;
-        const selectUtilisateurRequest = await connection.query(sqlSelectUtilisateur, [req.token.email]);
+    const selectUtilisateurRequest = await connection.query(
+      sqlSelectUtilisateur,
+      [req.token.email],
+    );
 
-        // infos de la table profil_utilisateur
-        const sqlSelectProfil_Utilisateur = `
+    // infos de la table profil_utilisateur
+    const sqlSelectProfil_Utilisateur = `
             SELECT 
                 id_profil, 
                 description, 
@@ -45,26 +48,28 @@ router.get("/user", auth, async (req, res) => {
             FROM profil_utilisateur 
             WHERE id_utilisateur = $1
         `;
-        const selectProfil_UtilisateurRequest = await connection.query(sqlSelectProfil_Utilisateur, [selectUtilisateurRequest.rows[0].id_utilisateur]);
+    const selectProfil_UtilisateurRequest = await connection.query(
+      sqlSelectProfil_Utilisateur,
+      [selectUtilisateurRequest.rows[0].id_utilisateur],
+    );
 
-        // si l'utilisateur n'a pas de ligne dans la table profil_utilisateur
-        // je renvoie uniquement ces infos de la table utilisateur
-        if (selectProfil_UtilisateurRequest.rows.length === 0) {
-            console.log("User data retrieved")
-            return res.status(200).json(selectUtilisateurRequest.rows[0])
-        }
-
-        // sinon je renvoie tout
-        console.log("User data retrieved");
-        return res.status(200).json({
-            ...selectUtilisateurRequest.rows[0], 
-            ...selectProfil_UtilisateurRequest.rows[0]
-        });
-
-    } catch (err) {
-        console.error("Internal server error:", err);
-        return res.status(500).json({msg: "Internal server error"});
+    // si l'utilisateur n'a pas de ligne dans la table profil_utilisateur
+    // je renvoie uniquement ces infos de la table utilisateur
+    if (selectProfil_UtilisateurRequest.rows.length === 0) {
+      console.log("User data retrieved");
+      return res.status(200).json(selectUtilisateurRequest.rows[0]);
     }
+
+    // sinon je renvoie tout
+    console.log("User data retrieved");
+    return res.status(200).json({
+      ...selectUtilisateurRequest.rows[0],
+      ...selectProfil_UtilisateurRequest.rows[0],
+    });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
 });
 
 module.exports = router;
