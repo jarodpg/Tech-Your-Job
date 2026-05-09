@@ -79,6 +79,6 @@ CREATE TABLE profil_utilisateur(
     photo_profil TEXT,
     banniere TEXT,
     titre_profession VARCHAR(100)
-)
+);
 
-CREATE EXTENSION postgis;
+CREATE EXTENSION IF NOT EXISTS postgis;

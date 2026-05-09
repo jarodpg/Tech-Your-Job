@@ -7,6 +7,7 @@ const logoutRoutes = require("./logout");
 const userRoutes = require("./user");
 const grouped_postsRoutes = require("./grouped_posts");
 const logoRoutes = require("./logo");
+const postRoutes = require("./post");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -14,5 +15,6 @@ router.use("/", logoutRoutes);
 router.use("/", userRoutes);
 router.use("/", grouped_postsRoutes);
 router.use("/", logoRoutes);
+router.use("/", postRoutes);
 
 module.exports = router;

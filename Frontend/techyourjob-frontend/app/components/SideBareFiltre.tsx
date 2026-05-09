@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaChevronDown,
   FaCalendarAlt,
@@ -9,16 +9,35 @@ import {
   FaMapMarkerAlt,
   FaEuroSign,
   FaStar,
+  FaGlobe,
 } from "react-icons/fa";
 import * as Slider from "@radix-ui/react-slider";
 
 const TypeContrat = [
-  "CDD",
-  "CDI",
-  "Temps partiel",
-  "Temps plein",
-  "Alternance",
-  "Stage",
+  {
+    display: "CDD",
+    value: "fixedTerm",
+  },
+  {
+    display: "CDI",
+    value: "permanent",
+  },
+  {
+    display: "Temps partiel",
+    value: "partTime",
+  },
+  {
+    display: "Freelance",
+    value: "freelance",
+  },
+  {
+    display: "Stage",
+    value: "internship",
+  },
+  {
+    display: "Apprentissage",
+    value: "apprenticeship",
+  },
 ];
 
 // Composant accordeon flexible
@@ -59,24 +78,38 @@ function Section({
 }
 
 // ===== Composant principal ============================
-export default function SideBareFiltre() {
+export default function SideBareFiltre({ onFilterChange }) {
   // Sections ouvertes
-  const [openContrat, setOpenContrat] = useState(true);
+  const [openContrat, setOpenContrat] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [openLieu, setOpenLieu] = useState(false);
   const [openSalaire, setOpenSalaire] = useState(false);
   const [openExperience, setOpenExperience] = useState(false);
 
   // Filtres
-  const [selected, setSelected] = useState<string[]>([]);
   const [activePresentiel, setActivePresentiel] = useState(false);
   const [activeRemote, setActiveRemote] = useState(false);
   const [activeHybride, setActiveHybride] = useState(false);
 
-  // Salaire double curseur
-  const [salaire, setSalaire] = useState([20, 80]);
-  const salaireMin = Math.round((salaire[0] / 100) * 10000);
-  const salaireMax = Math.round((salaire[1] / 100) * 10000);
+  // Pour le type contract
+  const [TypeSelectionner, setTypeSelectionner] = useState<string | null>(null);
+
+  // Pour le salaire
+  const [salaire, setSalaire] = useState([0, 100]);
+
+  const salaireMin = salaire[0];
+  const salaireMax = salaire[1];
+
+  // Salaire double curseur affichage
+  const [salaireTxt, setSalaireTxt] = useState([20, 80]);
+  const salaireMinTxt = Math.round((salaire[0] / 100) * 10000);
+  const salaireMaxTxt = Math.round((salaire[1] / 100) * 10000);
+
+  // languagge
+  const [openLangue, setOpenLangue] = useState(false);
+  const [langueSelectionnee, setLangueSelectionnee] = useState<string | null>(
+    null,
+  );
 
   // Experience curseur simple
   const [experience, setExperience] = useState([0]);
@@ -84,6 +117,12 @@ export default function SideBareFiltre() {
   // Dates
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      onFilterChange({ age: jourEntreDate });
+    }
+  }, [startDate, endDate]);
 
   const formatDate = (d: string) =>
     new Date(d + "T00:00:00").toLocaleDateString("fr-FR", {
@@ -99,11 +138,6 @@ export default function SideBareFiltre() {
             86400000,
         )
       : null;
-
-  const toggle = (item: string) =>
-    setSelected((prev) =>
-      prev.includes(item) ? prev.filter((v) => v !== item) : [...prev, item],
-    );
 
   //  Chip
   const Chip = ({
@@ -146,6 +180,32 @@ export default function SideBareFiltre() {
 
   return (
     <div className="px-3 flex flex-col gap-1">
+      {/* Quel language  */}
+      <Section
+        icon={<FaGlobe size={12} />}
+        label="Langue"
+        open={openLangue}
+        onToggle={() => setOpenLangue(!openLangue)}
+      >
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "Français", value: "fr" },
+            { label: "Anglais", value: "en" },
+            { label: "Autre", value: "other" },
+          ].map(({ label, value }) => (
+            <Chip
+              key={value}
+              label={label}
+              active={langueSelectionnee === value}
+              onClick={() => {
+                const newVal = langueSelectionnee === value ? null : value;
+                setLangueSelectionnee(newVal);
+                onFilterChange({ language: newVal });
+              }}
+            />
+          ))}
+        </div>
+      </Section>
       {/*  Type de contrat*/}
       <Section
         icon={<FaBriefcase size={12} />}
@@ -154,12 +214,16 @@ export default function SideBareFiltre() {
         onToggle={() => setOpenContrat(!openContrat)}
       >
         <div className="flex flex-wrap gap-2">
-          {TypeContrat.map((item) => (
+          {TypeContrat.map(({ display, value }) => (
             <Chip
-              key={item}
-              label={item}
-              active={selected.includes(item)}
-              onClick={() => toggle(item)}
+              key={value}
+              label={display}
+              active={TypeSelectionner === value}
+              onClick={() => {
+                const newVal = TypeSelectionner === value ? null : value;
+                setTypeSelectionner(newVal);
+                onFilterChange({ contract: newVal });
+              }}
             />
           ))}
         </div>
@@ -176,17 +240,35 @@ export default function SideBareFiltre() {
           {[
             {
               label: "Présentiel",
+              value: "no",
               state: activePresentiel,
               set: setActivePresentiel,
             },
-            { label: "Remote", state: activeRemote, set: setActiveRemote },
-            { label: "Hybride", state: activeHybride, set: setActiveHybride },
-          ].map(({ label, state, set }) => (
+            {
+              label: "Remote",
+              value: "fullTime",
+              state: activeRemote,
+              set: setActiveRemote,
+            },
+            {
+              label: "Hybride",
+              value: "hybrid",
+              state: activeHybride,
+              set: setActiveHybride,
+            },
+          ].map(({ label, value, state, set }) => (
             <Chip
               key={label}
               label={label}
               active={state}
-              onClick={() => set(!state)}
+              onClick={() => {
+                const newState = !state;
+                set(newState);
+
+                onFilterChange({
+                  remote: newState ? value : null,
+                });
+              }}
             />
           ))}
         </div>
@@ -254,7 +336,7 @@ export default function SideBareFiltre() {
           {startDate && endDate ? (
             <p className="text-[11px] text-purple-400">
               {formatDate(startDate)} → {formatDate(endDate)}
-              <span className="text-gray-600 ml-1">· {jourEntreDate}j</span>
+              <span className="text-gray-600 ml-1">- {jourEntreDate}j</span>
             </p>
           ) : startDate ? (
             <p className="text-[11px] text-purple-400">
@@ -292,18 +374,24 @@ export default function SideBareFiltre() {
           {/* Valeurs */}
           <div className="flex items-center justify-between">
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
-              {salaireMin.toLocaleString("fr-FR")} €
+              {salaireMinTxt.toLocaleString("fr-FR")} €
             </span>
             <span className="text-xs text-gray-600">—</span>
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
-              {salaireMax.toLocaleString("fr-FR")} €
+              {salaireMaxTxt.toLocaleString("fr-FR")} €
             </span>
           </div>
 
           {/* Slider */}
           <Slider.Root
             value={salaire}
-            onValueChange={setSalaire}
+            onValueChange={(value) => {
+              setSalaire(value);
+              onFilterChange({
+                minsalary: value[0],
+                maxsalary: value[1],
+              });
+            }}
             min={0}
             max={100}
             step={1}
@@ -351,7 +439,10 @@ export default function SideBareFiltre() {
           {/* Slider */}
           <Slider.Root
             value={experience}
-            onValueChange={setExperience}
+            onValueChange={(e) => {
+              setExperience(e);
+              onFilterChange({ experience: e[0] });
+            }}
             min={0}
             max={9}
             step={1}
