@@ -1,64 +1,61 @@
-function Header (){
-    return(
-        <>
-            <div className="bg-[#2C2C2C] flex justify-between pr-17">
+function Header() {
+  const navLinks = [
+    { icon: "Home.svg", label: "Accueil", alt: "accueil" },
+    { icon: "Archive.svg", label: "Offres", alt: "offres" },
+    { icon: "batiment.svg", label: "Entreprises", alt: "entreprises" },
+    { icon: "recrutement.svg", label: "Je recrute", alt: "recrutement" },
+  ];
 
+  return (
+    <div className="bg-[#2C2C2C] flex justify-between items-center px-7 h-16 border-b border-white/10">
+      {/* Logo */}
+      <div className="flex items-center gap-2.5">
+        <img
+          style={{ width: "38px" }}
+          src="techyourjob.png"
+          alt="Logo Tech Your Job"
+        />
+        <span className="font-extrabold text-white text-lg tracking-wide">
+          Tech Your Job
+        </span>
+      </div>
 
-                <div className="flex items-center">
-                    <img style={{width:"15vh"}} src='techyourjob.png' alt="photologo"/>
+      <div className="flex items-center gap-8">
+        {/* Navigation */}
+        <nav className="flex items-stretch h-16">
+          {navLinks.map(({ icon, label, alt }) => (
+            <a
+              key={label}
+              href="#"
+              className="relative flex items-center gap-2 px-3 group transition-colors duration-200"
+            >
+              <img style={{ width: "18px" }} src={icon} alt={alt} />
+              <span className="font-bold text-sm text-white/80 group-hover:text-white transition-colors duration-200">
+                {label}
+              </span>
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </a>
+          ))}
+        </nav>
 
-                    <p className="font-extrabold text-[3vh]">
-                        Tech Your Job
-                    </p>
-                </div>
-
-
-
-                <div className="flex gap-18">
-
-                    
-                    <div className="flex gap-10">
-                        <div className="flex items-center gap-2">
-                            <img style={{width:"3.5vh"}} src="Home.svg" alt="home" />
-                            <p className="font-extrabold text-[2.5vh]">Home</p>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <img style={{width:"3.5vh"}} src="Archive.svg" alt="home" />
-                            <p className="font-extrabold text-[2.5vh]">Offres</p>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <img style={{width:"3.5vh"}} src="batiment.svg" alt="home" />
-                            <p className="font-extrabold text-[2.5vh]">Companies</p>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            <img style={{width:"3.5vh"}} src="recrutement.svg" alt="home" />
-                            <p className="font-extrabold text-[2.5vh]">I hire</p>
-                        </div>
-
-                    </div>
-
-                    <div className="flex gap-10"> 
-
-                        <div className="flex items-center">
-                            <img style={{width:"3vh"}} src="Bell.svg" alt="home" />
-                        </div>
-
-                        <div className="flex items-center">
-                            <img style={{width:"3.5vh"}} src="User.svg" alt="home" />
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-        </>
-    );
-
+        {/* double icon a la fin */}
+        <div className="flex items-center gap-1">
+          <button
+            className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+            aria-label="Notifications"
+          >
+            <img style={{ width: "20px" }} src="Bell.svg" alt="" />
+          </button>
+          <button
+            className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+            aria-label="Mon profil"
+          >
+            <img style={{ width: "22px" }} src="User.svg" alt="" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Header
+export default Header;
