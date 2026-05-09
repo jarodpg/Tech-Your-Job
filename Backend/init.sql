@@ -5,7 +5,7 @@ CREATE TABLE entreprise (
     type_contrat TEXT[],
     nom_compagnie TEXT UNIQUE,
     seo_alias TEXT,
-    logo BYTEA,
+    logo TEXT,
     type_entreprise TEXT,
     secteur_entreprise TEXT[],
     ville TEXT

@@ -28,7 +28,7 @@ async function geoCoding(location, json) {
 
   json[normalizeText(data[0].name)] = result;
   fs.writeFileSync(
-    "/usr/local/app/JSON/loc.json",
+    "/usr/local/app/Cache/JSON/loc.json",
     JSON.stringify(json, null, 2),
   );
 
@@ -37,7 +37,9 @@ async function geoCoding(location, json) {
 
 // je récupère la latitude et longitude
 async function getLoc(location) {
-  const cache = JSON.parse(fs.readFileSync("/usr/local/app/JSON/loc.json"));
+  const cache = JSON.parse(
+    fs.readFileSync("/usr/local/app/Cache/JSON/loc.json"),
+  );
   if (cache[location]) {
     return cache[location];
   }
@@ -99,6 +101,13 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
                 id_poste,
                 display_name_fr,
                 entreprise.nom_compagnie,
+                CASE 
+                    WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
+                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+
+                    ELSE 
+                        entreprise.logo
+                END AS logo,
                 skills,
                 description,
                 salaire_currency,
