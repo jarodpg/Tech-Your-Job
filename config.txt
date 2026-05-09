@@ -10,3 +10,4 @@ pre-commit
 bcrypt
 jsonwebtoken
 cookie-parser
+path

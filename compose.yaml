@@ -63,6 +63,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
       - SECRET_KEY=${SECRET_KEY}
+      - LOGODEV_KEY=${LOGODEV_KEY}
     ports:
       - "${PORT_BACK}:5000"
     volumes:
