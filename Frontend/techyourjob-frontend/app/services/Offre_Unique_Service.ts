@@ -9,5 +9,5 @@ export async function Get_Unique_Offre(id) {
     headers: { "Content-Type": "application/json" },
   });
   const data = await res.json();
-  return data[0];
+  return data;
 }

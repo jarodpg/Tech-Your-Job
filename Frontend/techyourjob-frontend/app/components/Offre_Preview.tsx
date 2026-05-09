@@ -30,7 +30,7 @@ export default function Offre_Preview({
     load();
   }, [Poste.id_poste]);
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-center">
+    <div className="fixed inset-0 z-[9999] flex justify-center items-center">
       {/* bg blur */}
       <div
         className="absolute inset-0 backdrop-blur-md bg-black/50"
@@ -122,7 +122,7 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <MdOutlinePlace size={15} className="text-purple-400 shrink-0" />
               <span>
-                {DataPoste?.place?.[0]} {DataPoste?.place?.[1] || "France"}
+                {DataPoste?.latitude} {DataPoste?.longitude}
               </span>
             </div>
 
