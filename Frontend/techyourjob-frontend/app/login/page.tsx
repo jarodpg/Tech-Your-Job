@@ -1,15 +1,21 @@
 "use client";
 import { Login } from "../services/auth.service";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
-  function handleLogin(e) {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    Login(Email, Password);
-  }
+    const success = await Login(Email, Password);
+    if (success) {
+      router.push("/offre");
+    }
+  };
 
   return (
     <main className="min-h-screen w-full bg-[#242424] flex">

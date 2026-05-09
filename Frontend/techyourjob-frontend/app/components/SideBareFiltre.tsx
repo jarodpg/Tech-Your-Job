@@ -105,6 +105,10 @@ export default function SideBareFiltre({ onFilterChange }) {
   const salaireMinTxt = Math.round((salaire[0] / 100) * 10000);
   const salaireMaxTxt = Math.round((salaire[1] / 100) * 10000);
 
+  // filtre de distance
+  const [openDistance, setOpenDistance] = useState(false);
+  const [distance, setDistance] = useState([0]);
+
   // languagge
   const [openLangue, setOpenLangue] = useState(false);
   const [langueSelectionnee, setLangueSelectionnee] = useState<string | null>(
@@ -468,6 +472,46 @@ export default function SideBareFiltre({ onFilterChange }) {
                 {n}
               </span>
             ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section
+        icon={<FaMapMarkerAlt size={12} />}
+        label="Distance"
+        open={openDistance}
+        onToggle={() => setOpenDistance(!openDistance)}
+      >
+        <div className="flex flex-col gap-4 px-1">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
+              {distance[0] === 0 ? "Toute distance" : `${distance[0]} km`}
+            </span>
+          </div>
+
+          <Slider.Root
+            value={distance}
+            onValueChange={(val) => {
+              setDistance(val);
+              onFilterChange({ distance: val[0] === 0 ? null : val[0] });
+            }}
+            min={0}
+            max={100}
+            step={5}
+            className="relative flex items-center w-full h-5"
+          >
+            <Slider.Track className="bg-white/10 relative grow rounded-full h-1">
+              <Slider.Range className="absolute bg-purple-500 h-full rounded-full" />
+            </Slider.Track>
+            <Slider.Thumb className="block w-4 h-4 bg-purple-500 border-2 border-purple-300 rounded-full cursor-pointer shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-400/50" />
+          </Slider.Root>
+
+          <div className="flex justify-between text-[10px] text-gray-600">
+            <span>0</span>
+            <span>25 km</span>
+            <span>50 km</span>
+            <span>75 km</span>
+            <span>100 km</span>
           </div>
         </div>
       </Section>
