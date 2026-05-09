@@ -1,6 +1,6 @@
 const express = require("express");
 const fetch = require("make-fetch-happen");
-const path = require("path");
+const { Buffer } = require("buffer");
 const fs = require("fs");
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get("/logo/:domain", async (req, res) => {
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    fs.promises.writeFile(cache, buffer);
+    await fs.promises.writeFile(cache, buffer);
 
     return res.status(200).set("Content-Type", "image/png").send(buffer);
   } catch (err) {
