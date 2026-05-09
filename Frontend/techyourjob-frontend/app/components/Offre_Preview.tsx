@@ -38,7 +38,7 @@ export default function Offre_Preview({
       />
 
       {/* carte */}
-      <div className="relative z-10 w-[680px] max-h-[90vh] overflow-y-auto bg-[#0f0f1a] border border-white/10 rounded-2xl shadow-2xl">
+      <div className="relative z-10 w-[680px] max-h-[90vh] overflow-y-auto bg-[#111113] border border-white/10 rounded-2xl shadow-2xl">
         {/* header */}
         <div className="flex items-start justify-between p-6 border-b border-white/10">
           <div className="flex items-center gap-4">

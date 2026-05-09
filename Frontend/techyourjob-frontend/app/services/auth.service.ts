@@ -31,5 +31,5 @@ export async function Login(email, password) {
   });
   if (!res.ok) throw new Error("Erreur API");
 
-  return res.json();
+  return res.ok;
 }
