@@ -6,7 +6,6 @@ import os
 import datetime
 
 
-
 def Insert_Data_entreprise(value):
     """
     Fonction qui a pour but d'inserer les donnees des entreprise dans la db entreprise.
@@ -18,12 +17,12 @@ def Insert_Data_entreprise(value):
     load_dotenv()
     sql = """INSERT INTO entreprise (type_contrat, nom_compagnie, seo_alias, type_entreprise, secteur_entreprise, ville) VALUES (%s, %s, %s, %s, %s, %s)"""
     data = (
-        value.get("contractTypes"), 
-        value.get("companyName"), 
+        value.get("contractTypes"),
+        value.get("companyName"),
         value.get("seo_alias"),
-        value.get("companyTypeExplicit"), 
-        value.get("sectors"), 
-        value.get("formattedPlaces")
+        value.get("companyTypeExplicit"),
+        value.get("sectors"),
+        value.get("formattedPlaces"),
     )
 
     try:
@@ -32,17 +31,15 @@ def Insert_Data_entreprise(value):
             dbname=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
-            port=os.getenv("DB_PORT")
+            port=os.getenv("DB_PORT"),
         )
-        
+
         with conn:
             with conn.cursor() as cur:
                 cur.execute(sql, data)
                 print("1 row inserted successfully.")
     except Exception as e:
         print(f"Error: {e}")
-
-
 
 
 def Entreprise_Into_DB():
@@ -56,17 +53,26 @@ def Entreprise_Into_DB():
 
     # Récupère le dossier où se trouve le script Add_API_DB.py
     base_path = os.path.dirname(os.path.abspath(__file__))
-# Construit le chemin complet vers Data.json
-    json_path = os.path.join(base_path, 'Data.json')
+    # Construit le chemin complet vers Data.json
+    json_path = os.path.join(base_path, "Data.json")
 
     nameVU = []
-    Parametre_garder_entreprise = ["companyId", "contractTypes", "seoAlias", "companyName", "companyTypeExplicit", "sectors", "_geoloc", "formattedPlaces"]
-    with open(json_path, 'r') as json_file:
+    Parametre_garder_entreprise = [
+        "companyId",
+        "contractTypes",
+        "seoAlias",
+        "companyName",
+        "companyTypeExplicit",
+        "sectors",
+        "_geoloc",
+        "formattedPlaces",
+    ]
+    with open(json_path, "r") as json_file:
         donnee = json.load(json_file)
         for entreprise in donnee:
             infos_entreprise = {}
             for parametre in Parametre_garder_entreprise:
-                expr = parse(f'$..{parametre}')
+                expr = parse(f"$..{parametre}")
                 matches = expr.find(entreprise)
                 if matches:
                     infos_entreprise[parametre] = matches[0].value
@@ -77,10 +83,8 @@ def Entreprise_Into_DB():
                 Insert_Data_entreprise(infos_entreprise)
                 nameVU.append(infos_entreprise.get("companyName"))
 
-#Entreprise_Into_DB()
 
-
-
+# Entreprise_Into_DB()
 
 
 def get_entreprise_id(company_name):
@@ -98,23 +102,19 @@ def get_entreprise_id(company_name):
             dbname=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
-            port=os.getenv("DB_PORT")
+            port=os.getenv("DB_PORT"),
         )
         with conn:
             with conn.cursor() as cur:
                 cur.execute(
                     "SELECT id_entreprise FROM entreprise WHERE nom_compagnie = %s",
-                    (company_name,)
+                    (company_name,),
                 )
                 row = cur.fetchone()
                 return row[0] if row else None
     except Exception as e:
         print("Error get_entreprise_id:", e)
         return None
-
-
-
-
 
 
 def Insert_Data_poste(value):
@@ -139,44 +139,51 @@ def Insert_Data_poste(value):
     """
 
     geoloc = value.get("_geoloc", [])
+    print(geoloc)
     lat = geoloc[0].get("lat") if geoloc else None
     lng = geoloc[0].get("lng") if geoloc else None
     Id_entreprise = get_entreprise_id(value.get("companyName"))
 
     CreateAt = value.get("createdAt")
     PublishDate = value.get("publishDate")
-    created_at_dt = datetime.datetime.fromtimestamp(CreateAt / 1000000.0) if CreateAt else None
-    publish_date_dt = datetime.datetime.fromtimestamp(PublishDate / 1000000.0) if PublishDate else None
+    created_at_dt = (
+        datetime.datetime.fromtimestamp(CreateAt / 1000000.0) if CreateAt else None
+    )
+    publish_date_dt = (
+        datetime.datetime.fromtimestamp(PublishDate / 1000000.0)
+        if PublishDate
+        else None
+    )
 
     data = (
-    Id_entreprise,
-    json.dumps(value.get("contracts")),
-    created_at_dt,
-    value.get("descriptionPreview"),
-    value.get("locale"),
-    value.get("daysPerWeek"),
-    value.get("frequency"),
-    value.get("requiredExperience"),
-    value.get("currency"),
-    value.get("min"),
-    value.get("max"),
-    value.get("recurrence"),
-    publish_date_dt,
-    value.get("algoliaKeyword"),
-    value.get("displayName"),
-    value.get("displayName"),  
-    lat,
-    lng,
-    json.dumps(value.get("skillsList")),
-    value.get("title"),
-    value.get("ranking"),
-    value.get("applications"),
-    value.get("applyBtnClicks"),
-    value.get("atsApplications"),
-    value.get("ctr"),
-    value.get("totalApplications"),
-    value.get("remoteApplications"),
-    value.get("visitsCount") 
+        Id_entreprise,
+        value.get("contractTypes")[0],
+        created_at_dt,
+        value.get("descriptionPreview"),
+        value.get("locale"),
+        value.get("daysPerWeek"),
+        value.get("frequency"),
+        value.get("requiredExperience"),
+        value.get("currency"),
+        value.get("min"),
+        value.get("max"),
+        value.get("recurrence"),
+        publish_date_dt,
+        value.get("algoliaKeyword"),
+        value.get("displayName"),
+        value.get("displayName"),
+        lat,
+        lng,
+        json.dumps(value.get("skillsList")),
+        value.get("title"),
+        value.get("ranking"),
+        value.get("applications"),
+        value.get("applyBtnClicks"),
+        value.get("atsApplications"),
+        value.get("ctr"),
+        value.get("totalApplications"),
+        value.get("remoteApplications"),
+        value.get("visitsCount"),
     )
 
     try:
@@ -185,7 +192,7 @@ def Insert_Data_poste(value):
             dbname=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
-            port=os.getenv("DB_PORT")
+            port=os.getenv("DB_PORT"),
         )
 
         with conn:
@@ -193,8 +200,6 @@ def Insert_Data_poste(value):
                 cur.execute(sql, data)
     except Exception as e:
         print(f"Error: {e}")
-
-
 
 
 def Poste_Into_DB():
@@ -206,19 +211,50 @@ def Poste_Into_DB():
     Ne return rien mais appelle la fonction Insert_Data_poste avec les infos selectionner
     """
 
-        # Récupère le dossier où se trouve le script Add_API_DB.py
+    # Récupère le dossier où se trouve le script Add_API_DB.py
     base_path = os.path.dirname(os.path.abspath(__file__))
-# Construit le chemin complet vers Data.json
-    json_path = os.path.join(base_path, 'Data.json')
+    # Construit le chemin complet vers Data.json
+    json_path = os.path.join(base_path, "Data.json")
 
-    Parametre_garder_poste = ["id", "companyName", "contracts", "createdAt", "descriptionPreview", "locale", "daysPerWeek", "locale", "frequency", "requiredExperience", "currency", "max", "min", "recurrence", "publishDate", "algoliaKeyword", "displayName", "displayName", "skillsList", "title", "ranking", "applications", "applyBtnClicks", "atsApplications", "ctr", "totalApplications", "remoteApplications", "visitsCount"]
-    with open(json_path, 'r') as json_file:
+    Parametre_garder_poste = [
+        "id",
+        "companyName",
+        "contractTypes",
+        "contracts",
+        "createdAt",
+        "descriptionPreview",
+        "_geoloc",
+        "locale",
+        "daysPerWeek",
+        "locale",
+        "frequency",
+        "requiredExperience",
+        "currency",
+        "max",
+        "min",
+        "recurrence",
+        "publishDate",
+        "algoliaKeyword",
+        "displayName",
+        "displayName",
+        "skillsList",
+        "title",
+        "ranking",
+        "applications",
+        "applyBtnClicks",
+        "atsApplications",
+        "ctr",
+        "totalApplications",
+        "remoteApplications",
+        "visitsCount",
+    ]
+    with open(json_path, "r") as json_file:
         donnee = json.load(json_file)
         for job in donnee:
             infos_entreprise = {}
 
             for parametre in Parametre_garder_poste:
-                expr = parse(f'$..{parametre}')
+                expr = parse(f"$..{parametre}")
                 matches = expr.find(job)
 
                 if matches:
@@ -228,6 +264,5 @@ def Poste_Into_DB():
 
             Insert_Data_poste(infos_entreprise)
 
-# Poste_Into_DB()
 
- 
+Poste_Into_DB()

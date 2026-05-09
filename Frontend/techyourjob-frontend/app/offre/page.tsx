@@ -5,83 +5,60 @@ import Postlite from "../components/post-lite";
 import SideBareFiltre from "../components/SideBareFiltre";
 import Offre_Preview from "../components/Offre_Preview";
 
-import { useState } from "react";
-
-const test = [
-  {
-    id: 1,
-    title: "Développeur React",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-  {
-    id: 2,
-    title: "Développeur test",
-    companyName: "TechCorp",
-    imageUrl: "/logo.png",
-    tags: [{ text: "React" }, { text: "Frontend" }],
-    description: "Développement d'interfaces modernes.",
-    hourlyRate: "45€/h",
-    postedDaysAgo: 3,
-  },
-];
+import { useState, useEffect } from "react";
+import { Get_Offre } from "../services/Offre_Service";
 
 export default function Offre_Page() {
   const [open, setOpen] = useState(false);
+  const [test, setTest] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [FIltre, setFIltre] = useState({
+    reverse: "false",
+    page: 1,
+    remote: null,
+    contract: null,
+    minsalary: null,
+    maxsalary: null,
+    location: null,
+    distance: null,
+    language: null,
+    experience: null,
+    age: null,
+  });
+
+  useEffect(() => {
+    console.log("Filtres mis à jour :", FIltre);
+    async function load() {
+      try {
+        setLoading(true);
+        const data =
+          (await Get_Offre(
+            FIltre.reverse,
+            FIltre.page,
+            FIltre.minsalary ?? null,
+            FIltre.maxsalary ?? null,
+            FIltre.location ?? null,
+            FIltre.distance ?? null,
+            FIltre.contract ?? null,
+            FIltre.remote ?? null,
+            FIltre.language ?? null,
+            FIltre.experience ?? null,
+            FIltre.age ?? null,
+          )) || [];
+        console.log("DATA :", data);
+        setTest(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Erreur API :", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, [FIltre]);
+
+  const [selectedPost, setSelectedPost] = useState(null);
   return (
     <div className="flex flex-col bg-[#242424] min-h-screen">
       <Header />
@@ -98,21 +75,38 @@ export default function Offre_Page() {
         <div className="mt-[2%] grid grid-cols-[0.6fr_2.4fr]">
           {/* Sidebar filtres — Client Component */}
           <div className="bg-[#242424]">
-            <SideBareFiltre />
+            <SideBareFiltre
+              onFilterChange={(newFilters) =>
+                setFIltre((prev) => ({
+                  ...prev,
+                  ...newFilters,
+                }))
+              }
+            />
           </div>
 
           {/* Liste des offres */}
           <div className="bg-[#242424]">
             <div className="grid grid-cols-3 gap-10 px-5 mr-8">
-              {test.map((item, i) => (
-                <Postlite key={i} job={item} />
+              {(test ?? []).map((item, i) => (
+                <Postlite
+                  key={i}
+                  job={item}
+                  onClick={() => {
+                    setSelectedPost(item);
+                    setOpen(true);
+                  }}
+                />
               ))}
             </div>
           </div>
 
-          <button onClick={() => setOpen(true)}>OPEN</button>
-
-          {open && <Offre_Preview onClose={() => setOpen(false)} />}
+          {open && selectedPost && (
+            <Offre_Preview
+              onClose={() => setOpen(false)}
+              Poste={selectedPost}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -11,3 +11,5 @@ bcrypt
 jsonwebtoken
 cookie-parser
 path
+make-fetch-happen
+fs
