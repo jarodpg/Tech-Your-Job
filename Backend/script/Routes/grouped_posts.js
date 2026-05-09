@@ -121,7 +121,9 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
 
                     ELSE 
                         TO_CHAR(AGE(NOW(), date_publication), 'DD "jours" HH24"h"MI')
-                END AS since_posted
+                END AS since_posted,
+                latitude,
+                longitude
             FROM poste 
             JOIN entreprise ON poste.id_entreprise = entreprise.id_entreprise
             WHERE 
@@ -194,8 +196,19 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
       return res.status(200).json({ msg: "0 post found" });
     }
 
+    if (lat && lon) {
+      console.log("Posts found");
+      return res.status(200).json({
+        filters: {
+          entry_lat: lat,
+          entry_lon: lon,
+        },
+        posts: selectPosteRequest.rows,
+      });
+    }
+
     console.log("Posts found");
-    return res.status(200).json(selectPosteRequest.rows);
+    return res.status(200).json({ posts: selectPosteRequest.rows });
   } catch (err) {
     console.error("Internal server error:", err);
     return res.status(500).json({ msg: "Internal server error" });

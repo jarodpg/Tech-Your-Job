@@ -20,7 +20,7 @@ async function reverseGeoCoding(lat, lon, json) {
 
   json[`${lat}, ${lon}`] = result;
   fs.writeFileSync(
-    "/usr/local/app/JSON/reverseloc.json",
+    "/usr/local/app/Cache/JSON/reverseloc.json",
     JSON.stringify(json, null, 2),
   );
 
@@ -30,7 +30,7 @@ async function reverseGeoCoding(lat, lon, json) {
 // je récupère la latitude et longitude
 async function getPlace(lat, lon) {
   const cache = JSON.parse(
-    fs.readFileSync("/usr/local/app/JSON/reverseloc.json"),
+    fs.readFileSync("/usr/local/app/Cache/JSON/reverseloc.json"),
   );
   if (cache[`${lat}, ${lon}`]) {
     return cache[`${lat}, ${lon}`];
