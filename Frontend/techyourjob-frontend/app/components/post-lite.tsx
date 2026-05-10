@@ -74,7 +74,7 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
 
       {/* Tags */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        {job.skills?.map((tag, index) => {
+        {job.skills?.slice(0, 4).map((tag, index) => {
           const style = getTagStyle(tag.name);
           return (
             <span
@@ -90,11 +90,25 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
             </span>
           );
         })}
+        {job.skills?.length > 4 && (
+          <span
+            className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest border"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.06)",
+              color: "#9ca3af",
+              borderColor: "rgba(255,255,255,0.1)",
+            }}
+          >
+            +{job.skills.length - 4}
+          </span>
+        )}
       </div>
 
       {/* Description */}
-      <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-3">
-        {job.description}
+      <p className="flex-1 text-[13px] text-gray-500 leading-relaxed line-clamp-3">
+        {job.description?.length > 200
+          ? job.description.slice(0, 200) + "..."
+          : job.description}
       </p>
 
       {/* Séparateur */}

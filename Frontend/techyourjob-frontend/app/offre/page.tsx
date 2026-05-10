@@ -146,41 +146,45 @@ export default function Offre_Page() {
             />
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-10 px-5 mr-8 py-2">
-            {(test ?? []).map((item, i) => (
-              <Postlite
-                key={i}
-                job={item}
+          <div className="flex flex-col">
+            <div className="grid grid-cols-3 gap-10 px-5 mr-8 py-2">
+              {(test ?? []).map((item, i) => (
+                <Postlite
+                  key={i}
+                  job={item}
+                  onClick={() => {
+                    setSelectedPost(item);
+                    setOpen(true);
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="flex flex-row justify-center gap-20 py-6">
+              <button
                 onClick={() => {
-                  setSelectedPost(item);
-                  setOpen(true);
+                  if (actuelId <= 1) return;
+                  setFIltre((prev) => ({ ...prev, reverse: "true" }));
+                  setactuelId(test[0]?.id_poste - 1);
+                  console.log(actuelId);
                 }}
-              />
-            ))}
+                className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors"
+              >
+                Page précédente
+              </button>
+              <button
+                onClick={() => {
+                  setFIltre((prev) => ({ ...prev, reverse: "false" }));
+                  setactuelId(test[test.length - 1]?.id_poste);
+                }}
+                className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors"
+              >
+                Page suivante
+              </button>
+            </div>
           </div>
         )}
       </div>
-      {!showMap && (
-        <div className="flex flex-row">
-          <button
-            onClick={() => {
-              setFIltre((prev) => ({ ...prev, reverse: "true" }));
-              setactuelId(test[0]?.id_poste - 1);
-            }}
-          >
-            Page précédente
-          </button>
-
-          <button
-            onClick={() => {
-              setFIltre((prev) => ({ ...prev, reverse: "false" }));
-              setactuelId(test[test.length - 1]?.id_poste);
-            }}
-          >
-            Page suivante
-          </button>
-        </div>
-      )}
 
       {open && selectedPost && (
         <Offre_Preview onClose={() => setOpen(false)} Poste={selectedPost} />
