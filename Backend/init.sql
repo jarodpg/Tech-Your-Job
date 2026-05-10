@@ -49,36 +49,58 @@ CREATE TABLE utilisateur(
     id_utilisateur INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom TEXT,
     prenom TEXT,
-    document BYTEA,
+    pays TEXT,
+    localisation TEXT,
     latitude_secteur DOUBLE PRECISION,
     longitude_secteur DOUBLE PRECISION,
     role TEXT,
     email TEXT,
-    telephone INT,
+    telephone TEXT,
     mdp TEXT,
     age INT
-    
 );
-
 
 CREATE TABLE profil_utilisateur(
     id_profil INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-    description TEXT,
+    banniere TEXT,
+    photo_profil TEXT,
+    biographie TEXT,
+    plateforme TEXT[],
+    profession_actuelle VARCHAR(100),
+    experiences_annees INTEGER,
+    document TEXT,
+    langues TEXT[],
     nb_vues_profil INTEGER DEFAULT 0,
     candidatures_envoyees INTEGER DEFAULT 0,
     candidatures_consultees INTEGER DEFAULT 0,
     candidatures_positives INTEGER DEFAULT 0,
-    candidatures_refusees INTEGER DEFAULT 0,
-    diplomes TEXT[],
-    experiences_annees INTEGER,
-    jobs_passes TEXT[],
-    hard_skills TEXT[],
-    soft_skills TEXT[],
-    langues TEXT[],
-    photo_profil TEXT,
-    banniere TEXT,
-    titre_profession VARCHAR(100)
+    candidatures_refusees INTEGER DEFAULT 0
+);
+
+CREATE TABLE experience_utilisateur(
+    id_experience INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_entreprise INT REFERENCES entreprise(id_entreprise),
+    nom_entreprise TEXT,
+    titre TEXT,
+    date_debut DATE NOT NULL,
+    date_fin DATE,
+    description TEXT,
+    compétences TEXT[]
+);
+
+CREATE TABLE formation_utilisateur(
+    id_formation INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_entreprise INT REFERENCES entreprise(id_entreprise),
+    nom_établissement TEXT,
+    titre TEXT,
+    date_debut DATE NOT NULL,
+    date_fin DATE,
+    description TEXT,
+    compétences TEXT[],
+    diplome TEXT
 );
 
 CREATE EXTENSION IF NOT EXISTS postgis;

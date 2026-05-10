@@ -11,7 +11,8 @@ router.get("/user", auth, async (req, res) => {
                 id_utilisateur,
                 nom,
                 prenom,
-                document,
+                pays,
+                localisation,
                 latitude_secteur,
                 longitude_secteur,
                 role,
@@ -19,52 +20,83 @@ router.get("/user", auth, async (req, res) => {
                 telephone,
                 age
             FROM utilisateur 
-            WHERE email = $1
+            WHERE id_utilisateur = $1
         `;
     const selectUtilisateurRequest = await connection.query(
       sqlSelectUtilisateur,
-      [req.token.email],
+      [req.token.id],
     );
 
     // infos de la table profil_utilisateur
     const sqlSelectProfil_Utilisateur = `
             SELECT 
-                id_profil, 
-                description, 
-                nb_vues_profil, 
-                candidatures_envoyees, 
-                candidatures_consultees, 
-                candidatures_positives, 
-                candidatures_refusees, 
-                diplomes, 
-                experiences_annees, 
-                jobs_passes, 
-                hard_skills, 
-                soft_skills, 
-                langues, 
-                photo_profil, 
-                banniere, 
-                titre_profession 
+                id_profil,
+                banniere,
+                photo_profil,
+                biographie,
+                plateforme,
+                profession_actuelle,
+                experiences_annees,
+                document,
+                langues,
+                nb_vues_profil,
+                candidatures_envoyees,
+                candidatures_consultees,
+                candidatures_positives,
+                candidatures_refusees
             FROM profil_utilisateur 
             WHERE id_utilisateur = $1
         `;
     const selectProfil_UtilisateurRequest = await connection.query(
       sqlSelectProfil_Utilisateur,
-      [selectUtilisateurRequest.rows[0].id_utilisateur],
+      [req.token.id],
     );
 
-    // si l'utilisateur n'a pas de ligne dans la table profil_utilisateur
-    // je renvoie uniquement ces infos de la table utilisateur
-    if (selectProfil_UtilisateurRequest.rows.length === 0) {
-      console.log("User data retrieved");
-      return res.status(200).json(selectUtilisateurRequest.rows[0]);
-    }
+    // infos de la table experience_utilisateur
+    const sqlSelectExperience_Utilisateur = `
+            SELECT 
+                id_experience,
+                id_entreprise,
+                nom_entreprise,
+                titre,
+                date_debut,
+                date_fin,
+                description,
+                compétences
+            FROM experience_utilisateur 
+            WHERE id_utilisateur = $1
+        `;
+    const selectExperience_UtilisateurRequest = await connection.query(
+      sqlSelectExperience_Utilisateur,
+      [req.token.id],
+    );
 
-    // sinon je renvoie tout
+    // infos de la table formation_utilisateur
+    const sqlSelectFormation_Utilisateur = `
+            SELECT 
+                id_formation,
+                id_entreprise,
+                nom_établissement,
+                titre,
+                date_debut,
+                date_fin,
+                description,
+                compétences,
+                diplome
+            FROM formation_utilisateur 
+            WHERE id_utilisateur = $1
+        `;
+    const selectFormation_UtilisateurRequest = await connection.query(
+      sqlSelectFormation_Utilisateur,
+      [req.token.id],
+    );
+
     console.log("User data retrieved");
     return res.status(200).json({
-      ...selectUtilisateurRequest.rows[0],
-      ...selectProfil_UtilisateurRequest.rows[0],
+      global: selectUtilisateurRequest.rows,
+      profil: selectProfil_UtilisateurRequest.rows,
+      experience: selectExperience_UtilisateurRequest.rows,
+      formation: selectFormation_UtilisateurRequest.rows,
     });
   } catch (err) {
     console.error("Internal server error:", err);

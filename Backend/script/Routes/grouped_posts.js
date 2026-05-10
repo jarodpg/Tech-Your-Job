@@ -20,7 +20,7 @@ async function geoCoding(location, json) {
   const res = await fetch(url);
   const data = await res.json();
 
-  if (data.length === 0) {
+  if (data.length === 0 || data.error) {
     return null;
   }
 
