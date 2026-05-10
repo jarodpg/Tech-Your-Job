@@ -14,7 +14,7 @@ function Header() {
       icon: "recrutement.svg",
       label: "Je recrute",
       alt: "recrutement",
-      href: "/",
+      href: "/hiring",
     },
   ];
 

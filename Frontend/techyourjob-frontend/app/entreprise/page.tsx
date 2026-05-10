@@ -1,5 +1,9 @@
 "use client";
+
+import { useState, useEffect } from "react";
+
 import Header from "../components/header";
+import Entreprise_Preview from "../components/Entreprise_Complet";
 import SideBareEntreprise from "../components/FIltre_entreprise";
 import Entreprise_lite from "../components/Entreprise_lite";
 import SearchBar from "../components/searchBar";
@@ -59,9 +63,12 @@ const Data = [
 ];
 
 export default function Entreprise_All() {
+  // top 5 calculer
   const top3 = [...Data].sort((a, b) => b.ranking - a.ranking).slice(0, 5);
   const [hero, ...smalls] = top3;
 
+  // entreprise qu'on selectionne
+  const [selectedEntreprise, setSelectedEntreprise] = useState(null);
   return (
     <div className="flex flex-col bg-[#1a1a1a] min-h-screen">
       <Header />
@@ -84,7 +91,7 @@ export default function Entreprise_All() {
                   {hero.name}
                 </h3>
                 <p className="text-xs text-gray-500">
-                  {hero.type_entreprise} · {hero.ville[0]}
+                  {hero.type_entreprise} - {hero.ville[0]}
                 </p>
               </div>
             </div>
@@ -142,8 +149,18 @@ export default function Entreprise_All() {
           </div>
           <div className="flex flex-col gap-2 px-5">
             {Data.map((item, i) => (
-              <Entreprise_lite key={i} entreprise={item} onClick={() => {}} />
+              <Entreprise_lite
+                onClick={() => setSelectedEntreprise(item)}
+                key={i}
+                entreprise={item}
+              />
             ))}
+            {selectedEntreprise && (
+              <Entreprise_Preview
+                entreprise={selectedEntreprise}
+                onClose={() => setSelectedEntreprise(null)}
+              />
+            )}
           </div>
         </div>
       </div>
