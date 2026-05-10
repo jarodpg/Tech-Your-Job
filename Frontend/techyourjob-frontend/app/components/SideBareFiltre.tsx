@@ -182,6 +182,30 @@ export default function SideBareFiltre({ onFilterChange }) {
     </button>
   );
 
+  //pour reset les filtres
+  const handleReset = () => {
+    setActivePresentiel(false);
+    setActiveRemote(false);
+    setActiveHybride(false);
+    setTypeSelectionner(null);
+    setSalaire([0, 100]);
+    setExperience([0]);
+    setDistance([0]);
+    setLangueSelectionnee(null);
+    setStartDate("");
+    setEndDate("");
+
+    onFilterChange({
+      remote: null,
+      contract: null,
+      minsalary: 0,
+      maxsalary: 100,
+      experience: 0,
+      distance: null,
+      language: null,
+      age: null,
+    });
+  };
   return (
     <div className="px-3 flex flex-col gap-1">
       {/* Quel language  */}
@@ -515,6 +539,15 @@ export default function SideBareFiltre({ onFilterChange }) {
           </div>
         </div>
       </Section>
+
+      <div className="mt-5 flex justify-center">
+        <button
+          onClick={handleReset}
+          className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors"
+        >
+          Reset Filtre
+        </button>
+      </div>
     </div>
   );
 }

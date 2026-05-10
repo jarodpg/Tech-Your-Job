@@ -18,6 +18,16 @@ export default function Offre_Page() {
   // pour connaitre le dernier ID
   const [actuelId, setactuelId] = useState(1);
 
+  //cordonnee de la recherche
+  const [mapCentre, setMapCentre] = useState<[number, number]>([
+    48.8566, 2.3522,
+  ]);
+
+  // tout les points des postes
+  const [pointsPoste, setPointsPoste] = useState<[number, number][]>([]);
+
+  const [data, setData] = useState();
+
   const [open, setOpen] = useState(false);
   const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -56,8 +66,24 @@ export default function Offre_Page() {
             FIltre.language,
             FIltre.experience,
             FIltre.age,
-          )) || [];
-        setTest(Array.isArray(data) ? data : []);
+          )) || {};
+        // setTest(Array.isArray(data) ? data : []);
+        const posts = Array.isArray(data.posts) ? data.posts : [];
+        setTest(posts);
+        setPointsPoste(
+          posts
+            .filter((p) => p.latitude && p.longitude)
+            // .map(p => [p.latitude, p.longitude] as [number, number])
+            .map((p) => ({
+              id: p.id_poste,
+              lat: p.latitude,
+              lon: p.longitude,
+            })),
+        );
+
+        if (data.filters) {
+          setMapCentre([data.filters.entry_lat, data.filters.entry_lon]);
+        }
       } catch (err) {
         console.error("Erreur API :", err);
       } finally {
@@ -107,46 +133,58 @@ export default function Offre_Page() {
         {showMap ? (
           <div className="px-5 py-2 h-[75vh]">
             <MapView
-              location={FIltre.location ?? [48.8566, 2.3522]} // Paris par default
+              location={mapCentre}
               distance={FIltre.distance}
+              points={pointsPoste}
+              onMarkerClick={(id) => {
+                const poste = test.find((p) => p.id_poste === id);
+                if (poste) {
+                  setSelectedPost(poste);
+                  setOpen(true);
+                }
+              }}
             />
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-10 px-5 mr-8 py-2">
-            {(test ?? []).map((item, i) => (
-              <Postlite
-                key={i}
-                job={item}
+          <div className="flex flex-col">
+            <div className="grid grid-cols-3 gap-10 px-5 mr-8 py-2">
+              {(test ?? []).map((item, i) => (
+                <Postlite
+                  key={i}
+                  job={item}
+                  onClick={() => {
+                    setSelectedPost(item);
+                    setOpen(true);
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="flex flex-row justify-center gap-20 py-6">
+              <button
                 onClick={() => {
-                  setSelectedPost(item);
-                  setOpen(true);
+                  if (actuelId <= 1) return;
+                  setFIltre((prev) => ({ ...prev, reverse: "true" }));
+                  setactuelId(test[0]?.id_poste - 1);
+                  console.log(actuelId);
                 }}
-              />
-            ))}
+                className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors"
+              >
+                Page précédente
+              </button>
+              <button
+                onClick={() => {
+                  setFIltre((prev) => ({ ...prev, reverse: "false" }));
+                  setactuelId(test[test.length - 1]?.id_poste);
+                }}
+                className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors"
+              >
+                Page suivante
+              </button>
+            </div>
           </div>
         )}
       </div>
-      {!showMap && (
-        <div className="flex flex-row">
-          <button
-            onClick={() => {
-              setFIltre((prev) => ({ ...prev, reverse: "true" }));
-              setactuelId(test[0]?.id_poste - 1);
-            }}
-          >
-            Page précédente
-          </button>
-
-          <button
-            onClick={() => {
-              setFIltre((prev) => ({ ...prev, reverse: "false" }));
-              setactuelId(test[test.length - 1]?.id_poste);
-            }}
-          >
-            Page suivante
-          </button>
-        </div>
-      )}
 
       {open && selectedPost && (
         <Offre_Preview onClose={() => setOpen(false)} Poste={selectedPost} />

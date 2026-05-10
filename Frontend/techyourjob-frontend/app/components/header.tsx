@@ -19,7 +19,7 @@ function Header() {
   ];
 
   return (
-    <div className="bg-[#2C2C2C] flex justify-between items-center px-7 h-16 border-b border-white/10">
+    <div className="bg-[#2C2C2C] flex justify-between items-center px-7 h-16 border-b border-white/10 sticky top-0 z-50">
       {/* Logo */}
       <div className="flex items-center gap-2.5">
         <img

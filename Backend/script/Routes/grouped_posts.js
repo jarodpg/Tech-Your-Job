@@ -191,9 +191,17 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
       age ?? null,
     ]);
 
+    // if (selectPosteRequest.rows.length === 0) {
+    //   console.log("0 post found");
+    //   return res.status(200).json({ msg: "0 post found" });
+    // }
+
+    // changement pour renvoyer quand meme les coordonnes de la recherche meme si nous na'vons aucun poste dans cette ville
     if (selectPosteRequest.rows.length === 0) {
-      console.log("0 post found");
-      return res.status(200).json({ msg: "0 post found" });
+      return res.status(200).json({
+        filters: lat && lon ? { entry_lat: lat, entry_lon: lon } : undefined,
+        posts: [],
+      });
     }
 
     if (lat && lon) {
