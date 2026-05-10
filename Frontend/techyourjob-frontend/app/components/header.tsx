@@ -8,7 +8,7 @@ function Header() {
       icon: "batiment.svg",
       label: "Entreprises",
       alt: "entreprises",
-      href: "/",
+      href: "/entreprise",
     },
     {
       icon: "recrutement.svg",
