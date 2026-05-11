@@ -1,11 +1,13 @@
 const express = require("express");
 const connection = require("../DB");
+const fs = require("fs");
 const { auth } = require("../Middleware");
 const router = express.Router();
 
 router.put("/user/experience/:id", auth, async (req, res) => {
   try {
     let { enterprise_name, title, start, end, description, skills } = req.body;
+    let enterprise_id;
     const experience_id = req.params.id;
 
     if (
@@ -18,6 +20,7 @@ router.put("/user/experience/:id", auth, async (req, res) => {
     ) {
       const sqlSelectProfilUtilisateur = `
             SELECT
+                id_entreprise,
                 nom_entreprise,
                 titre,
                 date_debut,
@@ -36,9 +39,12 @@ router.put("/user/experience/:id", auth, async (req, res) => {
       );
 
       if (selectProfilUtilisateurRequest.rows.length !== 0) {
-        enterprise_name =
-          enterprise_name ||
-          selectProfilUtilisateurRequest.rows[0].nom_entreprise;
+        if (!enterprise_name) {
+          enterprise_id = selectProfilUtilisateurRequest.rows[0].id_entreprise;
+          enterprise_name =
+            selectProfilUtilisateurRequest.rows[0].nom_entrprise;
+        }
+
         title = title || selectProfilUtilisateurRequest.rows[0].titre;
         start = start || selectProfilUtilisateurRequest.rows[0].date_debut;
         end = end || selectProfilUtilisateurRequest.rows[0].date_fin;
@@ -48,22 +54,34 @@ router.put("/user/experience/:id", auth, async (req, res) => {
       }
     }
 
+    const cache = JSON.parse(
+      fs.readFileSync("/usr/local/app/Cache/JSON/entreprises.json"),
+    );
+
+    if (enterprise_name && Object.values(cache).includes(enterprise_name)) {
+      enterprise_id = Object.keys(cache).find(
+        (k) => cache[k] === enterprise_name,
+      );
+    }
+
     const sqlUpdateUtilisateur = `
             UPDATE
                 experience_utilisateur
             SET
-                nom_entreprise = $1,
-                titre = $2,
-                date_debut = $3,
-                date_fin = $4,
-                description = $5,
-                compétences = $6
+                id_entreprise = $1,
+                nom_entreprise = $2,
+                titre = $3,
+                date_debut = $4,
+                date_fin = $5,
+                description = $6,
+                compétences = $7
             WHERE 
-                id_utilisateur = $7
+                id_utilisateur = $8
             AND 
-                id_experience = $8
+                id_experience = $9
         `;
     await connection.query(sqlUpdateUtilisateur, [
+      enterprise_id ?? null,
       enterprise_name,
       title,
       start,
