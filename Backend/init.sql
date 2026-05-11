@@ -66,7 +66,7 @@ CREATE TABLE profil_utilisateur(
     banniere TEXT,
     photo_profil TEXT,
     biographie TEXT,
-    plateforme TEXT[],
+    plateforme JSONB,
     profession_actuelle VARCHAR(100),
     experiences_annees INTEGER,
     document TEXT,
