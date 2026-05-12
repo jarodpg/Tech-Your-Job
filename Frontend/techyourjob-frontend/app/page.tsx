@@ -3,8 +3,11 @@
 import { Search, PlayCircle, ArrowRightCircle } from "lucide-react";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
 import Header from "./components/header";
+import { useState } from "react";
 
 export default function HomePage() {
+  const [searchValue, setSearchValue] = useState("");
+
   return (
     <div className="min-h-screen bg-[#121212] text-white font-sans">
       <div>
@@ -25,6 +28,8 @@ export default function HomePage() {
               <input
                 type="text"
                 placeholder="Chercher un job, un domaine, une entreprise"
+                value = {searchValue} 
+                onChange={(e) => setSearchValue(e.target.value)}
                 className="bg-transparent text-white placeholder-gray-200 text-lg w-full outline-none font-medium"
               />
             </div>
