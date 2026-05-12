@@ -1,14 +1,53 @@
 const express = require("express");
 const connection = require("../DB");
-const fs = require("fs");
 const { auth } = require("../Middleware");
 const router = express.Router();
+
+function normalizeText(text) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(",")[0]
+    .replace(/\s*\(.*?\)/g, "")
+    .trim()
+    .replace(/[!"#$%&'()*+,\./:;<=>?@\[\]^_`{|}~\\-]+$/, "")
+    .replace(/[!"#$%&'()*+,/:;<=>?@\[\]^_`{|}~\\]/g, "")
+    .replace(" ", "")
+    .toLowerCase();
+}
 
 router.put("/user/experience/:id", auth, async (req, res) => {
   try {
     let { enterprise_name, title, start, end, description, skills } = req.body;
     let enterprise_id;
     const experience_id = req.params.id;
+
+    // je vérifie si enterprise_name est entré
+    // si oui, je regarde s'il correspond à une entreprise déjà enregistrée
+    if (enterprise_name) {
+      const sqlSelectEntreprise = `
+        SELECT
+          id_entreprise,
+          nom_compagnie
+        FROM entreprise
+      `;
+      const selectEntrepriseRequest =
+        await connection.query(sqlSelectEntreprise);
+
+      const enterpriseFind = selectEntrepriseRequest.rows.find(
+        (entreprise) =>
+          normalizeText(entreprise.nom_compagnie) ===
+          normalizeText(enterprise_name),
+      );
+      console.log(enterpriseFind);
+
+      if (enterpriseFind) {
+        enterprise_name = enterpriseFind.nom_compagnie;
+        enterprise_id = enterpriseFind.id_entreprise;
+      }
+    }
+
+    console.log(enterprise_id);
 
     if (
       !enterprise_name ||
@@ -42,7 +81,7 @@ router.put("/user/experience/:id", auth, async (req, res) => {
         if (!enterprise_name) {
           enterprise_id = selectProfilUtilisateurRequest.rows[0].id_entreprise;
           enterprise_name =
-            selectProfilUtilisateurRequest.rows[0].nom_entrprise;
+            selectProfilUtilisateurRequest.rows[0].nom_entreprise;
         }
 
         title = title || selectProfilUtilisateurRequest.rows[0].titre;
@@ -52,16 +91,6 @@ router.put("/user/experience/:id", auth, async (req, res) => {
           description || selectProfilUtilisateurRequest.rows[0].description;
         skills = skills || selectProfilUtilisateurRequest.rows[0].compétences;
       }
-    }
-
-    const cache = JSON.parse(
-      fs.readFileSync("/usr/local/app/Cache/JSON/entreprises.json"),
-    );
-
-    if (enterprise_name && Object.values(cache).includes(enterprise_name)) {
-      enterprise_id = Object.keys(cache).find(
-        (k) => cache[k] === enterprise_name,
-      );
     }
 
     const sqlUpdateUtilisateur = `
