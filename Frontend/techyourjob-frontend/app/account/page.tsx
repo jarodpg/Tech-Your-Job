@@ -1,6 +1,8 @@
 "use client";
 import Header from "../components/header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { Get_User_Info } from "../services/Info_User_Service";
 
 // components
 import DashBoard_Preview from "../components/Account_components/Dashboard_preview";
@@ -18,6 +20,17 @@ import Document_Edit from "../components/Account_Modif/Document_Edit";
 
 export default function Account() {
   const [isDocumentEdit, setisDocumentEdit] = useState(false);
+  const [Data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = await Get_User_Info();
+      setData(data);
+      console.log(data.experience[0]);
+      console.log(data.formation[0]);
+    };
+    fetchUser();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
@@ -36,16 +49,42 @@ export default function Account() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <Infos_generale />
+          {Data && (
+            <Infos_generale
+              infos={{
+                ...Data.global[0],
+                ...Data.profil[0],
+              }}
+            />
+          )}
           <div className="grid grid-cols-2 gap-4">
-            <Biographie_account />
+            {Data && (
+              <Biographie_account
+                infos={{
+                  ...Data.profil[0],
+                }}
+              />
+            )}
             <div className="flex flex-col gap-4">
-              <Contact_account />
-              <Plateforme_Account />
+              {Data && (
+                <Contact_account
+                  infos={{
+                    ...Data.global[0],
+                  }}
+                />
+              )}
+
+              {Data && (
+                <Plateforme_Account
+                  infos={{
+                    ...Data.profil[0],
+                  }}
+                />
+              )}
             </div>
           </div>
-          <ExperiencePro_account />
-          <Formation_Account />
+          {Data && <ExperiencePro_account infos={Data.experience} />}
+          {Data && <Formation_Account infos={Data.formation} />}
         </div>
       </div>
     </div>

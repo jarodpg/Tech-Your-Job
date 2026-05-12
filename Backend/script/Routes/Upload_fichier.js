@@ -11,7 +11,7 @@ app.post("/candidature/upload", upload.single("fichier"), async (req, res) => {
   const { offre_id } = req.body;
   const user_id = req.user.id; // on chope l'id depuis le cookie/ token de co
 
-  // on genere le hash
+  // on genere le fichier hasher
   const hash = genererHash(req.file.path);
 
   // on met le chemin pour minio (voir doc)

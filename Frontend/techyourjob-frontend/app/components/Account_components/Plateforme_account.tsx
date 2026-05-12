@@ -1,6 +1,5 @@
 "use client";
 // import { useState } from "react";
-
 import {
   FaPencil,
   FaGithub,
@@ -12,6 +11,7 @@ import {
   FaLink,
   FaLinkedin,
 } from "react-icons/fa6";
+import { SiOnlyfans } from "react-icons/si";
 
 //github, yt, linkdine, pf, insta, stackoverflow, autre, reddit
 // git, yt, ld, pf, insta, Sover, other, redd
@@ -28,6 +28,8 @@ function renderLogo(type: string) {
       return <FaAddressBook className="text-teal-400 text-lg" />;
     case "insta":
       return <FaInstagram className="text-teal-400 text-lg" />;
+    case "of":
+      return <SiOnlyfans className="text-teal-400 text-lg" />;
     case "Sover":
       return <FaStackOverflow className="text-teal-400 text-lg" />;
     case "redd":
@@ -46,11 +48,18 @@ function Plateforme({ icon, lien }: { icon: string; lien: string }) {
   );
 }
 
-export default function Plateforme_Account() {
-  const plateformes = [
-    { icon: "git", lien: "https://github.com/NathanSosniak" },
-    { icon: "redd", lien: "https://github.com/NathanSosniak" },
-  ];
+interface PlateformeItem {
+  [key: string]: string;
+}
+
+interface Info {
+  plateforme: PlateformeItem;
+}
+
+export default function Plateforme_Account({ infos }: { infos: Info }) {
+  const plateformes = Object.entries(infos.plateforme ?? {}).map(
+    ([icon, lien]) => ({ icon, lien: lien as string }),
+  );
 
   return (
     <div className="flex flex-col bg-[#242424] rounded-3xl p-5 gap-4">

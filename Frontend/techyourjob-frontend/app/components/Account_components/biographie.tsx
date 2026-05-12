@@ -4,7 +4,11 @@ import { useState } from "react";
 import { IoBookOutline } from "react-icons/io5";
 import { FaPencil } from "react-icons/fa6";
 
-export default function Biographie_account() {
+interface Info {
+  biographie: string;
+}
+
+export default function Biographie_account({ infos }: { infos: Info }) {
   const [description, setDescription] = useState(
     "Lorem ipsum dolor sit amet consectetur. Malesuada lacus nunc vitae in. Rutrum et ipsum tincidunt quis aliquet id libero sit pretium. Diam metus feugiat nunc mauris risus felis. Erat viverra sociis pellentesque non at. Id nullam porttitor et non sed.\n\nElit lectus dictum eu fermentum at habitasse. Neque nunc justo ullamcorper nunc tellus nam. Ut a viverra risus mi...",
   );
@@ -19,7 +23,7 @@ export default function Biographie_account() {
       </h1>
 
       <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
-        {description}
+        {infos.biographie}
       </p>
 
       <div className="bg-white/12 h-px w-full"></div>

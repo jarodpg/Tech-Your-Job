@@ -69,7 +69,16 @@ function Formation({
   );
 }
 
-export default function Formation_Account() {
+interface Info {
+  id_formation: number;
+  nom_établissement: string;
+  titre: string;
+  date_debut: string;
+  date_fin: string;
+  description: string;
+}
+
+export default function Formation_Account({ infos }: { infos: Info[] }) {
   return (
     <div className="flex flex-col bg-[#242424] rounded-3xl p-5 gap-5">
       <h1 className="flex items-center gap-3 text-white font-bold">
@@ -79,21 +88,20 @@ export default function Formation_Account() {
         </span>
       </h1>
 
-      <Formation
-        img="/img/epitech.png"
-        Nom="Epitech, l'école de l'excellence informatique"
-        Titre="Bachelor Informatique - Spécialité IA/Data"
-        Date="2025 - 2028"
-        Description="Lorem ipsum dolor sit amet consectetur. Vitae sollicitudin at mauris mauris interdum quis elementum mi ac. Penatibus sed ut a nunc vitae volutpat orci at orci. Eu in blandit nibh ac. Eget ipsum sapien nibh blandit facilisi libero ultricies tortor ut. Faucibus tristique ornare imperdiet quis quisque et elementum id eget. Felis sagittis commodo lectus non elementum pellentesque elit quis. Sapien lectus pretium eu nec. Commodo elit diam urna neque aliquam vivamus scelerisque. Enim dignissim maecenas velit nunc nisl tortor. Tortor felis purus hac"
-      />
-      <div className="bg-white/12 h-px w-full"></div>
-      <Formation
-        img="/img/mireille.png"
-        Nom="Lycée Mireille Grenet"
-        Titre="Baccalauréat Général - Spécialité Mathématiques, Physique-Chimie"
-        Date="2022 - 2025"
-        Description="Lorem ipsum dolor sit amet consectetur. Vitae sollicitudin at mauris mauris interdum quis elementum mi ac. Penatibus sed ut a nunc vitae volutpat orci at orci. Eu in blandit nibh ac. Eget ipsum sapien nibh blandit facilisi libero ultricies tortor ut. Faucibus tristique ornare imperdiet quis quisque et elementum id eget. Felis sagittis commodo lectus non elementum pellentesque elit quis. Sapien lectus pretium eu nec. Commodo elit diam urna neque aliquam vivamus scelerisque. Enim dignissim maecenas velit nunc nisl tortor. Tortor felis purus hac"
-      />
+      {infos.map((exp, i) => (
+        <div key={exp.id_formation}>
+          <Formation
+            img="/img/default.png"
+            Nom={exp.nom_établissement}
+            Titre={exp.titre}
+            Date={`${exp.date_debut} - ${exp.date_fin}`}
+            Description={exp.description}
+          />
+          {i < infos.length - 1 && (
+            <div className="bg-white/12 h-px w-full mt-4" />
+          )}
+        </div>
+      ))}
       <div className="bg-white/12 h-px w-full"></div>
 
       <button className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors">
