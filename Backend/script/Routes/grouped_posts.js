@@ -175,7 +175,13 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
             ORDER BY
                 CASE WHEN $1::boolean = false THEN id_poste END ASC,
                 CASE WHEN $1::boolean = true  THEN id_poste END DESC
-            LIMIT 15
+            LIMIT (
+                CASE 
+                    WHEN $5::float8 IS NULL OR $6::float8 IS NULL OR $7::float8 IS NULL 
+                    THEN 15 
+                    ELSE NULL 
+                  END
+                )
         `;
     // paramètre ?? null signifie :
     // est-ce que ce paramètre existe ?
