@@ -19,8 +19,9 @@ function normalizeText(text) {
 router.put("/user/experience/:id", auth, async (req, res) => {
   try {
     let { enterprise_name, title, start, end, description, skills } = req.body;
-    let enterprise_id;
     const experience_id = req.params.id;
+
+    let enterprise_id;
 
     // je vérifie si enterprise_name est entré
     // si oui, je regarde s'il correspond à une entreprise déjà enregistrée
