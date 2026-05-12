@@ -100,7 +100,7 @@ CREATE TABLE formation_utilisateur(
     date_fin DATE,
     description TEXT,
     compétences TEXT[],
-    diplome JSONB
+    diplome TEXT[]
 );
 
 CREATE EXTENSION IF NOT EXISTS postgis;
