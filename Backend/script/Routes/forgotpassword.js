@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const connection = require('../DB')
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 
 
