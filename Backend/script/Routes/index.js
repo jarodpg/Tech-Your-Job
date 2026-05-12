@@ -9,6 +9,7 @@ const put_userGlobalRoutes = require("./put_userGlobal");
 const grouped_postsRoutes = require("./grouped_posts");
 const logoRoutes = require("./logo");
 const postRoutes = require("./post");
+const forgot_passwordRoutes = require("./forgotpassword");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -18,5 +19,6 @@ router.use("/", put_userGlobalRoutes);
 router.use("/", grouped_postsRoutes);
 router.use("/", logoRoutes);
 router.use("/", postRoutes);
+router.use("/", forgot_passwordRoutes)
 
 module.exports = router;
