@@ -39,15 +39,12 @@ router.put("/user/experience/:id", auth, async (req, res) => {
           normalizeText(entreprise.nom_compagnie) ===
           normalizeText(enterprise_name),
       );
-      console.log(enterpriseFind);
 
       if (enterpriseFind) {
         enterprise_name = enterpriseFind.nom_compagnie;
         enterprise_id = enterpriseFind.id_entreprise;
       }
     }
-
-    console.log(enterprise_id);
 
     if (
       !enterprise_name ||
@@ -57,7 +54,7 @@ router.put("/user/experience/:id", auth, async (req, res) => {
       !description ||
       !skills
     ) {
-      const sqlSelectProfilUtilisateur = `
+      const sqlSelectExperienceUtilisateur = `
             SELECT
                 id_entreprise,
                 nom_entreprise,
@@ -72,28 +69,30 @@ router.put("/user/experience/:id", auth, async (req, res) => {
             AND 
                 id_experience = $2
             `;
-      const selectProfilUtilisateurRequest = await connection.query(
-        sqlSelectProfilUtilisateur,
+      const selectExperienceUtilisateurRequest = await connection.query(
+        sqlSelectExperienceUtilisateur,
         [req.token.id, experience_id],
       );
 
-      if (selectProfilUtilisateurRequest.rows.length !== 0) {
+      if (selectExperienceUtilisateurRequest.rows.length !== 0) {
         if (!enterprise_name) {
-          enterprise_id = selectProfilUtilisateurRequest.rows[0].id_entreprise;
+          enterprise_id =
+            selectExperienceUtilisateurRequest.rows[0].id_entreprise;
           enterprise_name =
-            selectProfilUtilisateurRequest.rows[0].nom_entreprise;
+            selectExperienceUtilisateurRequest.rows[0].nom_entreprise;
         }
 
-        title = title || selectProfilUtilisateurRequest.rows[0].titre;
-        start = start || selectProfilUtilisateurRequest.rows[0].date_debut;
-        end = end || selectProfilUtilisateurRequest.rows[0].date_fin;
+        title = title || selectExperienceUtilisateurRequest.rows[0].titre;
+        start = start || selectExperienceUtilisateurRequest.rows[0].date_debut;
+        end = end || selectExperienceUtilisateurRequest.rows[0].date_fin;
         description =
-          description || selectProfilUtilisateurRequest.rows[0].description;
-        skills = skills || selectProfilUtilisateurRequest.rows[0].compétences;
+          description || selectExperienceUtilisateurRequest.rows[0].description;
+        skills =
+          skills || selectExperienceUtilisateurRequest.rows[0].compétences;
       }
     }
 
-    const sqlUpdateUtilisateur = `
+    const sqlUpdateExperienceUtilisateur = `
             UPDATE
                 experience_utilisateur
             SET
@@ -109,7 +108,7 @@ router.put("/user/experience/:id", auth, async (req, res) => {
             AND 
                 id_experience = $9
         `;
-    await connection.query(sqlUpdateUtilisateur, [
+    await connection.query(sqlUpdateExperienceUtilisateur, [
       enterprise_id ?? null,
       enterprise_name,
       title,
@@ -121,10 +120,8 @@ router.put("/user/experience/:id", auth, async (req, res) => {
       experience_id,
     ]);
 
-    console.log("Experience user information has been modified");
-    return res
-      .status(200)
-      .json({ msg: "Experience user information has been modified" });
+    console.log("Modified user experience");
+    return res.status(200).json({ msg: "Modified user experience" });
   } catch (err) {
     console.error("Internal server error:", err);
     return res.status(500).json({ msg: "Internal server error" });
