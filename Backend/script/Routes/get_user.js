@@ -56,14 +56,22 @@ router.get("/user", auth, async (req, res) => {
     const sqlSelectExperience_Utilisateur = `
             SELECT 
                 id_experience,
-                id_entreprise,
+                experience_utilisateur.id_entreprise,
                 nom_entreprise,
                 titre,
                 date_debut,
                 date_fin,
                 description,
-                compétences
+                compétences,
+                CASE 
+                    WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
+                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+
+                    ELSE 
+                        entreprise.logo
+                END AS logo
             FROM experience_utilisateur 
+            LEFT JOIN entreprise ON experience_utilisateur.id_entreprise = entreprise.id_entreprise
             WHERE id_utilisateur = $1
         `;
     const selectExperience_UtilisateurRequest = await connection.query(
@@ -75,15 +83,23 @@ router.get("/user", auth, async (req, res) => {
     const sqlSelectFormation_Utilisateur = `
             SELECT 
                 id_formation,
-                id_entreprise,
+                formation_utilisateur.id_entreprise,
                 nom_établissement,
                 titre,
                 date_debut,
                 date_fin,
                 description,
                 compétences,
-                diplome
+                diplome,
+                CASE 
+                    WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
+                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+
+                    ELSE 
+                        entreprise.logo
+                END AS logo
             FROM formation_utilisateur 
+            LEFT JOIN entreprise ON formation_utilisateur.id_entreprise = entreprise.id_entreprise
             WHERE id_utilisateur = $1
         `;
     const selectFormation_UtilisateurRequest = await connection.query(
