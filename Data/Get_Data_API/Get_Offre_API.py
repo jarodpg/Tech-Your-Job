@@ -27,7 +27,6 @@ def Get_Size():
 def Get_All_Data():
     nombre = Get_Size()
     page = nombre // 100
-    print(page)
     time.sleep(1)
 
     all_data = []
