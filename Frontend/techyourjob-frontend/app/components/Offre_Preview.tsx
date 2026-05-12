@@ -44,7 +44,11 @@ export default function Offre_Preview({
           <div className="flex items-center gap-4">
             {/* Logo*/}
             <div className="w-12 h-12 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-purple-300 font-semibold text-sm">
-              {/* {Poste.PP} */}
+              <img
+                src={Poste.logo}
+                className="object-cover rounded-xl"
+                alt={Poste.logo}
+              ></img>
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-widest mb-0.5">

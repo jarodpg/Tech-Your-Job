@@ -128,13 +128,13 @@ def Insert_Data_poste(value):
     load_dotenv()
     sql = """
     INSERT INTO poste (
-        id_entreprise, type_contrat, date_creation, description, langues, 
-        remote_policy, frequency_remote, annee_experience, salaire_currency, 
-        salaire_min, salaire_max, recurrence, date_publication, categorie, 
-        display_name_en, display_name_fr, latitude, longitude, skills, 
-        titre, ranking, nb_postulations, nb_clicks, candidature_ats, 
+        id_entreprise, type_contrat, date_creation, description, langues,
+        remote_policy, frequency_remote, annee_experience, salaire_currency,
+        salaire_min, salaire_max, recurrence, date_publication, categorie,
+        display_name_en, display_name_fr, latitude, longitude, skills,
+        titre, ranking, nb_postulations, nb_clicks, candidature_ats,
         ctr, total_applications, nb_remote_applications, total_visits
-    ) 
+    )
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
@@ -266,3 +266,216 @@ def Poste_Into_DB():
 
 
 Poste_Into_DB()
+
+
+# from jsonpath_ng import parse
+# import json
+# import psycopg
+# from dotenv import load_dotenv
+# import os
+# import datetime
+
+# load_dotenv()
+
+
+# def Insert_Data_entreprise(cur, value):
+#     sql = """INSERT INTO entreprise (type_contrat, nom_compagnie, seo_alias, type_entreprise, secteur_entreprise, ville) VALUES (%s, %s, %s, %s, %s, %s)"""
+#     data = (
+#         value.get("contractTypes"),
+#         value.get("companyName"),
+#         value.get("seoAlias"),
+#         value.get("companyTypeExplicit"),
+#         value.get("sectors"),
+#         value.get("formattedPlaces"),
+#     )
+#     cur.execute(sql, data)
+
+
+# def Entreprise_Into_DB():
+#     base_path = os.path.dirname(os.path.abspath(__file__))
+#     json_path = os.path.join(base_path, "Data.json")
+
+#     nameVU = []
+#     Parametre_garder_entreprise = [
+#         "companyId",
+#         "contractTypes",
+#         "seoAlias",
+#         "companyName",
+#         "companyTypeExplicit",
+#         "sectors",
+#         "_geoloc",
+#         "formattedPlaces",
+#     ]
+
+#     with open(json_path, "r") as json_file:
+#         donnee = json.load(json_file)
+
+#     conn = psycopg.connect(
+#         host="localhost",
+#         dbname=os.getenv("DB_NAME"),
+#         user=os.getenv("DB_USER"),
+#         password=os.getenv("DB_PASSWORD"),
+#         port=os.getenv("DB_PORT"),
+#     )
+
+#     with conn:
+#         with conn.cursor() as cur:
+#             for entreprise in donnee:
+#                 infos_entreprise = {}
+#                 for parametre in Parametre_garder_entreprise:
+#                     expr = parse(f"$..{parametre}")
+#                     matches = expr.find(entreprise)
+#                     infos_entreprise[parametre] = matches[0].value if matches else None
+
+#                 if infos_entreprise.get("companyName") not in nameVU:
+#                     Insert_Data_entreprise(cur, infos_entreprise)
+#                     nameVU.append(infos_entreprise.get("companyName"))
+
+#     print(f"{len(nameVU)} entreprises inserees.")
+
+
+# def get_all_entreprise_ids():
+#     conn = psycopg.connect(
+#         host="localhost",
+#         dbname=os.getenv("DB_NAME"),
+#         user=os.getenv("DB_USER"),
+#         password=os.getenv("DB_PASSWORD"),
+#         port=os.getenv("DB_PORT"),
+#     )
+#     with conn:
+#         with conn.cursor() as cur:
+#             cur.execute("SELECT nom_compagnie, id_entreprise FROM entreprise")
+#             return {row[0]: row[1] for row in cur.fetchall()}
+
+
+# def Insert_Data_poste(cur, value, entreprise_map):
+#     sql = """
+#     INSERT INTO poste (
+#         id_entreprise, type_contrat, date_creation, description, langues,
+#         remote_policy, frequency_remote, annee_experience, salaire_currency,
+#         salaire_min, salaire_max, recurrence, date_publication, categorie,
+#         display_name_en, display_name_fr, latitude, longitude, skills,
+#         titre, ranking, nb_postulations, nb_clicks, candidature_ats,
+#         ctr, total_applications, nb_remote_applications, total_visits
+#     )
+#     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+#     """
+
+#     geoloc = value.get("_geoloc", [])
+#     lat = geoloc[0].get("lat") if geoloc else None
+#     lng = geoloc[0].get("lng") if geoloc else None
+#     Id_entreprise = entreprise_map.get(value.get("companyName"))
+
+#     CreateAt = value.get("createdAt")
+#     PublishDate = value.get("publishDate")
+#     created_at_dt = (
+#         datetime.datetime.fromtimestamp(CreateAt / 1000000.0) if CreateAt else None
+#     )
+#     publish_date_dt = (
+#         datetime.datetime.fromtimestamp(PublishDate / 1000000.0)
+#         if PublishDate
+#         else None
+#     )
+
+#     data = (
+#         Id_entreprise,
+#         value.get("contractTypes")[0],
+#         created_at_dt,
+#         value.get("descriptionPreview"),
+#         value.get("locale"),
+#         value.get("daysPerWeek"),
+#         value.get("frequency"),
+#         value.get("requiredExperience"),
+#         value.get("currency"),
+#         value.get("min"),
+#         value.get("max"),
+#         value.get("recurrence"),
+#         publish_date_dt,
+#         value.get("algoliaKeyword"),
+#         value.get("displayName"),
+#         value.get("displayName"),
+#         lat,
+#         lng,
+#         json.dumps(value.get("skillsList")),
+#         value.get("title"),
+#         value.get("ranking"),
+#         value.get("applications"),
+#         value.get("applyBtnClicks"),
+#         value.get("atsApplications"),
+#         value.get("ctr"),
+#         value.get("totalApplications"),
+#         value.get("remoteApplications"),
+#         value.get("visitsCount"),
+#     )
+
+#     cur.execute(sql, data)
+
+
+# def Poste_Into_DB():
+#     base_path = os.path.dirname(os.path.abspath(__file__))
+#     json_path = os.path.join(base_path, "Data.json")
+
+#     Parametre_garder_poste = [
+#         "id",
+#         "companyName",
+#         "contractTypes",
+#         "contracts",
+#         "createdAt",
+#         "descriptionPreview",
+#         "_geoloc",
+#         "locale",
+#         "daysPerWeek",
+#         "locale",
+#         "frequency",
+#         "requiredExperience",
+#         "currency",
+#         "max",
+#         "min",
+#         "recurrence",
+#         "publishDate",
+#         "algoliaKeyword",
+#         "displayName",
+#         "displayName",
+#         "skillsList",
+#         "title",
+#         "ranking",
+#         "applications",
+#         "applyBtnClicks",
+#         "atsApplications",
+#         "ctr",
+#         "totalApplications",
+#         "remoteApplications",
+#         "visitsCount",
+#     ]
+
+#     with open(json_path, "r") as json_file:
+#         donnee = json.load(json_file)
+
+#     entreprise_map = get_all_entreprise_ids()
+
+#     conn = psycopg.connect(
+#         host="localhost",
+#         dbname=os.getenv("DB_NAME"),
+#         user=os.getenv("DB_USER"),
+#         password=os.getenv("DB_PASSWORD"),
+#         port=os.getenv("DB_PORT"),
+#     )
+
+#     with conn:
+#         with conn.cursor() as cur:
+#             for i, job in enumerate(donnee):
+#                 infos_entreprise = {}
+#                 for parametre in Parametre_garder_poste:
+#                     expr = parse(f"$..{parametre}")
+#                     matches = expr.find(job)
+#                     infos_entreprise[parametre] = matches[0].value if matches else None
+
+#                 Insert_Data_poste(cur, infos_entreprise, entreprise_map)
+
+#                 if (i + 1) % 100 == 0:
+#                     print(f"{i + 1}/{len(donnee)} postes inseres...")
+
+#     print(f"{len(donnee)} postes inseres.")
+
+
+# Poste_Into_DB()

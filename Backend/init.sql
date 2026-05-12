@@ -103,4 +103,17 @@ CREATE TABLE formation_utilisateur(
     diplome TEXT
 );
 
+
+CREATE TABLE candidature (
+    id_candidature INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_poste INT REFERENCES poste(id_poste),
+    date_candidature TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    statut TEXT DEFAULT 'en_attente',
+    fichier_path TEXT,
+    hash_sha256 TEXT,
+    message TEXT
+);
+
+
 CREATE EXTENSION IF NOT EXISTS postgis;

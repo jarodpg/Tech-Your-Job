@@ -71,3 +71,31 @@ services:
       - /usr/local/app/node_modules
     depends_on:
       - db
+
+  minio:
+    container_name: minio
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001" # pgadmin version onligne
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      sleep 3;
+      mc alias set local http://minio:9000 ${MINIO_USER} ${MINIO_PASSWORD};
+      mc mb --ignore-existing local/candidatures;
+      mc mb --ignore-existing local/documents;
+      "
+
+volumes:
+  minio_data:
