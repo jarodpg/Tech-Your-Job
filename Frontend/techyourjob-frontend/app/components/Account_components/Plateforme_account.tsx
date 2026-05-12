@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+// import { useState } from "react";
 
 import {
   FaPencil,
@@ -16,53 +16,55 @@ import {
 //github, yt, linkdine, pf, insta, stackoverflow, autre, reddit
 // git, yt, ld, pf, insta, Sover, other, redd
 
-function renderLogo(type) {
+function renderLogo(type: string) {
   switch (type) {
     case "git":
-      return <FaGithub />;
+      return <FaGithub className="text-teal-400 text-lg" />;
     case "yt":
-      return <FaYoutube />;
+      return <FaYoutube className="text-teal-400 text-lg" />;
     case "ld":
-      return <FaLinkedin />;
+      return <FaLinkedin className="text-teal-400 text-lg" />;
     case "pf":
-      return <FaAddressBook />;
+      return <FaAddressBook className="text-teal-400 text-lg" />;
     case "insta":
-      return <FaInstagram />;
+      return <FaInstagram className="text-teal-400 text-lg" />;
     case "Sover":
-      return <FaStackOverflow />;
+      return <FaStackOverflow className="text-teal-400 text-lg" />;
     case "redd":
-      return <FaReddit />;
+      return <FaReddit className="text-teal-400 text-lg" />;
     default:
-      return <FaLink />;
+      return <FaLink className="text-teal-400 text-lg" />;
   }
 }
 
 function Plateforme({ icon, lien }: { icon: string; lien: string }) {
   return (
-    <div>
-      <div className="flex flex-row gap-6">
-        <div>{renderLogo(icon)}</div>
-        <h6>{lien}</h6>
-      </div>
+    <div className="flex items-center gap-3">
+      {renderLogo(icon)}
+      <h6 className="text-gray-300 text-sm">{lien}</h6>
     </div>
   );
 }
 
 export default function Plateforme_Account() {
-  const [Phone, setPhone] = useState("0636114556");
-  const [Email, setEmail] = useState("gabin.sosniak@gmail.com");
+  const plateformes = [
+    { icon: "git", lien: "https://github.com/NathanSosniak" },
+    { icon: "redd", lien: "https://github.com/NathanSosniak" },
+  ];
 
   return (
-    <div className="flex flex-col bg-[#242424] rounded-3xl items-center gap-5">
-      <h1 className="flex items-center gap-4">
-        PLateformes
+    <div className="flex flex-col bg-[#242424] rounded-3xl p-5 gap-4">
+      <h1 className="flex items-center gap-3 text-white font-bold">
+        Plateformes
         <span>
-          <FaPencil />
+          <FaPencil className="text-gray-500 text-sm" />
         </span>
       </h1>
+
       <div className="flex flex-col gap-3">
-        <Plateforme icon="git" lien="https://google.com" />
-        <Plateforme icon="redd" lien="https://google.com" />
+        {plateformes.map((p, i) => (
+          <Plateforme key={i} icon={p.icon} lien={p.lien} />
+        ))}
       </div>
     </div>
   );

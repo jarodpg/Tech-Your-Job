@@ -33,3 +33,33 @@ app.post("/candidature/upload", upload.single("fichier"), async (req, res) => {
 // if (hashActuel !== hashEnDB) {
 //   return res.status(400).json({ error: "Fichier corrompu ou modifié" });
 // }
+
+// const crypto = require("crypto");
+// const fs = require("fs");
+
+// app.post("/document/upload", upload.single("fichier"), async (req, res) => {
+//   const { offre_id } = req.body;
+//   const user_id = req.user.id; // on chope l'id depuis le cookie/ token de co
+
+//   // on genere le hash
+//   const hash = genererHash(req.file.path);
+
+//   // on met le chemin pour minio (voir doc)
+//   const path = `offre_${offre_id}/user_${user_id}/${req.file.originalname}`;
+
+//   // on push vers minio le fichier
+//   await minioClient.fPutObject("candidatures", path, req.file.path);
+
+//   // on stocke dans postgress dans la table le liens
+//   await db.query(
+//     "INSERT INTO candidature (id_utilisateur, id_poste, fichier_path, hash_sha256) VALUES ($1, $2, $3, $4)",
+//     [user_id, offre_id, path, hash],
+//   );
+
+//   res.json({ success: true, path: path });
+// });
+
+// const hashActuel = genererHash(fichierTelecharge);
+// if (hashActuel !== hashEnDB) {
+//   return res.status(400).json({ error: "Fichier corrompu ou modifié" });
+// }

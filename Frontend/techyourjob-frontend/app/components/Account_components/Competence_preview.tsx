@@ -1,6 +1,7 @@
 "use client";
 
 import { FaPencil } from "react-icons/fa6";
+import { TbTarget } from "react-icons/tb";
 
 function Competence({
   image,
@@ -12,14 +13,17 @@ function Competence({
   emplacement: string;
 }) {
   return (
-    <div>
-      <div className="grid grid-cols-[0.9fr_2.1fr] gap-5">
-        <div>
-          <img src={image}></img>
-        </div>
+    <div className="w-full">
+      <div className="grid grid-cols-[64px_1fr] gap-4 items-center py-3">
+        <img
+          src={image}
+          className="w-16 h-16 object-cover rounded-xl border border-white/10 bg-[#333]"
+        />
         <div className="flex flex-col">
-          <h2>{titre}</h2>
-          <h6>{emplacement}</h6>
+          <h2 className="text-white text-[15px] font-bold">{titre}</h2>
+          <h6 className="text-gray-400 text-[13px] font-normal">
+            {emplacement}
+          </h6>
         </div>
       </div>
     </div>
@@ -28,19 +32,35 @@ function Competence({
 
 export default function Competence_Preview() {
   return (
-    <div className="flex flex-col bg-[#242424] rounded-3xl items-center gap-5">
-      <h1 className="flex items-center gap-4">
-        Competences
+    <div className="flex flex-col bg-[#2a2a2a] rounded-3xl p-6 w-[340px]">
+      <h1 className="flex items-center gap-3 text-white text-xl font-bold mb-2">
+        Compétences
         <span>
-          <FaPencil />
+          <FaPencil className="text-gray-500 text-sm" />
         </span>
       </h1>
-      <Competence image="test" titre="design uui" emplacement="Epitech" />
-      <div className="bg-[#47AD95] py-[1px] w-[70%]"></div>
-      <Competence image="test" titre="CV" emplacement="dsdssd" />
-
-      <div className="bg-[#47AD95] py-[1px] w-[70%]"></div>
-      <button className="cursor-pointer">Voir plus</button>
+      <Competence
+        image="/img/epitech.png"
+        titre="Design UI/UX"
+        emplacement="Epitech, l'école de l'excellence informatique"
+      />
+      <div className="bg-white/12 h-px w-full"></div>
+      <Competence
+        image="/img/caisse.png"
+        titre="Gestion de la clientèle"
+        emplacement="Caisse d'Epargne de Ressons-sur-Matz"
+      />
+      <div className="bg-white/12 h-px w-full"></div>
+      <Competence
+        image="/img/forme.png"
+        titre="Premiers Secours"
+        emplacement="Association FORME"
+      />
+      <div className="bg-white/12 h-px w-full"></div>
+      <button className="flex items-center justify-center gap-2 text-gray-400 text-sm py-3 cursor-pointer hover:text-white transition-colors">
+        <TbTarget className="text-base" />
+        Voir plus
+      </button>
     </div>
   );
 }

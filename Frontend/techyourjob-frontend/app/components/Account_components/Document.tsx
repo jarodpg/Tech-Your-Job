@@ -6,17 +6,22 @@ import { GrView } from "react-icons/gr";
 
 function Document({ image, titre }: { image: string; titre: string }) {
   return (
-    <div>
-      <div className="grid grid-cols-[0.9fr_1.9fr_0.2fr] gap-5">
+    <div className="w-full">
+      <div className="grid grid-cols-[90px_1fr_28px] gap-3 items-center py-3">
         <div>
-          <img src={image}></img>
+          <img
+            src={image}
+            className="w-[90px] h-[65px] object-cover rounded-md border border-white/15 bg-white"
+          />
         </div>
         <div>
-          <h2>{titre}</h2>
+          <h2 className="text-white text-[13px] font-medium leading-snug">
+            {titre}
+          </h2>
         </div>
-        <div className="flex flex-col">
-          <GoDownload />
-          <GrView />
+        <div className="flex flex-col gap-2 items-center">
+          <GoDownload className="text-[#8208D4] text-lg" />
+          <GrView className="text-teal-400 text-lg" />
         </div>
       </div>
     </div>
@@ -25,16 +30,26 @@ function Document({ image, titre }: { image: string; titre: string }) {
 
 export default function Document_priview() {
   return (
-    <div className="flex flex-col bg-[#242424] rounded-3xl items-center gap-5">
-      <h1 className="flex items-center gap-4">
-        Document
+    <div className="flex flex-col bg-[#242424] rounded-3xl p-5 w-[300px]">
+      <h1 className="flex items-center gap-3 text-white font-semibold mb-3">
+        Documents
         <span>
-          <FaPencil />
+          <FaPencil className="text-gray-400 text-sm" />
         </span>
       </h1>
-      <Document image="test" titre="CV" />
-      <div className="bg-amber-50 py-[1px] w-[70%]"></div>
-      <Document image="test" titre="CV" />
+      <Document
+        image="/img/bnssa.jpg"
+        titre="Brevet National de Sécurité et de Sauvetage Aquatique"
+      />
+      <div className="bg-white/12 h-px w-full"></div>
+      <Document
+        image="/img/pse1.jpg"
+        titre="Premiers Secours en Équipe de Niveau 1"
+      />
+      <div className="bg-white/12 h-px w-full"></div>
+      <Document image="/img/bac.jpg" titre="Baccalauréat Général" />
+      <div className="bg-white/12 h-px w-full"></div>
+      <Document image="/img/cv.jpg" titre="CV" />
     </div>
   );
 }

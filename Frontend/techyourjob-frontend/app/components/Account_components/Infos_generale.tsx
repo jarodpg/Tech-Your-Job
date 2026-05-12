@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { FaPencil } from "react-icons/fa6";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -7,46 +7,53 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 export default function Infos_generale() {
   const [banniere, setBanniere] = useState("d");
   const [pp, setPp] = useState("d");
-  const [name, setName] = useState("Hannier Gabin");
-  const [Status, setStatus] = useState("dsdsds dsdsd sd sd sds d dd ");
-  const [emplacement, setEmplacement] = useState("France Lille");
+  const [name, setName] = useState("Nathan Sosniak");
+  const [Status, setStatus] = useState(
+    "Étudiant à Epitech, l'école de l'excellence informatique",
+  );
+  const [emplacement, setEmplacement] = useState("Lille, France");
   const [logo, setLogo] = useState("d");
   const [Ecole_emplacement, setEcole_emplacement] = useState(
-    "EPitech ecole de l'execellence",
+    "Epitech, l'école de l'excellence informatique",
   );
-  const [Date, setDate] = useState("2025-2028");
+  const [Date, setDate] = useState("2025 - 2028");
 
   return (
-    <div className="flex flex-col bg-[#242424] rounded-3xl items-center gap-5">
-      <h1 className="flex items-center gap-4">
-        Informations generale
+    <div className="flex flex-col bg-[#242424] rounded-3xl p-5 gap-3">
+      <h1 className="flex items-center gap-3 text-white font-bold">
+        Informations Générales
         <span>
-          <FaPencil />
+          <FaPencil className="text-gray-500 text-sm" />
         </span>
       </h1>
-      <img className="w-[80%] h-[20%] rounded-2xl" src={banniere}></img>
-      <img
-        className="relative w-[10%] h-[10%] rounded-2xl -left-100 -top-20"
-        src={pp}
-      ></img>
-      <div className="flex flex-row">
-        <div className="flex flex-col">
-          <h1>{name}</h1>
-          <p>{Status}</p>
+
+      <div className="relative mb-8">
+        <img
+          className="w-full h-36 object-cover rounded-2xl bg-[#1e3a4a]"
+          src={banniere}
+        />
+        <img
+          className="absolute -bottom-8 left-4 w-20 h-20 object-cover rounded-xl border-[3px] border-[#242424]"
+          src={pp}
+        />
+      </div>
+
+      <div className="flex flex-row items-start gap-6 pl-24 pb-2">
+        <div className="flex flex-col flex-1">
+          <h1 className="text-white font-bold text-base">{name}</h1>
+          <p className="text-gray-400 text-xs leading-snug">{Status}</p>
         </div>
-        <span className="flex items-center">
-          <HiOutlineLocationMarker />
-          <h2>{emplacement}</h2>
+        <span className="flex items-center gap-1 pt-0.5 whitespace-nowrap flex-shrink-0">
+          <HiOutlineLocationMarker className="text-purple-400" />
+          <h2 className="text-gray-300 text-sm">{emplacement}</h2>
         </span>
-        <div>
-          <div className="grid grid-cols-[0.9fr_2.1fr]">
-            <div>
-              <img src={logo}></img>
-            </div>
-            <div className="flex flex-col">
-              <h2>{Ecole_emplacement}</h2>
-              <h6>{Date}</h6>
-            </div>
+        <div className="grid grid-cols-[32px_1fr] gap-2 items-start flex-shrink-0">
+          <img src={logo} className="w-8 h-8 object-cover rounded-lg" />
+          <div className="flex flex-col">
+            <h2 className="text-white font-bold text-xs leading-snug">
+              {Ecole_emplacement}
+            </h2>
+            <h6 className="text-gray-400 text-xs font-normal">{Date}</h6>
           </div>
         </div>
       </div>
