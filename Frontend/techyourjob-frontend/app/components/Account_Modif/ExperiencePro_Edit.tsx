@@ -41,6 +41,7 @@ export default function Experience_Pro_Edit({
         <h1 className="text-xl font-bold text-white mb-5">
           Modifier le contact
         </h1>
+        <div></div>
       </div>
     </div>
   );
