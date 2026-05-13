@@ -2,7 +2,7 @@ const express = require("express");
 const connection = require("../DB");
 const minioClient = require("../MINIO");
 const { auth } = require("../Middleware");
-const upload = require("./config_multer");
+const upload = require("../config_multer");
 const fs = require("fs");
 const router = express.Router();
 
