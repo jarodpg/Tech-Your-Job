@@ -64,6 +64,10 @@ services:
       - DB_NAME=${DB_NAME}
       - SECRET_KEY=${SECRET_KEY}
       - LOGODEV_KEY=${LOGODEV_KEY}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - MAIL_SENDER=${MAIL_SENDER}
     ports:
       - "${PORT_BACK}:5000"
     volumes:

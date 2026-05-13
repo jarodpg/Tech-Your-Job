@@ -46,7 +46,7 @@ router.post('/forgot-password', async (req, res) => {
 
     // en gros si l'email est pas ok bah on envoie quand meme 200 au front pour un arret silencieux, securisé car hacker ne sera pas si email vrm dans la db ou non 
     if (result.rows.length === 0) { 
-      return res.status(200).json(); 
+      return res.status(200).json({ message: 'Si cet email existe, un lien a été envoyé.' }); 
     }
 
     const user = result.rows[0];  
