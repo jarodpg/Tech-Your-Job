@@ -12,3 +12,4 @@ jsonwebtoken
 cookie-parser
 make-fetch-happen
 fs
+nodemailer
