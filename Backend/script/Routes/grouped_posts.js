@@ -17,7 +17,11 @@ function normalizeText(text) {
 async function geoCoding(location, json) {
   const url = `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "TechYourJob/1.0 (nathan.sosniak@epitech.eu)",
+    },
+  });
   const data = await res.json();
 
   if (data.length === 0 || data.error) {
@@ -171,7 +175,13 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
             ORDER BY
                 CASE WHEN $1::boolean = false THEN id_poste END ASC,
                 CASE WHEN $1::boolean = true  THEN id_poste END DESC
-            LIMIT 15
+            LIMIT (
+                CASE 
+                    WHEN $5::float8 IS NULL OR $6::float8 IS NULL OR $7::float8 IS NULL 
+                    THEN 15 
+                    ELSE NULL 
+                  END
+                )
         `;
     // paramètre ?? null signifie :
     // est-ce que ce paramètre existe ?
@@ -196,27 +206,19 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
     //   return res.status(200).json({ msg: "0 post found" });
     // }
 
-    // changement pour renvoyer quand meme les coordonnes de la recherche meme si nous na'vons aucun poste dans cette ville
     if (selectPosteRequest.rows.length === 0) {
-      return res.status(200).json({
-        filters: lat && lon ? { entry_lat: lat, entry_lon: lon } : undefined,
-        posts: [],
-      });
-    }
-
-    if (lat && lon) {
-      console.log("Posts found");
-      return res.status(200).json({
-        filters: {
-          entry_lat: lat,
-          entry_lon: lon,
-        },
-        posts: selectPosteRequest.rows,
-      });
+      console.log("0 post found");
     }
 
     console.log("Posts found");
-    return res.status(200).json({ posts: selectPosteRequest.rows });
+
+    return res.status(200).json({
+      filters: {
+        entry_lat: lat ?? null,
+        entry_lon: lon ?? null,
+      },
+      posts: selectPosteRequest.rows,
+    });
   } catch (err) {
     console.error("Internal server error:", err);
     return res.status(500).json({ msg: "Internal server error" });

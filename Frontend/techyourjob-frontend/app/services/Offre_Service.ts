@@ -33,8 +33,11 @@ export async function Get_Offre(
     headers: { "Content-Type": "application/json" },
   });
 
-  if (!res.ok) throw new Error("Erreur API");
-
+  // if (!res.ok) throw new Error("Erreur API");
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Erreur API ${res.status}: ${body}`);
+  }
   return res.json();
 }
 

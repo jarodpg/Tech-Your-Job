@@ -69,6 +69,12 @@ La route grouped_posts prend 9 paramètres facultatifs :
 
 ### Informations renvoyées
 
+**informations concernant les paramètres de la requête**
+
+- latitude et longitude de la location si définie et valide sinon ces 2 paramètres valent "null"
+
+**informations à propos des postes**
+
 - id du poste
 - nom du métier
 - nom de l'entreprise
@@ -81,35 +87,46 @@ La route grouped_posts prend 9 paramètres facultatifs :
   - si la durée est inférieure à un jour, on ne renvoit que les heures et minutes
   - si la durée est inférieure à deux jours, on renvoit "jour" sans "s"
   - sinon on renvoit les jours, heures et minutes avec un "s" à "jours"
+- latitude du poste
+- longitude du poste
 
 **Exemple :**
 
 ```json
-[
-  {
-    "id_poste": 1,
-    "display_name_fr": "Back-end developer",
-    "nom_compagnie": "Sensefuel",
-    "skills": [
-      {
-        "name": "Javascript",
-        "value": 50
-      },
-      {
-        "name": "NodeJS",
-        "value": 50
-      },
-      {
-        "name": "Docker",
-        "value": 50
-      }
-    ],
-    "description": "Sensefuel\nFondée en 2017 par Christophe et Stéphane, Sensefuel développe une plateforme SaaS de recherche e-commerce et de découverte produits fondée sur une puissante technologie de Deep Learning.\nAvec plus de 100 clients en France et en Europe, Sensefuel offre ses services à de multiples acteurs de l’e-commerce. La solution permet à nos clients d’optimiser leur performance en améliorant les taux",
-    "salaire_currency": "€",
-    "salaire_annuel_moyen": "52K",
-    "since_posted": "01 jour 14h48"
-  }
-]
+{
+  "filters": {
+    "entry_lat": null,
+    "entry_lon": null
+  },
+  "posts": [
+    {
+      "id_poste": 1,
+      "display_name_fr": "Back-end developer",
+      "nom_compagnie": "Sensefuel",
+      "logo": null,
+      "skills": [
+        {
+          "name": "Javascript",
+          "value": 50
+        },
+        {
+          "name": "NodeJS",
+          "value": 50
+        },
+        {
+          "name": "Docker",
+          "value": 50
+        }
+      ],
+      "description": "Sensefuel\nFondée en 2017 par Christophe et Stéphane, Sensefuel développe une plateforme SaaS de recherche e-commerce et de découverte produits fondée sur une puissante technologie de Deep Learning.\nAvec plus de 100 clients en France et en Europe, Sensefuel offre ses services à de multiples acteurs de l’e-commerce. La solution permet à nos clients d’optimiser leur performance en améliorant les taux",
+      "salaire_currency": "€",
+      "salaire_annuel_moyen": "52K",
+      "since_posted": "19 jours 22h30",
+      "latitude": 50.6048844,
+      "longitude": 3.156265
+    }
+  ]
+}
 ```
 
 ### 🔐 Sécurité

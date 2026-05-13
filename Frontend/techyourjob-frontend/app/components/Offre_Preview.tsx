@@ -44,7 +44,11 @@ export default function Offre_Preview({
           <div className="flex items-center gap-4">
             {/* Logo*/}
             <div className="w-12 h-12 rounded-xl bg-purple-950/60 border border-purple-800/40 flex items-center justify-center text-purple-300 font-semibold text-sm">
-              {/* {Poste.PP} */}
+              <img
+                src={Poste.logo}
+                className="object-cover rounded-xl"
+                alt={Poste.logo}
+              ></img>
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-widest mb-0.5">
@@ -122,7 +126,8 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <MdOutlinePlace size={15} className="text-purple-400 shrink-0" />
               <span>
-                {DataPoste?.latitude} {DataPoste?.longitude}
+                {/* {DataPoste?.latitude} {DataPoste?.longitude} */}
+                {DataPoste?.Localisation}
               </span>
             </div>
 
@@ -132,7 +137,7 @@ export default function Offre_Preview({
                 Salaire annuel
               </p>
               <p className="text-2xl font-semibold text-purple-300">
-                {DataPoste?.salaire_moyen_annuel}, {DataPoste?.salaire_currency}
+                {DataPoste?.salaire_moyen_annuel} {DataPoste?.salaire_currency}
               </p>
             </div>
 

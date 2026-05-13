@@ -57,10 +57,10 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0">
+          <img src={job.logo} className="object-cover" alt={job.logo}></img>
           {/* <Image
-            src={job.imageUrl}
-            alt={`${job.companyName} logo`}
-            fill
+            src={job.logo}
+            alt={}
             className="object-cover"
           /> */}
         </div>
@@ -118,7 +118,7 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-1">
           <span className="text-purple-300 font-semibold text-base">
-            {job.salaire_annuel_moyen}
+            {job.salaire_annuel_moyen || "Non renseigné"}
           </span>
           <span className="text-[10px] text-gray-600 uppercase tracking-widest font-medium">
             / ans

@@ -81,7 +81,10 @@ export default function Offre_Page() {
             })),
         );
 
-        if (data.filters) {
+        if (
+          data.filters?.entry_lat != null &&
+          data.filters?.entry_lon != null
+        ) {
           setMapCentre([data.filters.entry_lat, data.filters.entry_lon]);
         }
       } catch (err) {

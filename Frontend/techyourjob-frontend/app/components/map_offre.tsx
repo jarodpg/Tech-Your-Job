@@ -17,7 +17,7 @@ const iconBleu = L.divIcon({
   iconAnchor: [7, 7],
 });
 
-// Ce composant force la carte à se recentrer quand location change
+// Ce composant force la carte à se recentrer quand location change (on utilise de base paris et un zoom mais faudra changer)
 function RecenterMap({ location }: { location: [number, number] }) {
   const map = useMap();
   useEffect(() => {
@@ -50,16 +50,17 @@ export default function MapView({
       <RecenterMap location={location} />
 
       {/* .Map pour afficher tout les markers des postes */}
-      {points.map((point, i) => (
-        <Marker
-          key={i}
-          position={point as [number, number]}
-          icon={iconViolet}
-          eventHandlers={{
-            click: () => onMarkerClick(point.id),
-          }}
-        />
-      ))}
+      {distance > 0 &&
+        points.map((point, i) => (
+          <Marker
+            key={i}
+            position={[point.lat, point.lon]}
+            icon={iconViolet}
+            eventHandlers={{
+              click: () => onMarkerClick(point.id),
+            }}
+          />
+        ))}
 
       {/* Cercle de distance */}
       {distance && (

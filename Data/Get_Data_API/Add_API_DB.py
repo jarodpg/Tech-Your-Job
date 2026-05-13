@@ -54,7 +54,7 @@ def Entreprise_Into_DB():
     # Récupère le dossier où se trouve le script Add_API_DB.py
     base_path = os.path.dirname(os.path.abspath(__file__))
     # Construit le chemin complet vers Data.json
-    json_path = os.path.join(base_path, "Data.json")
+    json_path = os.path.join(base_path, "PreProcces.json")
 
     nameVU = []
     Parametre_garder_entreprise = [
@@ -128,18 +128,17 @@ def Insert_Data_poste(value):
     load_dotenv()
     sql = """
     INSERT INTO poste (
-        id_entreprise, type_contrat, date_creation, description, langues, 
-        remote_policy, frequency_remote, annee_experience, salaire_currency, 
-        salaire_min, salaire_max, recurrence, date_publication, categorie, 
-        display_name_en, display_name_fr, latitude, longitude, skills, 
-        titre, ranking, nb_postulations, nb_clicks, candidature_ats, 
+        id_entreprise, type_contrat, date_creation, description, langues,
+        remote_policy, frequency_remote, annee_experience, salaire_currency,
+        salaire_min, salaire_max, recurrence, date_publication, categorie,
+        display_name_en, display_name_fr, latitude, longitude, skills,
+        titre, ranking, nb_postulations, nb_clicks, candidature_ats,
         ctr, total_applications, nb_remote_applications, total_visits
-    ) 
+    )
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
     geoloc = value.get("_geoloc", [])
-    print(geoloc)
     lat = geoloc[0].get("lat") if geoloc else None
     lng = geoloc[0].get("lng") if geoloc else None
     Id_entreprise = get_entreprise_id(value.get("companyName"))
@@ -155,9 +154,12 @@ def Insert_Data_poste(value):
         else None
     )
 
+    contract_types = value.get("contractTypes")
+    contrat = contract_types[0] if contract_types else None
+
     data = (
         Id_entreprise,
-        value.get("contractTypes")[0],
+        contrat,
         created_at_dt,
         value.get("descriptionPreview"),
         value.get("locale"),
@@ -199,7 +201,8 @@ def Insert_Data_poste(value):
             with conn.cursor() as cur:
                 cur.execute(sql, data)
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error sur job {value.get('title')} : {e}")
+        return
 
 
 def Poste_Into_DB():
@@ -214,7 +217,7 @@ def Poste_Into_DB():
     # Récupère le dossier où se trouve le script Add_API_DB.py
     base_path = os.path.dirname(os.path.abspath(__file__))
     # Construit le chemin complet vers Data.json
-    json_path = os.path.join(base_path, "Data.json")
+    json_path = os.path.join(base_path, "PreProcces.json")
 
     Parametre_garder_poste = [
         "id",
@@ -263,6 +266,3 @@ def Poste_Into_DB():
                     infos_entreprise[parametre] = None
 
             Insert_Data_poste(infos_entreprise)
-
-
-Poste_Into_DB()

@@ -66,7 +66,7 @@ CREATE TABLE profil_utilisateur(
     banniere TEXT,
     photo_profil TEXT,
     biographie TEXT,
-    plateforme TEXT[],
+    plateforme JSONB,
     profession_actuelle VARCHAR(100),
     experiences_annees INTEGER,
     document TEXT,
@@ -100,7 +100,20 @@ CREATE TABLE formation_utilisateur(
     date_fin DATE,
     description TEXT,
     compétences TEXT[],
-    diplome TEXT
+    diplome JSONB
 );
+
+
+CREATE TABLE candidature (
+    id_candidature INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_poste INT REFERENCES poste(id_poste),
+    date_candidature TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    statut TEXT DEFAULT 'en_attente',
+    fichier_path TEXT,
+    hash_sha256 TEXT,
+    message TEXT
+);
+
 
 CREATE EXTENSION IF NOT EXISTS postgis;
