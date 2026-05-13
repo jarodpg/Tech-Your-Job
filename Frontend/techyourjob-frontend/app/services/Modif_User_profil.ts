@@ -2,25 +2,29 @@ const BACKEND_URL = "http://localhost:5000";
 
 export async function Update_User_Profil(data: {
   bio?: string;
-  social?: {
-    git?: string;
-    yt?: string;
-    ld?: string;
-    pf?: string;
-    insta?: string;
-    Sover?: string;
-    redd?: string;
-    other?: string;
-  };
+  social?: { icon: string; lien: string }[];
   job?: string;
   xp?: string;
   language?: number;
 }) {
+  const body = {
+    ...data,
+    social: data.social
+      ? data.social.reduce(
+          (acc, { icon, lien }) => {
+            if (lien) acc[icon] = lien;
+            return acc;
+          },
+          {} as Record<string, string>,
+        )
+      : undefined,
+  };
+
   const res = await fetch(`${BACKEND_URL}/user/profil`, {
     method: "PUT",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
