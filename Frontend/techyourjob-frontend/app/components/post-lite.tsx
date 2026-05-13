@@ -118,7 +118,7 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-1">
           <span className="text-purple-300 font-semibold text-base">
-            {job.salaire_annuel_moyen}
+            {job.salaire_annuel_moyen || "Non renseigné"}
           </span>
           <span className="text-[10px] text-gray-600 uppercase tracking-widest font-medium">
             / ans

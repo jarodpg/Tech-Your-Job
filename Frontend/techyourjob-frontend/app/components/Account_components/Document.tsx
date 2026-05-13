@@ -1,8 +1,11 @@
 "use client";
-
+import { useState } from "react";
 import { FaPencil } from "react-icons/fa6";
 import { GoDownload } from "react-icons/go";
 import { GrView } from "react-icons/gr";
+
+// les edits
+import Document_Edit from "../Account_Modif/Document_Edit";
 
 function Document({ image, titre }: { image: string; titre: string }) {
   return (
@@ -29,11 +32,23 @@ function Document({ image, titre }: { image: string; titre: string }) {
 }
 
 export default function Document_priview() {
+  // ouverture popup
+  const [isDocumentEdit, setIsDocumentEdit] = useState(false);
+
   return (
     <div className="flex flex-col bg-[#242424] rounded-3xl p-5 w-[300px]">
+      {/* Ouverture poup  */}
+      <Document_Edit
+        isOpen={isDocumentEdit}
+        onClose={() => setIsDocumentEdit(false)}
+      />
+
       <h1 className="flex items-center gap-3 text-white font-semibold mb-3">
         Documents
-        <span>
+        <span
+          onClick={() => setIsDocumentEdit(true)}
+          className="cursor-pointer"
+        >
           <FaPencil className="text-gray-400 text-sm" />
         </span>
       </h1>

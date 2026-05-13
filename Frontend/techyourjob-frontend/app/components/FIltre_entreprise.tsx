@@ -1,8 +1,45 @@
 "use client";
 import { useState } from "react";
 
-const secteurs = ["SaaS", "FinTech", "Cybersécurité", "IA / Data", "DevTools"];
-const types = ["Startup", "Scale-up", "Grand groupe", "Agence", "ESN"];
+const secteurs = [
+  "Automobile",
+  "Banque",
+  "B2B",
+  "B2C",
+  "Cloud",
+  "Hardware",
+  "Construction",
+  "Consultant",
+  "E-Commerce",
+  "Finance",
+  "Transport",
+  "Medicale",
+  " Ressources Humaine",
+  "Import Export",
+  "Industrie",
+  "Assurance",
+  "Media",
+  "Reseau",
+  "Imprimerie",
+  "Publication",
+  "Immbilier",
+  "Revente",
+  "Robotique",
+  "SAAS",
+  "Service",
+  "Software",
+  "Telecommunication",
+  "Tarsnport",
+  "Voyage",
+];
+const types = [
+  "Software",
+  "Web",
+  "Consultant",
+  "Startup",
+  "Produit",
+  "Service",
+];
 const remotes = ["Présentiel", "Hybride", "Full remote"];
 
 export default function SideBareEntreprise({ onFilterChange }) {
