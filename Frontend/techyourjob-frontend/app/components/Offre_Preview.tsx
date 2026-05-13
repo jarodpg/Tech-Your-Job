@@ -126,7 +126,8 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <MdOutlinePlace size={15} className="text-purple-400 shrink-0" />
               <span>
-                {DataPoste?.latitude} {DataPoste?.longitude}
+                {/* {DataPoste?.latitude} {DataPoste?.longitude} */}
+                {DataPoste?.Localisation}
               </span>
             </div>
 
@@ -136,7 +137,7 @@ export default function Offre_Preview({
                 Salaire annuel
               </p>
               <p className="text-2xl font-semibold text-purple-300">
-                {DataPoste?.salaire_moyen_annuel}, {DataPoste?.salaire_currency}
+                {DataPoste?.salaire_moyen_annuel} {DataPoste?.salaire_currency}
               </p>
             </div>
 

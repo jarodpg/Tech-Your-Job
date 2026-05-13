@@ -2,6 +2,10 @@
 
 import { FaPencil } from "react-icons/fa6";
 import { TbTarget } from "react-icons/tb";
+import { useState } from "react";
+
+import Competences_Plus from "../Voir_Plus_Account/Competence_Plus";
+import Competence_Edit from "../Account_Modif/Competence_Edit";
 
 function Competence({
   image,
@@ -30,34 +34,62 @@ function Competence({
   );
 }
 
-export default function Competence_Preview() {
+interface CompetenceItem {
+  competence: string;
+  source: string;
+}
+
+interface Info {
+  competences_experience: CompetenceItem[];
+  competences_formation: CompetenceItem[];
+}
+
+export default function Competence_Preview({ infos }: { infos: Info }) {
+  // poup voir tt competences
+  const [isOpen, setIsOpen] = useState(false);
+  // popup de modif
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  // affichage 3 dernieres
+  const toutes = [
+    ...infos.competences_experience,
+    ...infos.competences_formation,
+  ];
+  const apercu = toutes.slice(-3);
+
   return (
     <div className="flex flex-col bg-[#2a2a2a] rounded-3xl p-6 w-[340px]">
+      <Competences_Plus
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        competences={toutes}
+      />
+      <Competence_Edit
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        competences={toutes}
+      />
       <h1 className="flex items-center gap-3 text-white text-xl font-bold mb-2">
         Compétences
-        <span>
+        <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
           <FaPencil className="text-gray-500 text-sm" />
         </span>
       </h1>
-      <Competence
-        image="/img/epitech.png"
-        titre="Design UI/UX"
-        emplacement="Epitech, l'école de l'excellence informatique"
-      />
+      {apercu.map(({ competence, source }, i) => (
+        <div key={i}>
+          <div className="bg-white/12 h-px w-full"></div>
+          <Competence
+            image="/img/epitech.png"
+            titre={competence}
+            emplacement={source}
+          />
+        </div>
+      ))}
       <div className="bg-white/12 h-px w-full"></div>
-      <Competence
-        image="/img/caisse.png"
-        titre="Gestion de la clientèle"
-        emplacement="Caisse d'Epargne de Ressons-sur-Matz"
-      />
-      <div className="bg-white/12 h-px w-full"></div>
-      <Competence
-        image="/img/forme.png"
-        titre="Premiers Secours"
-        emplacement="Association FORME"
-      />
-      <div className="bg-white/12 h-px w-full"></div>
-      <button className="flex items-center justify-center gap-2 text-gray-400 text-sm py-3 cursor-pointer hover:text-white transition-colors">
+      <button
+        onClick={() => setIsOpen(true)}
+        className="flex items-center justify-center gap-2 text-gray-400 text-sm py-3 cursor-pointer hover:text-white transition-colors"
+      >
         <TbTarget className="text-base" />
         Voir plus
       </button>
