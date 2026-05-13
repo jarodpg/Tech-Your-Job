@@ -4,14 +4,39 @@ import { LiaBuromobelexperte } from "react-icons/lia";
 import { FaPencil } from "react-icons/fa6";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { IoBookOutline } from "react-icons/io5";
+import Experience_Pro_Edit from "../Account_Modif/ExperiencePro_Edit";
+
+interface CompetenceItem {
+  competence: string;
+  source: string;
+}
+
+interface Info {
+  id_experience: number;
+  titre: string;
+  date_debut: string;
+  date_fin: string;
+  description: string;
+  nom_entreprise: string;
+  competences_experience: CompetenceItem[];
+}
+
+interface ExperienceProAccountProps {
+  infos: {
+    experience: Info[];
+    competences_experience: CompetenceItem[];
+  };
+}
 
 function Experience_Pro({
+  competences_experience,
   img,
   titre,
   Lieu,
   Date,
   Description,
 }: {
+  competences_experience: CompetenceItem[];
   img: string;
   titre: string;
   Lieu: string;
@@ -43,13 +68,11 @@ function Experience_Pro({
           <h6 className="text-gray-500 text-xs">{Date}</h6>
         </div>
       </div>
-
       <p className="text-gray-300 text-sm leading-relaxed">
         {expanded ? Description : Description.slice(0, 280)}
         {!expanded && Description.length > 280 && (
           <span>
             {" "}
-            hac{" "}
             <button
               onClick={() => setExpanded(true)}
               className="text-gray-300 underline cursor-pointer"
@@ -63,33 +86,69 @@ function Experience_Pro({
   );
 }
 
-export default function ExperiencePro_account() {
+export default function ExperiencePro_account({
+  infos,
+}: ExperienceProAccountProps) {
+  // on prend l'experience selectionner
+  const [selectedExp, setSelectedExp] = useState<Info | null>(null);
+
   return (
     <div className="flex flex-col bg-[#242424] rounded-3xl p-5 gap-5">
+      {/* on envoie l'experience selectionner */}
+      {selectedExp && (
+        <Experience_Pro_Edit
+          isOpen={true}
+          onClose={() => setSelectedExp(null)}
+          enterprise_name={selectedExp.nom_entreprise}
+          title={selectedExp.titre}
+          start={selectedExp.date_debut}
+          end={selectedExp.date_fin}
+          description={selectedExp.description}
+          skills={selectedExp.competences_experience}
+          onSave={(updated) => {
+            console.log("Sauvegarde :", updated);
+            setSelectedExp(null);
+          }}
+        />
+      )}
+
       <h1 className="flex items-center gap-3 text-white font-bold">
         Expériences Professionnelles
-        <span>
+        {/* on ouvre la premiere experince */}
+        <span
+          onClick={() => setSelectedExp(infos.experience[0])}
+          className="cursor-pointer"
+        >
           <FaPencil className="text-gray-500 text-sm" />
         </span>
       </h1>
 
-      <Experience_Pro
-        img="/img/passCitoyen.png"
-        titre="Pass Avenir Citoyen | Département de l'Oise"
-        Lieu="Le Jardin Des Deux Vallées"
-        Date="décembre 2025, 1 semaine"
-        Description="Lorem ipsum dolor sit amet consectetur. Vitae sollicitudin at mauris mauris interdum quis elementum mi ac. Penatibus sed ut a nunc vitae volutpat orci at orci. Eu in blandit nibh ac. Eget ipsum sapien nibh blandit facilisi libero ultricies tortor ut. Faucibus tristique ornare imperdiet quis quisque et elementum id eget. Felis sagittis commodo lectus non elementum pellentesque elit quis. Sapien lectus pretium eu nec. Commodo elit diam urna neque aliquam vivamus scelerisque. Enim dignissim maecenas velit nunc nisl tortor. Tortor felis purus hac"
-      />
-      <div className="bg-white/12 h-px w-full"></div>
-      <Experience_Pro
-        img="/img/caisseEpargne.png"
-        titre="Auxiliaire été"
-        Lieu="Caisse d'Epargne de Ressons-sur-Matz"
-        Date="juillet 2025 - août 2025, 5 semaines"
-        Description="Lorem ipsum dolor sit amet consectetur. Vitae sollicitudin at mauris mauris interdum quis elementum mi ac. Penatibus sed ut a nunc vitae volutpat orci at orci. Eu in blandit nibh ac. Eget ipsum sapien nibh blandit facilisi libero ultricies tortor ut. Faucibus tristique ornare imperdiet quis quisque et elementum id eget. Felis sagittis commodo lectus non elementum pellentesque elit quis. Sapien lectus pretium eu nec. Commodo elit diam urna neque aliquam vivamus scelerisque. Enim dignissim maecenas velit nunc nisl tortor. Tortor felis purus hac"
-      />
-      <div className="bg-white/12 h-px w-full"></div>
+      {infos.experience.map((exp, i) => (
+        <div key={exp.id_experience}>
+          <div className="flex justify-between items-start">
+            <Experience_Pro
+              competences_experience={exp.competences_experience}
+              img="/img/default.png"
+              titre={exp.titre}
+              Lieu={exp.nom_entreprise}
+              Date={`${exp.date_debut} - ${exp.date_fin}`}
+              Description={exp.description}
+            />
+            {/* on met un crayon pour modifier l'experience */}
+            <span
+              onClick={() => setSelectedExp(exp)}
+              className="cursor-pointer ml-2 mt-1"
+            >
+              <FaPencil className="text-gray-500 text-sm hover:text-white transition-colors" />
+            </span>
+          </div>
+          {i < infos.experience.length - 1 && (
+            <div className="bg-white/12 h-px w-full mt-4" />
+          )}
+        </div>
+      ))}
 
+      <div className="bg-white/12 h-px w-full" />
       <button className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors">
         <IoBookOutline className="text-base" />
         Voir plus

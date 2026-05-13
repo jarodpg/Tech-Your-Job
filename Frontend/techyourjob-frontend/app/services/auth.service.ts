@@ -23,6 +23,7 @@ export async function Login(email, password) {
   const res = await fetch(`${BACKEND_URL}/login`, {
     method: "POST",
     cache: "no-store",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       email,
