@@ -35,26 +35,40 @@ La route user permet de récupérer les informations d'un utilisateur via son to
       "nom": "Sosniak",
       "prenom": "Nathan",
       "pays": "France",
-      "localisation": "Samoens",
-      "latitude_secteur": 46.0834066,
-      "longitude_secteur": 6.7269485,
+      "localisation": "Lille",
+      "latitude_secteur": 50.633333,
+      "longitude_secteur": 3.066667,
       "role": null,
       "email": "nathan.sosniak@epitech.eu",
-      "telephone": "07 87 93 47 91",
+      "telephone": "01 01 01 01 01",
       "age": 19
     }
   ],
   "profil": [
     {
       "id_profil": 1,
-      "banniere": null,
-      "photo_profil": null,
-      "biographie": "Je suis Nathan Sosniak",
-      "plateforme": null,
+      "banniere": "http://localhost:5000/user/img/1/banner",
+      "photo_profil": "http://localhost:5000/user/img/1/avatar",
+      "biographie": "Je suis étudiant en informatique à Epitech !",
+      "plateforme": {
+        "yt": "https://www.youtube.com/@Neysseun",
+        "git": "https://github.com/NathanSosniak"
+      },
       "profession_actuelle": "Etudiant",
-      "experiences_annees": null,
-      "document": null,
-      "langues": null,
+      "experiences_annees": 1,
+      "document": [
+        {
+          "URL": "http://localhost:5000/user/img/1/doc/1-doc-9be9cd86-97cc-4fa5-85e5-3ed63003b9eb",
+          "title": "logo",
+          "fileName": "1-doc-9be9cd86-97cc-4fa5-85e5-3ed63003b9eb"
+        },
+        {
+          "URL": "http://localhost:5000/user/img/1/doc/1-doc-9be9cd86-97cc-4fa5-85e5-3ed63003b9eb",
+          "title": "logo",
+          "fileName": "1-doc-9be9cd86-97cc-4fa5-85e5-3ed63003b9eb"
+        }
+      ],
+      "langues": ["français", "anglais"],
       "nb_vues_profil": 0,
       "candidatures_envoyees": 0,
       "candidatures_consultees": 0,
@@ -64,27 +78,63 @@ La route user permet de récupérer les informations d'un utilisateur via son to
   ],
   "experience": [
     {
+      "id_experience": 4,
+      "id_entreprise": 2,
+      "nom_entreprise": "Synapse Informatique",
+      "titre": null,
+      "date_debut": "2026-01-04T00:00:00.000Z",
+      "date_fin": null,
+      "description": null,
+      "compétences": null,
+      "logo": "https://ui-avatars.com/api/?name=synapseinformatique&background=random"
+    },
+    {
       "id_experience": 1,
+      "id_entreprise": 85,
+      "nom_entreprise": "FYUL",
+      "titre": "130kg RDL",
+      "date_debut": "2025-10-10T00:00:00.000Z",
+      "date_fin": null,
+      "description": null,
+      "compétences": null,
+      "logo": "http://localhost:5000/logo/fyul.io"
+    },
+    {
+      "id_experience": 5,
       "id_entreprise": null,
       "nom_entreprise": "LSMinfo",
-      "titre": null,
+      "titre": "Stage de 3e",
       "date_debut": "2020-01-01T00:00:00.000Z",
       "date_fin": null,
       "description": null,
-      "compétences": null
+      "compétences": null,
+      "logo": null
     }
   ],
   "formation": [
     {
       "id_formation": 2,
       "id_entreprise": null,
-      "nom_établissement": "Epitech",
+      "nom_établissement": "collège de marly",
       "titre": null,
       "date_debut": "2025-08-01T00:00:00.000Z",
+      "date_fin": "2026-05-12T00:00:00.000Z",
+      "description": null,
+      "compétences": ["Backend", "IA", "Data"],
+      "diplome": null,
+      "logo": null
+    },
+    {
+      "id_formation": 3,
+      "id_entreprise": 85,
+      "nom_établissement": "FYUL",
+      "titre": "ok",
+      "date_debut": "2010-01-01T00:00:00.000Z",
       "date_fin": null,
       "description": null,
       "compétences": null,
-      "diplome": null
+      "diplome": null,
+      "logo": "http://localhost:5000/logo/fyul.io"
     }
   ]
 }
