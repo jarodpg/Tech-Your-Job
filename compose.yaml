@@ -64,6 +64,9 @@ services:
       - DB_NAME=${DB_NAME}
       - SECRET_KEY=${SECRET_KEY}
       - LOGODEV_KEY=${LOGODEV_KEY}
+      - PORT_MINIO=${PORT_MINIO}
+      - MINIO_USER=${MINIO_USER}
+      - MINIO_PASSWORD=${MINIO_PASSWORD}
     ports:
       - "${PORT_BACK}:5000"
     volumes:
@@ -77,7 +80,7 @@ services:
     image: minio/minio
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"
+      - "${PORT_MINIO}:9000"
       - "9001:9001" # pgadmin version onligne
     volumes:
       - minio_data:/data
