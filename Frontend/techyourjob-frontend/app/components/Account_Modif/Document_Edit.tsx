@@ -70,6 +70,8 @@ export default function Document_Edit({
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // ouverture popup
+  const [isDocumentEdit, setIsDocumentEdit] = useState(false);
   if (!isOpen) return null;
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {

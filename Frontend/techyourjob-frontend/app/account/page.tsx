@@ -15,9 +15,6 @@ import Plateforme_Account from "../components/Account_components/Plateforme_acco
 import ExperiencePro_account from "../components/Account_components/ExperiencePro_account";
 import Formation_Account from "../components/Account_components/Formation_account";
 
-// les edits
-import Document_Edit from "../components/Account_Modif/Document_Edit";
-
 export default function Account() {
   const [isDocumentEdit, setisDocumentEdit] = useState(false);
   const [Data, setData] = useState(null);
@@ -34,18 +31,31 @@ export default function Account() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
-      <Document_Edit
-        isOpen={isDocumentEdit}
-        onClose={() => setisDocumentEdit(false)}
-      />
-
       <Header />
 
       <div className="grid grid-cols-[0.7fr_2.3fr] gap-x-2 gap-y-4 mt-4 px-4 pb-4">
         <div className="flex flex-col gap-4">
           <DashBoard_Preview />
           <Document_priview />
-          <Competence_Preview />
+          {Data && (
+            <Competence_Preview
+              infos={{
+                competences_experience: Data.experience.flatMap((e) =>
+                  (e["compétences"] ?? []).map((c) => ({
+                    competence: c,
+                    source: e.nom_entreprise,
+                  })),
+                ),
+                competences_formation: Data.formation.flatMap((f) =>
+                  (f["compétences"] ?? []).map((c) => ({
+                    competence: c,
+                    source: f["nom_établissement"],
+                  })),
+                ),
+              }}
+            />
+          )}
+          {/* <Competence_Preview /> */}
         </div>
 
         <div className="flex flex-col gap-4">
@@ -83,7 +93,19 @@ export default function Account() {
               )}
             </div>
           </div>
-          {Data && <ExperiencePro_account infos={Data.experience} />}
+          {Data && (
+            <ExperiencePro_account
+              infos={{
+                experience: Data.experience,
+                competences_experience: Data.experience.flatMap((e) =>
+                  (e["compétences"] ?? []).map((c) => ({
+                    competence: c,
+                    source: e.nom_entreprise,
+                  })),
+                ),
+              }}
+            />
+          )}
           {Data && <Formation_Account infos={Data.formation} />}
         </div>
       </div>

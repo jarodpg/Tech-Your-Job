@@ -1,5 +1,8 @@
 "use client";
-// import { useState } from "react";
+
+import { useState } from "react";
+import Plateforme_Edit from "../Account_Modif/Plateforme_Edit";
+
 import {
   FaPencil,
   FaGithub,
@@ -61,11 +64,20 @@ export default function Plateforme_Account({ infos }: { infos: Info }) {
     ([icon, lien]) => ({ icon, lien: lien as string }),
   );
 
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [data, setData] = useState(infos.plateforme ?? {});
+
   return (
     <div className="flex flex-col bg-[#242424] rounded-3xl p-5 gap-4">
+      <Plateforme_Edit
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        plateformes={data}
+        onSave={setData}
+      />
       <h1 className="flex items-center gap-3 text-white font-bold">
         Plateformes
-        <span>
+        <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
           <FaPencil className="text-gray-500 text-sm" />
         </span>
       </h1>
