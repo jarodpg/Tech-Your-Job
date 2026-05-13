@@ -69,7 +69,7 @@ CREATE TABLE profil_utilisateur(
     plateforme JSONB,
     profession_actuelle VARCHAR(100),
     experiences_annees INTEGER,
-    document TEXT,
+    document TEXT[],
     langues TEXT[],
     nb_vues_profil INTEGER DEFAULT 0,
     candidatures_envoyees INTEGER DEFAULT 0,
@@ -100,7 +100,7 @@ CREATE TABLE formation_utilisateur(
     date_fin DATE,
     description TEXT,
     compétences TEXT[],
-    diplome JSONB
+    diplome TEXT[]
 );
 
 
