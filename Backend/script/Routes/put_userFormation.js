@@ -134,4 +134,66 @@ router.put("/user/formation/:id", auth, async (req, res) => {
   }
 });
 
+// =================================================================================== //
+
+// Creer une formation
+router.post("/user/formation", auth, async (req, res) => {
+  try {
+    const { institution_name, title, start, end, description, skills, degree } =
+      req.body;
+
+    let institution_id = null;
+    if (institution_name) {
+      const result = await connection.query(
+        `SELECT id_entreprise, nom_compagnie FROM entreprise`,
+      );
+      const found = result.rows.find(
+        (e) =>
+          normalizeText(e.nom_compagnie) === normalizeText(institution_name),
+      );
+      if (found) institution_id = found.id_entreprise;
+    }
+
+    await connection.query(
+      `INSERT INTO formation_utilisateur (id_utilisateur, id_entreprise, nom_établissement, titre, date_debut, date_fin, description, compétences, diplome)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        req.token.id,
+        institution_id,
+        institution_name ?? "",
+        title ?? "",
+        start || null,
+        end || null,
+        description ?? "",
+        skills ?? [],
+        degree ?? null,
+      ],
+    );
+
+    return res.status(201).json({ msg: "Created user formation" });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+});
+
+// ===================================================================================//
+
+// delete une formation
+router.delete("/user/formation/:id", auth, async (req, res) => {
+  try {
+    const result = await connection.query(
+      `DELETE FROM formation_utilisateur WHERE id_utilisateur = $1 AND id_formation = $2`,
+      [req.token.id, req.params.id],
+    );
+
+    if (result.rowCount === 0)
+      return res.status(404).json({ msg: "Not found" });
+    return res.status(200).json({ msg: "Deleted user formation" });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+});
+
 module.exports = router;

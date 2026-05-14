@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Get_Unique_Offre } from "../services/Offre_Unique_Service";
+import { Get_Unique_Offre } from "../../services/Offres/Offre_Unique_Service";
 
 import { MdOutlinePlace, MdHomeWork } from "react-icons/md";
 import { TbBrandDaysCounter } from "react-icons/tb";
 import { IoFileTray } from "react-icons/io5";
 import { FaBookmark, FaTimes, FaBriefcase } from "react-icons/fa";
 
-import Test_Technique from "../components/Test_Technique";
+import Test_Technique from "../Technique/Test_Technique";
 
 export default function Offre_Preview({
   onClose,
@@ -131,7 +131,7 @@ export default function Offre_Preview({
             </div>
           </div>
 
-          {/* Partie droite — Détails */}
+          {/* partie droite details */}
           <div className="p-5 flex flex-col gap-5">
             {/* Localisation */}
             <div className="flex items-center gap-2 text-sm text-gray-400">

@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { GoTrash } from "react-icons/go";
-import { Update_User_Experience } from "@/app/services/Modif_User_Experience";
+import { Update_User_Experience } from "@/app/services/Experience/Modif_User_Experience";
+import { Delete_User_Experience } from "@/app/services/Experience/Delete_Experience_User";
+import { Add_User_Experience } from "@/app/services/Experience/Add_Experience_User";
 
 interface CompetenceItem {
   competence: string;
@@ -34,27 +36,36 @@ export default function Experience_Pro_Edit({
   skills,
   onSave,
 }: Props) {
+  // pour la creation d'une experience
+  const isCreation = experienceId === -1;
+
+  // formulaire de remplissage d'info pour modifier ou ajouter
   const [form, setForm] = useState({
     enterprise_name,
     title,
-    start: start?.split("T")[0] ?? "",
+    start: start?.split("T")[0] ?? "", // bon format de date
     end: end?.split("T")[0] ?? "",
     description,
   });
+
+  // on va parser les skills vec le bon format si c'est string ou deja parser
   const [formSkills, setFormSkills] = useState<string[]>(
     (skills ?? []).map((s: any) =>
       typeof s === "string" ? s : s.competence ?? "",
     ),
   );
+  // constante pour le nouveaux skill et le loading d'ajout
   const [newSkill, setNewSkill] = useState("");
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
+  // pour gerer le changement
   function handleChange(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  // pour ajouter un skill
   function addSkill() {
     const trimmed = newSkill.trim();
     if (trimmed && !formSkills.includes(trimmed)) {
@@ -62,31 +73,54 @@ export default function Experience_Pro_Edit({
       setNewSkill("");
     }
   }
-
+  // pour remove un skill
   function removeSkill(i: number) {
     setFormSkills((prev) => prev.filter((_, idx) => idx !== i));
   }
 
+  // pour la sauvgerade d'infos lors de la cretion et modification
   async function handleSave() {
     setLoading(true);
     try {
-      await Update_User_Experience(experienceId, {
+      const payload = {
         enterprise_name: form.enterprise_name,
         title: form.title,
         start: form.start,
         end: form.end,
         description: form.description,
         skills: formSkills,
-      });
+      };
+
+      if (isCreation) {
+        await Add_User_Experience(payload);
+      } else {
+        await Update_User_Experience(experienceId, payload);
+      }
       onSave();
     } catch (err) {
-      console.error("Erreur modification:", err);
-      alert("Erreur lors de la modification");
+      console.error("Erreur:", err);
+      alert("Erreur lors de l'enregistrement");
     } finally {
       setLoading(false);
     }
   }
 
+  // pour gerer le delete d'une experience
+  async function handleDelete() {
+    if (!confirm("Supprimer cette experience ?")) return;
+    setLoading(true);
+    try {
+      await Delete_User_Experience(experienceId);
+      onSave();
+    } catch (err) {
+      console.error("Erreur suppression:", err);
+      alert("Erreur lors de la suppression");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // pour ne pas repeter tout nos imput
   const inputClass =
     "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-teal-400/50 transition-colors";
 
@@ -101,7 +135,7 @@ export default function Experience_Pro_Edit({
         </button>
 
         <h1 className="text-xl font-bold text-white mb-6">
-          Modifier l'expérience
+          {isCreation ? "Ajouter une expérience" : "Modifier l'expérience"}
         </h1>
 
         <div className="flex flex-col gap-4">
@@ -164,7 +198,7 @@ export default function Experience_Pro_Edit({
             />
           </div>
 
-          {/* Compétences */}
+          {/* Competences */}
           <div>
             <label className="text-gray-400 text-xs mb-1 block">
               Compétences
@@ -211,8 +245,21 @@ export default function Experience_Pro_Edit({
           disabled={loading}
           className="w-full mt-6 py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold rounded-xl transition-colors disabled:opacity-50"
         >
-          {loading ? "Enregistrement..." : "Sauvegarder"}
+          {loading
+            ? "Enregistrement..."
+            : isCreation
+              ? "Ajouter"
+              : "Sauvegarder"}
         </button>
+        {!isCreation && (
+          <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="py-3 px-5 bg-red-500/20 hover:bg-red-500/30 text-red-400 font-semibold rounded-xl transition-colors disabled:opacity-50"
+          >
+            <GoTrash size={18} />
+          </button>
+        )}
       </div>
     </div>
   );

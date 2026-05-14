@@ -13,7 +13,7 @@ import {
   FaLinkedin,
 } from "react-icons/fa6";
 
-import { Update_User_Profil } from "@/app/services/Modif_User_profil";
+import { Update_User_Profil } from "@/app/services/Modif_Data/Modif_User_profil";
 
 const PLATEFORMES_DISPO = [
   { key: "git", label: "GitHub", icon: <FaGithub /> },

@@ -4,6 +4,7 @@ import { LiaBuromobelexperte } from "react-icons/lia";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { FaPencil } from "react-icons/fa6";
 import { PiGraduationCap } from "react-icons/pi";
+import { IoAddOutline } from "react-icons/io5";
 
 import { Get_User_Info } from "@/app/services/Info_User_Service";
 import Formation_Edit from "../Account_Modif/Formation_Edit";
@@ -226,6 +227,27 @@ export default function Formation_Account({
           )}
         </div>
       ))}
+      <div className="bg-white/12 h-px w-full" />
+      <button
+        onClick={() =>
+          setSelectedFormation({
+            id_formation: -1,
+            nom_établissement: "",
+            titre: "",
+            date_debut: "",
+            date_fin: "",
+            description: "",
+            compétences: [],
+            competences_formation: [],
+            diplome: "",
+            logo: null,
+          })
+        }
+        className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors"
+      >
+        <IoAddOutline className="text-base" />
+        Ajouter une formation
+      </button>
     </div>
   );
 }

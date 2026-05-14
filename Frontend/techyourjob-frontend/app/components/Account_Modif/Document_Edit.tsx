@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { GoDownload, GoTrash } from "react-icons/go";
 import { GrView } from "react-icons/gr";
 
-import { Update_User_Profil } from "@/app/services/Modif_User_profil";
+import { Update_User_Profil } from "@/app/services/Modif_Data/Modif_User_profil";
 
 // type de document
 type Doc = { name: string; src: string | null };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { LiaBuromobelexperte } from "react-icons/lia";
 import { FaPencil } from "react-icons/fa6";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
-import { IoBookOutline } from "react-icons/io5";
+import { IoBookOutline, IoAddOutline } from "react-icons/io5";
 import Experience_Pro_Edit from "../Account_Modif/ExperiencePro_Edit";
 
 import { Get_User_Info } from "@/app/services/Info_User_Service";
@@ -243,9 +243,23 @@ export default function ExperiencePro_account({
       ))}
 
       <div className="bg-white/12 h-px w-full" />
-      <button className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors">
-        <IoBookOutline className="text-base" />
-        Voir plus
+      <button
+        onClick={() =>
+          setSelectedExp({
+            id_experience: -1,
+            titre: "",
+            date_debut: "",
+            date_fin: "",
+            description: "",
+            nom_entreprise: "",
+            competences_experience: [],
+            logo: null,
+          })
+        }
+        className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors"
+      >
+        <IoAddOutline className="text-base" />
+        Ajouter une expérience
       </button>
     </div>
   );

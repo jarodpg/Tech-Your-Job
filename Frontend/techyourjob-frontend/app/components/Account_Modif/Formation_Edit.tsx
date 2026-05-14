@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { Update_User_Formation } from "@/app/services/Modif_User_formation";
+import { GoTrash } from "react-icons/go";
+import { Update_User_Formation } from "@/app/services/Formation/Modif_User_formation";
+import { Delete_User_Formation } from "@/app/services/Formation/Delete_Formation_User";
+import { Add_User_Formation } from "@/app/services/Formation/Add_Formation_User";
 
 interface CompetenceItem {
   competence: string;
@@ -36,6 +39,10 @@ export default function Formation_Edit({
   degree,
   onSave,
 }: Props) {
+  // pour la creation d'une nouvelle formation
+  const isCreation = formationId === -1;
+
+  // pour le forms d'info
   const [form, setForm] = useState({
     institution_name,
     title,
@@ -72,11 +79,11 @@ export default function Formation_Edit({
     setFormSkills((prev) => prev.filter((_, idx) => idx !== i));
   }
 
-  // pour sauvegarder les infos das la db quand on clique sur save
+  // pour sauvegarder les infos das la db quand on clique sur save et quand on veut en ajouter une
   async function handleSave() {
     setLoading(true);
     try {
-      await Update_User_Formation(formationId, {
+      const payload = {
         institution_name: form.institution_name,
         title: form.title,
         start: form.start,
@@ -84,11 +91,32 @@ export default function Formation_Edit({
         description: form.description,
         skills: formSkills,
         degree: form.degree,
-      });
+      };
+
+      if (isCreation) {
+        await Add_User_Formation(payload);
+      } else {
+        await Update_User_Formation(formationId, payload);
+      }
       onSave();
     } catch (err) {
       console.error("Erreur:", err);
-      alert("Erreur lors de la modification");
+      alert("Erreur lors de l'enregistrement");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // pour delete une formation
+  async function handleDelete() {
+    if (!confirm("Supprimer cette formation ?")) return;
+    setLoading(true);
+    try {
+      await Delete_User_Formation(formationId);
+      onSave();
+    } catch (err) {
+      console.error("Erreur suppression:", err);
+      alert("Erreur lors de la suppression");
     } finally {
       setLoading(false);
     }
@@ -108,7 +136,7 @@ export default function Formation_Edit({
         </button>
 
         <h1 className="text-xl font-bold text-white mb-6">
-          Modifier la formation
+          {isCreation ? "Ajouter une formation" : "Modifier la formation"}
         </h1>
 
         <div className="flex flex-col gap-4">
@@ -224,6 +252,15 @@ export default function Formation_Edit({
         >
           {loading ? "Enregistrement..." : "Sauvegarder"}
         </button>
+        {!isCreation && (
+          <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="py-3 px-5 bg-red-500/20 hover:bg-red-500/30 text-red-400 font-semibold rounded-xl transition-colors disabled:opacity-50"
+          >
+            <GoTrash size={18} />
+          </button>
+        )}
       </div>
     </div>
   );
