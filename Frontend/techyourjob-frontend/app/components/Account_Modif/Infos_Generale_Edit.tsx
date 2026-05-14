@@ -10,6 +10,8 @@ interface Info {
   profession_actuelle: string;
   localisation: string;
   pays: string;
+  PP?: string;
+  banniere?: string;
 }
 
 interface Props {
@@ -23,10 +25,15 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
   const [form, setForm] = useState<Info>(infos);
   const [loading, setLoading] = useState(false);
 
+  // Constante pour avatar er banniere
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [banner, setBanner] = useState<File | null>(null);
+  const [bannerPreview, setBannerPreview] = useState<string | null>(null);
+
   const handleSave = async () => {
     try {
       setLoading(true);
-
       await Promise.all([
         Update_User_Global({
           name: form.nom,
@@ -36,10 +43,16 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
         }),
         Update_User_Profil({
           job: form.profession_actuelle,
+          ...(avatar && { avatar }),
+          ...(banner && { banner }),
         }),
       ]);
 
-      onSave(form);
+      onSave({
+        ...form,
+        ...(avatarPreview && { PP: avatarPreview }),
+        ...(bannerPreview && { banniere: bannerPreview }),
+      });
       onClose();
     } catch (err) {
       console.error("Erreur sauvegarde infos:", err);
@@ -124,20 +137,40 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
           <div className="flex gap-4">
             <div className="flex flex-col flex-1 gap-1">
               <label className="text-gray-400 text-xs">Banniere</label>
+              {bannerPreview && (
+                <img
+                  src={bannerPreview}
+                  className="w-full h-16 object-cover rounded-xl"
+                />
+              )}
               <input
                 type="file"
                 accept="image/*"
-                disabled
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-500 text-sm outline-none file:mr-3 file:bg-white/10 file:border-0 file:text-gray-500 file:text-xs file:font-semibold file:rounded-lg file:px-3 file:py-1 cursor-not-allowed opacity-50"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] ?? null;
+                  setBanner(file);
+                  setBannerPreview(file ? URL.createObjectURL(file) : null);
+                }}
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-500 text-sm outline-none file:mr-3 file:bg-white/10 file:border-0 file:text-gray-500 file:text-xs file:font-semibold file:rounded-lg file:px-3 file:py-1"
               />
             </div>
             <div className="flex flex-col flex-1 gap-1">
               <label className="text-gray-400 text-xs">Photo de profil</label>
+              {avatarPreview && (
+                <img
+                  src={avatarPreview}
+                  className="w-16 h-16 object-cover rounded-full border border-white/10"
+                />
+              )}
               <input
                 type="file"
                 accept="image/*"
-                disabled
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-500 text-sm outline-none file:mr-3 file:bg-white/10 file:border-0 file:text-gray-500 file:text-xs file:font-semibold file:rounded-lg file:px-3 file:py-1 cursor-not-allowed opacity-50"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] ?? null;
+                  setAvatar(file);
+                  setAvatarPreview(file ? URL.createObjectURL(file) : null);
+                }}
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-500 text-sm outline-none file:mr-3 file:bg-white/10 file:border-0 file:text-gray-500 file:text-xs file:font-semibold file:rounded-lg file:px-3 file:py-1"
               />
             </div>
           </div>
