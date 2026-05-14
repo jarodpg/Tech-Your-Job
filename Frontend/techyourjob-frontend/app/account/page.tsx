@@ -64,6 +64,7 @@ export default function Account() {
               infos={{
                 ...Data.global[0],
                 ...Data.profil[0],
+                PP: Data.profil[0].photo_profil,
               }}
             />
           )}
