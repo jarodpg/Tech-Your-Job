@@ -12,7 +12,7 @@ export async function Update_User_Formation(
     degree?: string[];
   },
 ) {
-  const res = await fetch(`${BACKEND_URL}/user/formation/:${ID}`, {
+  const res = await fetch(`${BACKEND_URL}/user/formation/${ID}`, {
     method: "PUT",
     credentials: "include",
     headers: { "Content-Type": "application/json" },

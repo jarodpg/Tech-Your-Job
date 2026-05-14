@@ -1,5 +1,3 @@
-#Document remplir, attention toute les cases ne sont pas necessaire, si ajamis il y en a des vides vous les laisser et vous mettez un `None` dedans, pas besoin de faire beau ou esthetique vous pouvez juste marque mais faut que ca soit lisible
-
 # [NOM_DE_LA_FEATURE]
 
 # [Type de features] (exemple API, route, ...)
