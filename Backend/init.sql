@@ -8,7 +8,13 @@ CREATE TABLE entreprise (
     logo TEXT,
     type_entreprise TEXT,
     secteur_entreprise TEXT[],
-    ville TEXT
+    ville TEXT,
+    nb_offre INT,
+    nb_visit INT,
+    nb_postulation INT,
+    nb_click INT,
+    score DOUBLE PRECISION,
+    rank INT
 );
 
 CREATE TABLE poste (
