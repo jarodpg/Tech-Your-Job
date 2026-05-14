@@ -11,7 +11,7 @@ export async function Update_User_Experience(
     skills?: string[];
   },
 ) {
-  const res = await fetch(`${BACKEND_URL}/user/formation/:${ID}`, {
+  const res = await fetch(`${BACKEND_URL}/user/experience/${ID}`, {
     method: "PUT",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
