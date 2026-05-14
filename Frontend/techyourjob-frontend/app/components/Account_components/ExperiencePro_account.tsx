@@ -8,6 +8,7 @@ import Experience_Pro_Edit from "../Account_Modif/ExperiencePro_Edit";
 
 import { Get_User_Info } from "@/app/services/Info_User_Service";
 
+// inerface des competences
 interface CompetenceItem {
   competence: string;
   source: string;
