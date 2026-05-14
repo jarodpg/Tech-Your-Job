@@ -135,7 +135,7 @@ export default function Entreprise_All() {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-[0.4fr_2.6fr] mt-2">
+      <div className="grid grid-cols-[0.4fr_2.6fr] bg-[#2C2C2C] mt-2">
         <div className="border-r border-white/10">
           <SideBareEntreprise />
         </div>
