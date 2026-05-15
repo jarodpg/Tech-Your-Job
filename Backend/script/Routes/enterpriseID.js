@@ -8,7 +8,26 @@ router.get("/enterprise/:id", async (req, res) => {
 
     const sqlSelectEntreprise = `
       SELECT 
-        *
+        id_entreprise,
+        type_contrat,
+        nom_compagnie,
+        seo_alias,
+        CASE 
+          WHEN logo IS NOT NULL AND logo NOT LIKE 'https%'
+            THEN 'http://localhost:5000/logo/' || logo
+
+          ELSE 
+            logo
+        END AS logo,
+        type_entreprise,
+        secteur_entreprise,
+        ville,
+        nb_offre,
+        nb_visit,
+        nb_postulation,
+        nb_click,
+        score,
+        rank
       FROM entreprise
       WHERE id_entreprise = $1
     `;

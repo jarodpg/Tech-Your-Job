@@ -14,7 +14,8 @@ const grouped_postsRoutes = require("./grouped_posts");
 const logoRoutes = require("./logo");
 const postRoutes = require("./post");
 const forgot_passwordRoutes = require("./forgotpassword");
-const enterpriseRoutes = require("./enterprise");
+const enterpriseIDRoutes = require("./enterpriseID");
+const enterpriseXRoutes = require("./enterpriseX");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -29,6 +30,7 @@ router.use("/", grouped_postsRoutes);
 router.use("/", logoRoutes);
 router.use("/", postRoutes);
 router.use("/", forgot_passwordRoutes);
-router.use("/", enterpriseRoutes);
+router.use("/", enterpriseIDRoutes);
+router.use("/", enterpriseXRoutes);
 
 module.exports = router;
