@@ -63,7 +63,19 @@ router.put(
           [req.token.id],
         );
 
-        docURL = selectDocumentProfilUtilisateurRequest.rows[0].document || [];
+        // docURL = selectDocumentProfilUtilisateurRequest.rows[0].document || [];
+        // MOdifier par Gabin
+        // en gros la version precedenent ne permet pas d'etre securise, si c'est un string le push ne marche tout simpleemnt pas
+        // on a besoin de parser la chaine de caractere qu'on recoit parce que js ne comprend pas ce que la DB lui donne c'est pas la meme
+        // concretement on a `"[{\"title\":\"CV\",\"URL\":\"...\"}]"` et nous on veut `[{ title: "CV", URL: "..." }]` donc on doit le perser
+        const rawDoc = selectDocumentProfilUtilisateurRequest.rows[0]?.document;
+        let parsed;
+        try {
+          parsed = typeof rawDoc === "string" ? JSON.parse(rawDoc) : rawDoc;
+        } catch {
+          parsed = null;
+        }
+        docURL = Array.isArray(parsed) ? parsed : [];
 
         if (req.files?.doc) {
           const doc = req.files.doc[0];
