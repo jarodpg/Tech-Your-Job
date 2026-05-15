@@ -2,7 +2,7 @@
 
 import { Search, PlayCircle, ArrowRightCircle } from "lucide-react";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
-import Header from "./components/header";
+import Header from "./components/NavBar/header";
 import { useState } from "react";
 
 export default function HomePage() {
@@ -31,7 +31,7 @@ export default function HomePage() {
                     type="text"
                     placeholder="Chercher un job, un domaine, une entreprise"
                     aria-label="Rechercher un job, un domaine ou une entreprise"
-                    value = {searchValue} 
+                    value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     className="bg-transparent text-white placeholder-gray-200 text-lg w-full outline-none font-medium"
                   />
@@ -212,7 +212,9 @@ export default function HomePage() {
                 </div>
 
                 <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-auto mr-12 border-l-4 border-gray-500">
-                  <h4 className="font-bold text-sm mb-1 text-right">Comment ?</h4>
+                  <h4 className="font-bold text-sm mb-1 text-right">
+                    Comment ?
+                  </h4>
                   <p className="text-sm text-gray-300 text-right">
                     Les entreprises proposent des mini-projets qui simulent leur
                     stack technique réelle.
@@ -220,7 +222,9 @@ export default function HomePage() {
                 </div>
 
                 <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-0 border-l-4 border-gray-500">
-                  <h4 className="font-bold text-sm mb-1">Comment j'y répond ?</h4>
+                  <h4 className="font-bold text-sm mb-1">
+                    Comment j'y répond ?
+                  </h4>
                   <p className="text-sm text-gray-300">
                     Directement depuis la page de l'offre.
                   </p>

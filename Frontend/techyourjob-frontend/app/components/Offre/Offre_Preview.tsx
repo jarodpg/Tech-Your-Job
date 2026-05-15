@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Get_Unique_Offre } from "../services/Offre_Unique_Service";
+import { Get_Unique_Offre } from "../../services/Offres/Offre_Unique_Service";
 
 import { MdOutlinePlace, MdHomeWork } from "react-icons/md";
 import { TbBrandDaysCounter } from "react-icons/tb";
 import { IoFileTray } from "react-icons/io5";
 import { FaBookmark, FaTimes, FaBriefcase } from "react-icons/fa";
+
+import Test_Technique from "../Technique/Test_Technique";
 
 export default function Offre_Preview({
   onClose,
@@ -15,7 +17,7 @@ export default function Offre_Preview({
   Poste: Record<string, any>;
 }) {
   const [DataPoste, setDataPoste] = useState<Record<string, any>>({});
-
+  const [isTestOpen, setIsTestOpen] = useState(false);
   useEffect(() => {
     async function load() {
       try {
@@ -31,6 +33,15 @@ export default function Offre_Preview({
   }, [Poste.id_poste]);
   return (
     <div className="fixed inset-0 z-[9999] flex justify-center items-center">
+      {isTestOpen && (
+        <Test_Technique
+          isOpen={true}
+          onClose={() => setIsTestOpen(false)}
+          nomEntreprise={DataPoste?.nom_compagnie}
+          consignes=""
+          attendues=""
+        />
+      )}
       {/* bg blur */}
       <div
         className="absolute inset-0 backdrop-blur-md bg-black/50"
@@ -120,7 +131,7 @@ export default function Offre_Preview({
             </div>
           </div>
 
-          {/* Partie droite — Détails */}
+          {/* partie droite details */}
           <div className="p-5 flex flex-col gap-5">
             {/* Localisation */}
             <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -170,7 +181,10 @@ export default function Offre_Preview({
             </div>
 
             {/* Bouton Postuler */}
-            <button className="mt-auto w-full bg-purple-600 hover:bg-purple-500 active:scale-[0.98] text-white text-sm font-medium rounded-xl px-4 py-2.5 transition-all">
+            <button
+              onClick={() => setIsTestOpen(true)}
+              className="mt-auto w-full bg-purple-600 hover:bg-purple-500 active:scale-[0.98] text-white text-sm font-medium rounded-xl px-4 py-2.5 transition-all"
+            >
               Postuler
             </button>
           </div>

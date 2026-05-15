@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 
-import { Update_User_Profil } from "@/app/services/Modif_User_profil";
+import { Update_User_Profil } from "@/app/services/Modif_Data/Modif_User_profil";
 
 interface Props {
   isOpen: boolean;

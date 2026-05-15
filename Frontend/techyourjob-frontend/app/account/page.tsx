@@ -1,5 +1,5 @@
 "use client";
-import Header from "../components/header";
+import Header from "../components/NavBar/header";
 import { useEffect, useState } from "react";
 
 import { Get_User_Info } from "../services/Info_User_Service";
@@ -64,6 +64,7 @@ export default function Account() {
               infos={{
                 ...Data.global[0],
                 ...Data.profil[0],
+                PP: Data.profil[0].photo_profil,
               }}
             />
           )}
