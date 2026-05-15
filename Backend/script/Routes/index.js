@@ -16,6 +16,7 @@ const postRoutes = require("./post");
 const forgot_passwordRoutes = require("./forgotpassword");
 const enterpriseIDRoutes = require("./enterpriseID");
 const enterpriseXRoutes = require("./enterpriseX");
+const enterpriseTopXRoutes = require("./enterpriseTopX");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -32,5 +33,6 @@ router.use("/", postRoutes);
 router.use("/", forgot_passwordRoutes);
 router.use("/", enterpriseIDRoutes);
 router.use("/", enterpriseXRoutes);
+router.use("/", enterpriseTopXRoutes);
 
 module.exports = router;
