@@ -15,7 +15,7 @@ def Insert_Data_entreprise(value):
     La fonction ne renvoie rien sauf si erreur, elle ajoute simplement dans la db.
     """
     load_dotenv()
-    sql = """INSERT INTO entreprise (type_contrat, nom_compagnie, seo_alias, type_entreprise, secteur_entreprise, ville) VALUES (%s, %s, %s, %s, %s, %s)"""
+    sql = """INSERT INTO entreprise (type_contrat, nom_compagnie, seo_alias, type_entreprise, secteur_entreprise, ville, ranking) VALUES (%s, %s, %s, %s, %s, %s)"""
     data = (
         value.get("contractTypes"),
         value.get("companyName"),
@@ -266,3 +266,6 @@ def Poste_Into_DB():
                     infos_entreprise[parametre] = None
 
             Insert_Data_poste(infos_entreprise)
+
+
+# Poste_Into_DB()
