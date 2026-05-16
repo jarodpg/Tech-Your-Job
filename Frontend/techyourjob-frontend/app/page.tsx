@@ -1,12 +1,44 @@
 "use client";
 
-import { Search, PlayCircle, ArrowRightCircle } from "lucide-react";
+import { Search, CircleArrowLeft, ArrowRightCircle } from "lucide-react";
 import { FaRegArrowAltCircleDown } from "react-icons/fa";
 import Header from "./components/header";
 import { useState } from "react";
+import LogoCarousel from "./components/LogoCarousel";
 
-export default function HomePage() {
+
+const cards = [
+  { title: "Développeur Web"},
+  { title: "Développeur IA"},
+  { title: "Data Engineer"},
+  { title: "DevOps Engineer"},
+  { title: "Cybersécurité"},
+  { title: "UX Designer"},
+  { title: "Product Manager"},
+  { title: "Cloud Architect"},
+];
+
+const CARDS_PER_SLIDE = 4;
+
+
+export default  function HomePage() {
+    
   const [searchValue, setSearchValue] = useState("");
+
+  const [current, setCurrent] = useState(0);
+
+  const slides = [];
+  for (let i = 0; i < cards.length; i += CARDS_PER_SLIDE) {
+    slides.push(cards.slice(i, i + CARDS_PER_SLIDE));
+  }
+
+  const prev = () => {
+    setCurrent(current === 0 ? slides.length - 1 : current - 1);
+  };
+
+  const next = () => {
+    setCurrent(current === slides.length - 1 ? 0 : current + 1);
+  };
 
   return (
     <div className="min-h-screen bg-[#121212] text-white font-sans">
@@ -48,136 +80,97 @@ export default function HomePage() {
                 <br />
                 Pour cela nous utilisons un système unique de projet intégré !
               </p>
-              <button className="mt-4 text-xl flex items-center gap-2 mx-auto hover:underline">
-                Découvrir <FaRegArrowAltCircleDown className="w-6 h-6" />
-              </button>
+              <a href="#offres">
+                <button className="mt-4 text-xl flex items-center gap-2 mx-auto hover:underline">
+                  Découvrir <FaRegArrowAltCircleDown className="w-6 h-6" />
+                </button>
+              </a>
             </header>
           </div>
         </section>
         {/* --- SECTION EXPLORER --- */}
-        <div className="bg-[#242424]">
+        <div id="offres" className="bg-[#242424]">
           <section className="py-12 px-8 max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold mb-10">Explorer nos offres</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
-                {/* Top of card */}
-                <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
-                  <h3 className="font-bold text-2xl justify-center">
-                    Développeur Web
-                  </h3>
+            <div className="relative flex items-center gap-4">
+
+              {/* Bouton gauche */}
+              <button
+                onClick={prev}
+                aria-label="Slide précédente"
+                className="flex-shrink-0 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white transition-all duration-150 hover:bg-white/25 active:scale-95"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              {/* Slides + Indicators */}
+              <div className="overflow-hidden flex-1">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${current * 100}%)` }}
+                >
+                  {slides.map((slide, i) => (
+                    <div key={i} className="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {slide.map((card) => (
+                        <div
+                          key={card.title}
+                          className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition"
+                        >
+                          <div className="h-1/4 flex items-center justify-center bg-[#4D4D4D] rounded-t-xl">
+                            <h3 className="text-2xl font-bold">{card.title}</h3>
+                          </div>
+                          <div className="h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
+                            <p className="text-xl p-4">+350 offres<br />Top 5</p>
+                            <div className="flex justify-center mb-6">
+                              <button className="px-12 py-3 bg-white text-purple-700 rounded-full font-bold hover:bg-purple-100 transition">
+                                Découvrir +
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
                 </div>
-                <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
-                  <div className="w-full flex justify-start">
-                    <p className="text-white text-xl p-4">
-                      + 350 offres <br /> Top 5
-                    </p>
-                  </div>
-                  <div className="w-full flex justify-center">
-                    <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
-                      Découvrir +
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
-                {/* Top of card */}
-                <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
-                  <h3 className="font-bold text-2xl justify-center">
-                    Développeur IA
-                  </h3>
-                </div>
-                <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
-                  <div className="w-full flex justify-start">
-                    <p className="text-white text-xl p-4">
-                      + 350 offres <br /> Top 5
-                    </p>
-                  </div>
-                  <div className="w-full flex justify-center">
-                    <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
-                      Découvrir +
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
-                {/* Top of card */}
-                <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
-                  <h3 className="font-bold text-2xl justify-center">
-                    Data Engineer
-                  </h3>
-                </div>
-                <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
-                  <div className="w-full flex justify-start">
-                    <p className="text-white text-xl p-4">
-                      + 350 offres <br /> Top 5
-                    </p>
-                  </div>
-                  <div className="w-full flex justify-center">
-                    <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
-                      Découvrir +
-                    </button>
-                  </div>
+
+                {/* Indicators */}
+                <div className="flex justify-center gap-3 mt-4">
+                  {slides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrent(i)}
+                      className={`w-3 h-3 rounded-full transition-colors ${
+                        current === i ? "bg-purple-500" : "bg-gray-500"
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
 
-              <div className="bg-[#2a2a2a] min-h-64 rounded-xl border border-gray-800 hover:border-purple-500 transition group">
-                {/* Top of card */}
-                <div className="w-ful l h-1/4 flex justify-center items-center rounded-t-xl bg-[#4D4D4D]">
-                  <h3 className="font-bold text-2xl justify-center">
-                    Développeur IA
-                  </h3>
-                </div>
-                <div className="w-full h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
-                  <div className="w-full flex justify-start">
-                    <p className="text-white text-xl p-4">
-                      + 350 offres <br /> Top 5
-                    </p>
-                  </div>
-                  <div className="w-full flex justify-center">
-                    <button className="px-12 py-3 mb-6 py-2 bg-white text-purple-700 rounded-full text-s font-bold hover:bg-purple-100 transition">
-                      Découvrir +
-                    </button>
-                  </div>
-                </div>
-              </div>
+              {/* Bouton droit */}
+              <button
+                onClick={next}
+                aria-label="Slide suivante"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white transition-all duration-150 hover:bg-white/25 active:scale-95"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
             </div>
 
-            <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col mt-12 items-center gap-8">
               <button className="bg-purple-600 hover:bg-purple-700 px-8 py-3 rounded-md font-bold transition">
                 Explorer les toutes
               </button>
 
               {/* Partners Logos */}
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
-                  <img
-                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                    alt="Logo de l'entreprise"
-                    className=""
-                  />
-                </div>
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
-                  <img
-                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                    alt="Logo de l'entreprise"
-                    className=""
-                  />
-                </div>
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
-                  <img
-                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                    alt="Logo de l'entreprise"
-                    className=""
-                  />
-                </div>
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
-                  <img
-                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                    alt="Logo de l'entreprise"
-                    className=""
-                  />
-                </div>
+              <div className="w-full">
+                <LogoCarousel />
               </div>
               <p className="text-xs text-gray-400">
                 Vous êtes une entreprise et vous recrutez ?
@@ -227,20 +220,28 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Right side colored boxes */}
-              <div className="relative h-[300px]">
-                <div className="absolute top-0 left-0 w-48 h-48 bg-teal-800 rounded-md p-4 shadow-xl z-10 flex justify-center font-bold text-black">
-                  1 question
+              <div className="space-y-6 relative">
+                <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-auto mr-12 border-r-4 border-gray-500">
+                  <h3 className="font-bold text-sm mb-1">
+                    1 consigne
+                  </h3>
+                  <p className="text-sm text-gray-300">
+                    Une mission claire et concrète basée sur un vrai besoin technique d'entreprise.
+                  </p>
                 </div>
-                <div className="absolute bottom-0 left-4 w-48 h-48 bg-teal-500 rounded-md p-4 shadow-xl z-20 flex justify-center font-bold text-black">
-                  <span>réponses</span>
-                  <span>
-                    <br />
-                    inifini
-                  </span>
+
+                <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-0 border-r-4 border-gray-500">
+                  <h4 className="font-bold text-sm mb-1 text-right">1 question</h4>
+                  <p className="text-sm text-gray-300 text-right">
+                    Pas de QCM interminable. Une seule problématique d'architecture ou de code à résoudre.
+                  </p>
                 </div>
-                <div className="absolute top-1/2 right-40 transform -translate-y-1/2 w-48 h-48 bg-purple-700 rounded-md p-4 shadow-xl z-30 flex items-start justify-end font-bold uppercase italic">
-                  1 consigne
+
+                <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-auto mr-12 border-r-4 border-gray-500">
+                  <h4 className="font-bold text-sm mb-1">Centralisation</h4>
+                  <p className="text-sm text-gray-300">
+                    Retrouve tout ce dont tu as besoin pour trouver le travail de tes rêves
+                  </p>
                 </div>
               </div>
             </div>
@@ -254,9 +255,11 @@ export default function HomePage() {
             Rejoignez l'aventure Tech Your Job dès maintenant et trouvez votre
             futur offre
           </p>
-          <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-3 rounded-md font-bold flex items-center gap-2 mx-auto transition transform hover:scale-105">
-            En avant <ArrowRightCircle className="w-5 h-5" />
-          </button>
+          <a href="/offre">
+            <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-3 rounded-md font-bold flex items-center gap-2 mx-auto transition transform hover:scale-105">
+              En avant <ArrowRightCircle className="w-5 h-5" />
+            </button>
+          </a>
         </footer>
       </main>
     </div>
