@@ -2,9 +2,33 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const connection = require("../DB");
 const bcrypt = require("bcrypt");
+
+// cest une librairie de cyber qui sert pour les antispams faut faire npm install express-rate-limit dans le terminal backend
+const rateLimit = require('express-rate-limit');
+
 const router = express.Router();
 
-router.post("/login", async (req, res) => {
+const loginLimiter = rateLimit({
+//config de la fenetre d'interval de temps qu'on surveille, ici cest 1 secondes car 1000 milliseconde
+  windowMs: 1000, 
+
+  // le nombre de requete max durant cette interval
+  max: 3,         
+
+//message envoyé au mec si bah il fait trop de requete
+  message: { 
+    error: "Trop de requêtes détectées. Par mesure de sécurité, votre adresse IP est bloquée temporairement." 
+  },
+
+  // renvoie des informations dans les en tete le header
+  standardHeaders: true, 
+// enelve les trucs parasites
+  legacyHeaders: false,
+});
+
+//  la requête passe d'abord par le limiteur sinon bah inutle
+//si tout va bien ca continue le code sinon connexion coupé (grace au loginlimiter devant le async)
+router.post("/login", loginLimiter, async (req, res) => {
     try {
         // je vérifie si l'utilisateur existe
         const sqlCheck = "SELECT * FROM utilisateur WHERE email = $1;";
