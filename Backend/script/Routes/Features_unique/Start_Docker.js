@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* global Buffer, setTimeout */
 const express = require("express");
 const minioClient = require("../../MINIO");
 const router = express.Router();
