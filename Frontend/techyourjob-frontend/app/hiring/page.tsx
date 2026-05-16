@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Header from "../components/header";
 
 function HiringPage() {
+  const [openPopup, setOpenPopup] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white font-sans">
 
@@ -20,16 +25,45 @@ function HiringPage() {
               Trouvez les meilleurs <br /> développeurs, Sans bruit
             </h1>
             <p className="text-gray-400 mb-10 text-lg">
-
-              Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur.
+              Recrutez des développeurs qualifiés rapidement grâce à une plateforme pensée pour connecter les entreprises avec les meilleurs profils recherchés.
             </p>
             <div className="flex flex-wrap gap-4">
 
-              <button className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium">Commencer à recruter gratuitement</button>
+              <a href="/register">
+                <button className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium cursor-pointer">Commencer à recruter gratuitement</button>
+              </a>
 
+              <button
+                onClick={() => setOpenPopup(true)}
+                className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium cursor-pointer"
+              >
+                En savoir plus sur la méthode
+              </button>
 
-              <button className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium">En savoir plus sur la méthode</button>
+              {openPopup && (
+                <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                  
+                  <div className="bg-[#2a2a2a] border border-gray-700 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
+                    
+                    <h2 className="text-2xl font-bold mb-4">
+                      Information
+                    </h2>
 
+                    <p className="text-gray-400 mb-6">
+                      Nous contacter pour plus d'information.
+                    </p>
+
+                    <button
+                      onClick={() => setOpenPopup(false)}
+                      className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium cursor-pointer"
+                    >
+                      Fermer
+                    </button>
+
+                  </div>
+
+                </div>
+              )}
             </div>
           </div>
 
@@ -75,21 +109,21 @@ function HiringPage() {
             <div className="bg-[#2a2a2a] p-6 rounded-xl border border-gray-800">
 
               <h3 className="font-bold mb-2">1. Matchmaking intelligent</h3>
-              <p className="text-sm text-gray-400"> Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur..</p>
+              <p className="text-sm text-gray-400"> Notre système analyse vos besoins techniques pour vous proposer uniquement des profils réellement adaptés à votre entreprise.</p>
             </div>
 
             {/* carte 2 */}
             <div className="bg-[#2a2a2a] p-6 rounded-xl border border-gray-800">
 
-              <h3 className="font-bold mb-2">2. matchmaking truc</h3>
-              <p className="text-sm text-gray-400"> Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur.</p>
+              <h3 className="font-bold mb-2">2. Optimisation</h3>
+              <p className="text-sm text-gray-400"> Gagnez un temps précieux en évitant les candidatures inutiles et les entretiens non pertinents.</p>
             </div>
 
             {/* carte 3 */}
             <div className="bg-[#2a2a2a] p-6 rounded-xl border border-gray-800">
 
-              <h3 className="font-bold mb-2">3. matchmaking truc</h3>
-              <p className="text-sm text-gray-400"> Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur.</p>
+              <h3 className="font-bold mb-2">3. Tests techniques</h3>
+              <p className="text-sm text-gray-400"> La possibilités de créer des tests techniques pour évaluer les compétences des candidats.</p>
             </div>
 
           </div>
@@ -106,7 +140,7 @@ function HiringPage() {
             <div className="flex flex-col">
               <div className="bg-[#333] p-6 rounded-2xl relative mb-6 border border-gray-800">
                 <p className="text-sm text-gray-400 mb-4">
-                   Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur.
+                  Nous avons trouvé un développeur React senior en moins d’une semaine. Processus simple et très efficace.
                 </p>
                 <div className="w-full h-6 bg-[#216b7a] rounded-md opacity-50" />
                 <div className="absolute -bottom-3 left-10 w-6 h-6 bg-[#333] rotate-45 border-r border-b border-gray-800" />
@@ -129,7 +163,7 @@ function HiringPage() {
             <div className="flex flex-col">
               <div className="bg-[#333] p-6 rounded-2xl relative mb-6 border border-gray-800">
                 <p className="text-sm text-gray-400 mb-4">
-                   Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur.
+                  Enfin une plateforme qui comprend réellement nos besoins en recrutement tech. Les profils proposés étaient excellents.
                 </p>
                 <div className="w-full h-6 bg-[#216b7a] rounded-md opacity-50" />
                 <div className="absolute -bottom-3 left-10 w-6 h-6 bg-[#333] rotate-45 border-r border-b border-gray-800" />
@@ -154,7 +188,7 @@ function HiringPage() {
                   
                   
                   <p className="text-sm text-gray-400 mb-4">
-                    Lorem ipsum dolor sit amet. Et galisum tempora et voluptate provident non labore incidunt At quos distinctio vel tempore pariatur.
+                    Les développeurs recommandés avaient un vrai niveau technique démontré grace aux tests techniques.
                   </p>
 
 
