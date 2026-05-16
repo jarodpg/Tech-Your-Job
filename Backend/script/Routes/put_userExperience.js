@@ -16,6 +16,7 @@ function normalizeText(text) {
     .toLowerCase();
 }
 
+// Modifier une experience
 router.put("/user/experience/:id", auth, async (req, res) => {
   try {
     let { enterprise_name, title, start, end, description, skills } = req.body;
@@ -123,6 +124,67 @@ router.put("/user/experience/:id", auth, async (req, res) => {
 
     console.log("Modified user experience");
     return res.status(200).json({ msg: "Modified user experience" });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+});
+
+// ================================================================================================//
+
+// Add une experience
+router.post("/user/experience", auth, async (req, res) => {
+  try {
+    const { enterprise_name, title, start, end, description, skills } =
+      req.body;
+
+    let enterprise_id = null;
+    if (enterprise_name) {
+      const result = await connection.query(
+        `SELECT id_entreprise, nom_compagnie FROM entreprise`,
+      );
+      const found = result.rows.find(
+        (e) =>
+          normalizeText(e.nom_compagnie) === normalizeText(enterprise_name),
+      );
+      if (found) enterprise_id = found.id_entreprise;
+    }
+
+    await connection.query(
+      `INSERT INTO experience_utilisateur (id_utilisateur, id_entreprise, nom_entreprise, titre, date_debut, date_fin, description, compétences)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        req.token.id,
+        enterprise_id,
+        enterprise_name ?? "",
+        title ?? "",
+        start ?? null,
+        end ?? null,
+        description ?? "",
+        skills ?? [],
+      ],
+    );
+
+    return res.status(201).json({ msg: "Create user experience" });
+  } catch (err) {
+    console.error("Internal server error:", err);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+});
+
+// ================================================================================================//
+
+// Delete une experience pro
+router.delete("/user/experience/:id", auth, async (req, res) => {
+  try {
+    const result = await connection.query(
+      `DELETE FROM experience_utilisateur WHERE id_utilisateur = $1 AND id_experience = $2`,
+      [req.token.id, req.params.id],
+    );
+
+    if (result.rowCount === 0)
+      return res.status(404).json({ msg: "Not found" });
+    return res.status(200).json({ msg: "Delete user experience" });
   } catch (err) {
     console.error("Internal server error:", err);
     return res.status(500).json({ msg: "Internal server error" });

@@ -12,4 +12,7 @@ jsonwebtoken
 cookie-parser
 make-fetch-happen
 fs
+minio
+multer
+uuid
 nodemailer

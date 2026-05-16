@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { MdLocalPhone } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 
-import { Update_User_Global } from "@/app/services/Modif_User_Global";
+import { Update_User_Global } from "@/app/services/Modif_Data/Modif_User_Global";
 
 interface Props {
   isOpen: boolean;

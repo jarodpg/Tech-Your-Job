@@ -404,7 +404,7 @@ export default function SideBareFiltre({ onFilterChange }) {
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
               {salaireMinTxt.toLocaleString("fr-FR")} €
             </span>
-            <span className="text-xs text-gray-600">—</span>
+            <span className="text-xs text-gray-600">-</span>
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
               {salaireMaxTxt.toLocaleString("fr-FR")} €
             </span>

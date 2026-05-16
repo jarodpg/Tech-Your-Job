@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import Notifications from "./Notification";
+
 import Link from "next/link";
 
 function Header() {
@@ -18,6 +23,8 @@ function Header() {
     },
   ];
 
+  // constante poup open ou pas
+  const [notifOpen, setNotifOpen] = useState(false);
   return (
     <div className="bg-[#2C2C2C] flex justify-between items-center px-7 h-16 border-b border-white/10 sticky top-0 z-50">
       {/* Logo */}
@@ -52,12 +59,67 @@ function Header() {
 
         {/* double icon a la fin */}
         <div className="flex items-center gap-1">
-          <button
+          {/* <button
             className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
             aria-label="Notifications"
           >
             <img style={{ width: "20px" }} src="Bell.svg" alt="" />
-          </button>
+          </button> */}
+          <div className="relative">
+            <button
+              onClick={() => setNotifOpen(!notifOpen)}
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+              aria-label="Notifications"
+            >
+              <img style={{ width: "20px" }} src="Bell.svg" alt="" />
+            </button>
+            <Notifications
+              isOpen={notifOpen}
+              onClose={() => setNotifOpen(false)}
+              notifications={[
+                {
+                  id: 1,
+                  type: "entreprise",
+                  titre: "Google vous suit",
+                  message: "Google a consulte votre profil.",
+                  date: "il y a 5 min",
+                  lu: false,
+                },
+                {
+                  id: 2,
+                  type: "offre",
+                  titre: "Candidature envoyee",
+                  message: "Votre candidature chez Airbus a bien ete soumise.",
+                  date: "il y a 1h",
+                  lu: false,
+                },
+                {
+                  id: 3,
+                  type: "refus",
+                  titre: "Candidature refusee",
+                  message: "Votre candidature chez Amazon n'a pas ete retenue.",
+                  date: "il y a 3h",
+                  lu: true,
+                },
+                {
+                  id: 4,
+                  type: "modification",
+                  titre: "Profil mis a jour",
+                  message: "Vos informations ont bien ete modifiees.",
+                  date: "hier",
+                  lu: true,
+                },
+                {
+                  id: 5,
+                  type: "autre",
+                  titre: "Bienvenue !",
+                  message: "Votre compte Tech Your Job est actif.",
+                  date: "il y a 2 jours",
+                  lu: true,
+                },
+              ]}
+            />
+          </div>
           <Link href="/login">
             <button
               className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"

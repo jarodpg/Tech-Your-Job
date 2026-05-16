@@ -1,16 +1,16 @@
 "use client";
-import Header from "../components/header";
-import SearchBar from "../components/searchBar";
-import Postlite from "../components/post-lite";
-import SideBareFiltre from "../components/SideBareFiltre";
-import Offre_Preview from "../components/Offre_Preview";
+import Header from "../components/NavBar/header";
+import SearchBar from "../components/Autre/searchBar";
+import Postlite from "../components/Offre/post-lite";
+import SideBareFiltre from "../components/Offre/SideBareFiltre";
+import Offre_Preview from "../components/Offre/Offre_Preview";
 
 import { useState, useEffect } from "react";
-import { Get_Offre } from "../services/Offre_Service";
+import { Get_Offre } from "../services/Offres/Offre_Service";
 
 // test
 import dynamic from "next/dynamic";
-const MapView = dynamic(() => import("../components/map_offre"), {
+const MapView = dynamic(() => import("../components/Offre/map_offre"), {
   ssr: false,
 });
 
