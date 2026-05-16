@@ -18,6 +18,7 @@
     "dockerode": "^5.0.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "jsonwebtoken": "^9.0.3",
     "make-fetch-happen": "^15.0.5",
     "minio": "^8.0.7",
