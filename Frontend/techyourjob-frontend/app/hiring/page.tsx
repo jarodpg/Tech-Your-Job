@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Header from "../components/header";
+import Header from "../components/NavBar/header";
 
 function HiringPage() {
   const [openPopup, setOpenPopup] = useState(false);
@@ -21,9 +21,6 @@ function HiringPage() {
               Recrutez des développeurs qualifiés rapidement grâce à une plateforme pensée pour connecter les entreprises avec les meilleurs profils recherchés.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium">
-                Commencer à recruter gratuitement
-              </button>
 
               <a href="/register">
                 <button className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium cursor-pointer">Commencer à recruter gratuitement</button>
@@ -160,17 +157,12 @@ function HiringPage() {
             {/*avis 3*/}
 
             <div className="flex flex-col">
-                <div className="bg-[#333] p-6 rounded-2xl relative mb-6 border border-gray-800">
+              <div className="bg-[#333] p-6 rounded-2xl relative mb-6 border border-gray-800">
                   
                   
-                  <p className="text-sm text-gray-400 mb-4">
-                    Les développeurs recommandés avaient un vrai niveau technique démontré grace aux tests techniques.
-                  </p>
-
-
-                  <div className="w-full h-6 bg-[#216b7a] rounded-md opacity-50" />
-
-                  <div className="absolute -bottom-3 left-10 w-6 h-6 bg-[#333] rotate-45 border-r border-b border-gray-800" />
+                <p className="text-sm text-gray-400 mb-4">
+                  Les développeurs recommandés avaient un vrai niveau technique démontré grace aux tests techniques.
+                </p>
 
 
                 <div className="w-full h-6 bg-[#216b7a] rounded-md opacity-50" />
