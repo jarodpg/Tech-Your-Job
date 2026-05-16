@@ -9,8 +9,32 @@ export default function LoginPage() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
+
+  // states pr la sécu
+  const [HoneyPot, setHoneyPot] = useState("");
+  const [clickCount, setClickCount] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+
+    //si ce champ caché est rempli alors bot détecté et ca stop tt donc aucune requete
+    if (HoneyPot !== "") {
+      console.warn("Activité suspecte détectée.");
+      return;
+    }
+
+    if (isLocked) return;
+
+    //compte les clicls et si trop de clic return activé et fin du code
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+    if (newCount >= 3) {
+      setIsLocked(true); //bloque tt
+    }
+  
+
     const success = await Login(Email, Password);
     if (success) {
       router.push("/offre");
@@ -53,6 +77,18 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-3">
             <div className="space-y-16">
+              
+              {/* ajout du champ invisible pour les bots */}
+              <input
+                type="text"
+                value={HoneyPot}
+                onChange={(e) => setHoneyPot(e.target.value)}
+                style={{ display: "none" }}
+                tabIndex={-1} // ca sert a empecher le mec de faire tab pour voir si il y a pas des champs caché
+                autoComplete="off"
+              />
+              
+
               <input
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -77,12 +113,16 @@ export default function LoginPage() {
               </a>
             </div>
 
+            {/* ajout de disabled truc pour quel la condition du 3 click s'actionne */}
             <button
               type="submit"
+              disabled={isLocked}
               className="block mx-auto bg-[#242424] text-xl border-2 border-[#8e8e8e] text-[#7288c9] font-bold py-4 px-25 rounded-full"
             >
               Connexion
             </button>
+            
+
           </form>
         </div>
       </div>
