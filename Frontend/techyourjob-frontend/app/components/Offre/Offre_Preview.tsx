@@ -35,6 +35,7 @@ export default function Offre_Preview({
     <div className="fixed inset-0 z-[9999] flex justify-center items-center">
       {isTestOpen && (
         <Test_Technique
+          id_test={Poste.id_poste}
           isOpen={true}
           onClose={() => setIsTestOpen(false)}
           nomEntreprise={DataPoste?.nom_compagnie}

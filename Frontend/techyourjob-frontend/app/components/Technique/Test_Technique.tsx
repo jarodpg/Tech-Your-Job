@@ -1,9 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { TfiClipboard } from "react-icons/tfi";
 import { FiUploadCloud, FiFile, FiTrash2 } from "react-icons/fi";
 import { LuCalendarX, LuCalendarCheck, LuFileCheck } from "react-icons/lu";
+
+import { Upload_Candidature } from "@/app/services/Test_Feature/Upload_Candidature";
+import { Get_Info_Test } from "@/app/services/Test_Feature/Offre_Service";
 
 const ETAPES = [
   { id: 0, label: "Consignes" },
@@ -12,6 +15,7 @@ const ETAPES = [
 ];
 
 interface Props {
+  id_test: number;
   isOpen: boolean;
   onClose: () => void;
   nomEntreprise?: string;
@@ -23,6 +27,7 @@ interface Props {
 }
 
 export default function Test_Technique({
+  id_test,
   isOpen,
   onClose,
   nomEntreprise = "Nom entreprise",
@@ -34,22 +39,48 @@ export default function Test_Technique({
 }: Props) {
   const [etape, setEtape] = useState(0);
 
+  const [consigne, setConsigne] = useState("");
+  const [dateRendu, setDateRendu] = useState("");
+  const [fichierRendu, setFichierRendu] = useState([]);
+  const [attendue, setAttendues] = useState("");
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await Get_Info_Test(id_test);
+        setConsigne(data.consigne);
+        setDateRendu(data.date_rendue);
+        setFichierRendu(data.fichier_attendues);
+        setAttendues(data.attendues);
+      } catch (err) {
+        console.error("Erreur API :", err);
+      }
+    }
+
+    load();
+  }, [id_test]);
+
   if (!isOpen) return null;
   const [fichier, setFichier] = useState<File | null>(null);
   const [envoye, setEnvoye] = useState(false);
 
   const handleFichier = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
-    if (f && f.name.endsWith(".zip")) {
+    if (f && f.name.endsWith(".py")) {
       setFichier(f);
       setEnvoye(false);
     }
     e.target.value = "";
   };
 
-  const handleEnvoyer = () => {
+  const handleEnvoyer = async () => {
     if (!fichier) return;
-    setEnvoye(true);
+    try {
+      await Upload_Candidature(id_test, fichier);
+      setEnvoye(true);
+    } catch (err) {
+      console.error("Erreur upload:", err);
+    }
   };
 
   return (
@@ -110,7 +141,7 @@ export default function Test_Technique({
                   Consignes du projet
                 </h2>
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-gray-300 text-sm leading-relaxed min-h-64">
-                  {consignes || (
+                  {consigne || (
                     <span className="text-gray-500 italic">
                       L'entreprise n'a pas encore renseigne les consignes.
                     </span>
@@ -150,7 +181,7 @@ export default function Test_Technique({
                         Date limite d'envoi
                       </span>
                       <span className="text-red-400 text-sm font-semibold">
-                        {dateLimit}
+                        {dateRendu}
                       </span>
                     </div>
                   </div>
@@ -165,7 +196,7 @@ export default function Test_Technique({
                     </h3>
                   </div>
                   <div className="flex flex-col gap-2">
-                    {fichiersAttendus.map((f, i) => (
+                    {fichierRendu.map((f, i) => (
                       <div
                         key={i}
                         className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3"
@@ -182,7 +213,7 @@ export default function Test_Technique({
 
                 {/* Description attendues */}
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-gray-300 text-sm leading-relaxed">
-                  {attendues || (
+                  {attendue || (
                     <span className="text-gray-500 italic">
                       L'entreprise n'a pas encore renseigne les attendus.
                     </span>
@@ -209,7 +240,7 @@ export default function Test_Technique({
                     </span>
                     <input
                       type="file"
-                      accept=".zip"
+                      accept=".py"
                       onChange={handleFichier}
                       className="hidden"
                     />
@@ -232,7 +263,7 @@ export default function Test_Technique({
                       Remplacer
                       <input
                         type="file"
-                        accept=".zip"
+                        accept=".py"
                         onChange={handleFichier}
                         className="hidden"
                       />
