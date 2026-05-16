@@ -1,7 +1,5 @@
 const express = require("express");
-const fetch = require("make-fetch-happen");
 const connection = require("../../DB");
-const fs = require("fs");
 const router = express.Router();
 
 router.get("/test_post/:id", async (req, res) => {

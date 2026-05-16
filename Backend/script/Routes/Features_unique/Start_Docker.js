@@ -1,7 +1,5 @@
+/* global Buffer, setTimeout */
 const express = require("express");
-const fetch = require("make-fetch-happen");
-const connection = require("../../DB");
-const fs = require("fs");
 const minioClient = require("../../MINIO");
 const router = express.Router();
 
@@ -11,19 +9,6 @@ const Docker = require("dockerode");
 const docker = new Docker();
 // obliagtoire d'avoir des fichier tar pour passer nos vrai fichier
 const tar = require("tar-stream");
-
-function createTar(fileName, buffer) {
-  return new Promise((resolve, reject) => {
-    const pack = tar.pack();
-    pack.entry({ name: fileName, size: buffer.length }, buffer);
-    pack.finalize();
-
-    const chunks = [];
-    pack.on("data", (chunk) => chunks.push(chunk));
-    pack.on("end", () => resolve(Buffer.concat(chunks)));
-    pack.on("error", reject);
-  });
-}
 
 router.post("/docker/start", async (req, res) => {
   try {

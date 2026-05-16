@@ -1,7 +1,5 @@
 const express = require("express");
-const fetch = require("make-fetch-happen");
 const connection = require("../../DB");
-const fs = require("fs");
 const router = express.Router();
 
 // route pour get les fichier d'un candidats
