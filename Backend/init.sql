@@ -1,4 +1,5 @@
 ALTER DATABASE techyourjob SET timezone TO 'Europe/Paris';
+ALTER TABLE candidature ADD CONSTRAINT candidature_user_poste_unique UNIQUE (id_utilisateur, id_poste);
 
 CREATE TABLE entreprise (
     id_entreprise INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

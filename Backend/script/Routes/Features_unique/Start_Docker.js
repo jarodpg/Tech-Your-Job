@@ -27,22 +27,33 @@ function createTar(fileName, buffer) {
 
 router.post("/docker/start", async (req, res) => {
   try {
-    const { fichierPath } = req.body;
+    const { fichierPaths } = req.body;
 
-    if (!fichierPath) {
+    if (!fichierPaths) {
       return res.status(400).json({ msg: "fichierPath is required" });
     }
 
-    const chunks = [];
-    const stream = await minioClient.getObject("candidatures", fichierPath);
-    for await (const chunk of stream) {
-      chunks.push(chunk);
-    }
-    const fileBuffer = Buffer.concat(chunks);
-    const fileName = fichierPath.split("/").pop();
+    const pack = tar.pack();
 
-    // on fait l'archive tar
-    const tarBuffer = await createTar(fileName, fileBuffer);
+    for (const fichierPath of fichierPaths) {
+      const chunks = [];
+      const stream = await minioClient.getObject("candidatures", fichierPath);
+      for await (const chunk of stream) {
+        chunks.push(chunk);
+      }
+      const fileBuffer = Buffer.concat(chunks);
+      const fileName = fichierPath.split("/").pop();
+
+      pack.entry({ name: fileName, size: fileBuffer.length }, fileBuffer);
+    }
+    pack.finalize();
+
+    // Convertir le tar stream en buffer
+    const tarChunks = [];
+    for await (const chunk of pack) {
+      tarChunks.push(chunk);
+    }
+    const tarBuffer = Buffer.concat(tarChunks);
 
     // on creer le container
     const container = await docker.createContainer({
@@ -80,6 +91,9 @@ router.post("/docker/start", async (req, res) => {
     // on le rend publique
     const info = await container.inspect(); //recup tt info du conatiner en cours
     const port = info.NetworkSettings.Ports["8080/tcp"][0].HostPort;
+
+    // lancement automatiquement uniquement apres que ca a charge
+    await new Promise((r) => setTimeout(r, 5000));
 
     // on le destroy apres 30 min d'utilisation
     setTimeout(() => container.stop().catch(() => {}), 30 * 60 * 1000);

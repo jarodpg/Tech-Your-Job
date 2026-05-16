@@ -15,12 +15,13 @@ router.get("/get_test/:id", async (req, res) => {
         .status(400)
         .json({ msg: "The id parameter must be an Integer" });
     }
-    // on prend le fichier
+    // on prend les fichiers des utilisateurs
     const sqlTEST = `
-        SELECT
-            fichier_candidats
-        FROM candidature 
-        WHERE id_poste = $1
+      SELECT
+        array_agg(unnested) as fichier_candidats
+      FROM candidature,
+        unnest(COALESCE(fichier_candidats, '{}')) as unnested
+      WHERE id_poste = $1
     `;
     const sqlTESTRequest = await connection.query(sqlTEST, [id]);
 
