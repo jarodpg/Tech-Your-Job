@@ -41,7 +41,7 @@ CREATE TABLE poste (
     total_applications INT,
     nb_remote_applications INT,
     date_update TIMESTAMP WITHOUT TIME ZONE,
-    total_visits INT
+    total_visits INT,
 );
 
 
@@ -112,7 +112,12 @@ CREATE TABLE candidature (
     statut TEXT DEFAULT 'en_attente',
     fichier_path TEXT,
     hash_sha256 TEXT,
-    message TEXT
+    message TEXT,
+    consigne TEXT,
+    date_rendue TIMESTAMP WITH TIME ZONE,
+    fichier_attendues TEXT[],
+    attendues TEXT,
+    fichier_candidats TEXT[] 
 );
 
 

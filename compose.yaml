@@ -76,6 +76,7 @@ services:
     volumes:
       - ./Backend:/usr/local/app
       - /usr/local/app/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - db
 

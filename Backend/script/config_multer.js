@@ -16,7 +16,8 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, callback) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png)$/i))
+  // a voir si on laisse py
+  if (!file.originalname.match(/\.(jpg|jpeg|png|py)$/i))
     return callback(new Error("Only image files are allowed"), false);
   callback(null, true);
 };

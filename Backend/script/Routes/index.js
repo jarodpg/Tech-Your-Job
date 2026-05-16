@@ -14,6 +14,10 @@ const grouped_postsRoutes = require("./grouped_posts");
 const logoRoutes = require("./logo");
 const postRoutes = require("./post");
 const forgot_passwordRoutes = require("./forgotpassword");
+const get_info_test = require("./Features_unique/Get_Infos_Test");
+const upload_candidature = require("./Features_unique/Upload_fichier");
+const Get_fichier_candidat = require("./Features_unique/Get_Candidats_test");
+const Start_Docker = require("./Features_unique/Start_Docker");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -27,6 +31,10 @@ router.use("/", put_userFormationRoutes);
 router.use("/", grouped_postsRoutes);
 router.use("/", logoRoutes);
 router.use("/", postRoutes);
-router.use("/", forgot_passwordRoutes)
+router.use("/", forgot_passwordRoutes);
+router.use("/", get_info_test);
+router.use("/", upload_candidature);
+router.use("/", Get_fichier_candidat);
+router.use("/api", Start_Docker);
 
 module.exports = router;
