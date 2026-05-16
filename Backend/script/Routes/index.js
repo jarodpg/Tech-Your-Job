@@ -18,6 +18,9 @@ const get_info_test = require("./Features_unique/Get_Infos_Test");
 const upload_candidature = require("./Features_unique/Upload_fichier");
 const Get_fichier_candidat = require("./Features_unique/Get_Candidats_test");
 const Start_Docker = require("./Features_unique/Start_Docker");
+const enterpriseIDRoutes = require("./enterpriseID");
+const enterpriseXRoutes = require("./enterpriseX");
+const enterpriseTopXRoutes = require("./enterpriseTopX");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -36,5 +39,8 @@ router.use("/", get_info_test);
 router.use("/", upload_candidature);
 router.use("/", Get_fichier_candidat);
 router.use("/api", Start_Docker);
+router.use("/", enterpriseIDRoutes);
+router.use("/", enterpriseXRoutes);
+router.use("/", enterpriseTopXRoutes);
 
 module.exports = router;
