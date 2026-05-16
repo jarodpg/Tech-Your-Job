@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 
-import Header from "../components/header";
-import Entreprise_Preview from "../components/Entreprise_Complet";
-import SideBareEntreprise from "../components/FIltre_entreprise";
-import Entreprise_lite from "../components/Entreprise_lite";
-import SearchBar from "../components/searchBar";
+import Header from "../components/NavBar/header";
+import Entreprise_Preview from "../components/Entreprise/Entreprise_Complet";
+import SideBareEntreprise from "../components/Entreprise/FIltre_entreprise";
+import Entreprise_lite from "../components/Entreprise/Entreprise_lite";
+import SearchBar from "../components/Autre/searchBar";
 
 // data pour tester comme route du back
 const Data = [
@@ -135,7 +135,7 @@ export default function Entreprise_All() {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-[0.4fr_2.6fr] mt-2">
+      <div className="grid grid-cols-[0.4fr_2.6fr] bg-[#2C2C2C] mt-2">
         <div className="border-r border-white/10">
           <SideBareEntreprise />
         </div>

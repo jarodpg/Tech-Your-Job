@@ -13,6 +13,8 @@ import {
   FaLinkedin,
 } from "react-icons/fa6";
 
+import { Update_User_Profil } from "@/app/services/Modif_Data/Modif_User_profil";
+
 const PLATEFORMES_DISPO = [
   { key: "git", label: "GitHub", icon: <FaGithub /> },
   { key: "yt", label: "YouTube", icon: <FaYoutube /> },
@@ -43,8 +45,24 @@ export default function Plateforme_Edit({
   const [selectedIcon, setSelectedIcon] = useState("git");
   const [lienVal, setLienVal] = useState("");
 
-  if (!isOpen) return null;
+  // loading des infos pour l'edit
+  const [loading, setLoading] = useState(false);
 
+  // Save
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await Update_User_Profil({ social: liste });
+      onSave(liste);
+      onClose();
+    } catch (err) {
+      console.error("Erreur sauvegarde plateforme:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
   const iconsUtilises = liste.map((p) => p.icon);
 
   function ajouter() {
@@ -142,6 +160,7 @@ export default function Plateforme_Edit({
               const result = Object.fromEntries(
                 liste.map((p) => [p.icon, p.lien]),
               );
+              handleSave();
               onSave(result);
               onClose();
             }}

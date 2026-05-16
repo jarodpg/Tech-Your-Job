@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { MdLocalPhone } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 
-import { Get_User_Info } from "@/app/services/Modif_User_Infos";
+import { Update_User_Global } from "@/app/services/Modif_Data/Modif_User_Global";
 
 interface Props {
   isOpen: boolean;
@@ -31,8 +31,24 @@ export default function Contact_Edit({
   const [emailVal, setEmailVal] = useState(email);
   const [phoneVal, setPhoneVal] = useState(telephone);
 
-  if (!isOpen) return null;
+  // loading pour le changement de donnee
+  const [loading, setLoading] = useState(false);
 
+  // Save
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await Update_User_Global({ tel: phoneVal, email: emailVal });
+      onSave(emailVal, phoneVal);
+      onClose();
+    } catch (err) {
+      console.error("Erreur sauvegarde bio:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="relative w-[60%] bg-[#242424] rounded-3xl p-8 shadow-2xl border border-white/10">
@@ -78,7 +94,7 @@ export default function Contact_Edit({
                 return alert("Numéro de téléphone invalide");
               if (!emailVal.includes("@") || !emailVal.includes("."))
                 return alert("Email invalide");
-              onSave(emailVal, phoneVal);
+              handleSave();
               onClose();
             }}
             className="bg-teal-500 hover:bg-teal-400 text-white text-sm font-semibold px-5 py-2 rounded-xl transition-colors"

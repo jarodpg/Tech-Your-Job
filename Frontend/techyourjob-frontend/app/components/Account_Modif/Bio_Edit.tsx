@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 
+import { Update_User_Profil } from "@/app/services/Modif_Data/Modif_User_profil";
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -17,10 +19,26 @@ export default function Bio_Edit({
   biographie,
   onSave,
 }: Props) {
+  // value de la vio
   const [value, setValue] = useState(biographie);
+  // logading changement infos
+  const [loading, setLoading] = useState(false);
+
+  // Save
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await Update_User_Profil({ bio: value });
+      onSave(value);
+      onClose();
+    } catch (err) {
+      console.error("Erreur sauvegarde bio:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="relative w-[60%] bg-[#242424] rounded-3xl p-8 shadow-2xl border border-white/10">
@@ -50,6 +68,7 @@ export default function Bio_Edit({
           </span>
           <button
             onClick={() => {
+              handleSave();
               onSave(value);
               onClose();
             }}

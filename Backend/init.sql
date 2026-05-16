@@ -1,4 +1,5 @@
 ALTER DATABASE techyourjob SET timezone TO 'Europe/Paris';
+ALTER TABLE candidature ADD CONSTRAINT candidature_user_poste_unique UNIQUE (id_utilisateur, id_poste);
 
 CREATE TABLE entreprise (
     id_entreprise INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -8,7 +9,13 @@ CREATE TABLE entreprise (
     logo TEXT,
     type_entreprise TEXT,
     secteur_entreprise TEXT[],
-    ville TEXT
+    ville TEXT,
+    nb_offre INT,
+    nb_visit INT,
+    nb_postulation INT,
+    nb_click INT,
+    score DOUBLE PRECISION,
+    rank INT
 );
 
 CREATE TABLE poste (
@@ -41,7 +48,7 @@ CREATE TABLE poste (
     total_applications INT,
     nb_remote_applications INT,
     date_update TIMESTAMP WITHOUT TIME ZONE,
-    total_visits INT
+    total_visits INT,
 );
 
 
@@ -69,7 +76,7 @@ CREATE TABLE profil_utilisateur(
     plateforme JSONB,
     profession_actuelle VARCHAR(100),
     experiences_annees INTEGER,
-    document TEXT,
+    document TEXT[],
     langues TEXT[],
     nb_vues_profil INTEGER DEFAULT 0,
     candidatures_envoyees INTEGER DEFAULT 0,
@@ -100,7 +107,7 @@ CREATE TABLE formation_utilisateur(
     date_fin DATE,
     description TEXT,
     compétences TEXT[],
-    diplome JSONB
+    diplome TEXT[]
 );
 
 
@@ -112,7 +119,12 @@ CREATE TABLE candidature (
     statut TEXT DEFAULT 'en_attente',
     fichier_path TEXT,
     hash_sha256 TEXT,
-    message TEXT
+    message TEXT,
+    consigne TEXT,
+    date_rendue TIMESTAMP WITH TIME ZONE,
+    fichier_attendues TEXT[],
+    attendues TEXT,
+    fichier_candidats TEXT[] 
 );
 
 
