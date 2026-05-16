@@ -19,7 +19,7 @@ router.get("/enterprise/:id", async (req, res) => {
           ELSE 
             logo
         END AS logo,
-        type_entreprise,
+        type_entreprise,  
         secteur_entreprise,
         ville,
         nb_offre,
