@@ -23,6 +23,7 @@ const enterpriseXRoutes = require("./enterpriseX");
 const enterpriseTopXRoutes = require("./enterpriseTopX");
 const searchPostsRoutes = require("./searchPosts");
 const deleteUserRoutes = require("./admin/delete_user");
+const deleteEnterpriseRoutes = require("./admin/delete_enterprise");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -46,5 +47,6 @@ router.use("/", enterpriseXRoutes);
 router.use("/", enterpriseTopXRoutes);
 router.use("/", searchPostsRoutes);
 router.use("/", deleteUserRoutes);
+router.use("/", deleteEnterpriseRoutes);
 
 module.exports = router;
