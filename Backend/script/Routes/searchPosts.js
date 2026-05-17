@@ -5,7 +5,9 @@ const router = express.Router();
 router.get("/posts/search", async (req, res) => {
   try {
     const query = req.query.q;
+    const page = req.query.page;
 
+    // je vérifie s'il y a bien une recherche d'effectuée
     if (!query || query.trim() === "") {
       console.error('The query parameter "q" must be provided');
       return res
@@ -13,7 +15,27 @@ router.get("/posts/search", async (req, res) => {
         .json({ msg: 'The query parameter "q" must be provided' });
     }
 
+    // je vérifie s'il y a bien une page d'entrée
+    if (!page || page.trim() === "") {
+      console.error('The query parameter "page" must be provided');
+      return res
+        .status(400)
+        .json({ msg: 'The query parameter "page" must be provided' });
+    }
+
+    // je vérifie si la page est un entier
+    if (!Number.isInteger(Number(page))) {
+      console.error('The query parameter "page" must be an Integer');
+      return res
+        .status(400)
+        .json({ msg: 'The query parameter "page" must be an Integer' });
+    }
+
+    // je formate la recherche pour l'envoyer dans le "to_tsquery"
     const FormattedQuery = query.trim().split(/\s+/).join(" & ");
+
+    // je calcule le nombre de lignes à sauter pour aller à la page désirée
+    const offset = (page - 1) * 15;
 
     const sqlSelectPosts = `
             WITH poste_and_dictionary AS (
@@ -95,10 +117,12 @@ router.get("/posts/search", async (req, res) => {
                     coalesce(skills, '[]'::jsonb), '["string"]'
                 )
                 @@ to_tsquery(dictionary, $1::text)
-            ORDER BY rank DESC, date_publication DESC
+            ORDER BY rank DESC, date_publication DESC, id_poste ASC
+            LIMIT 15 OFFSET $2::integer
         `;
     const selectPostsRequest = await connection.query(sqlSelectPosts, [
       FormattedQuery,
+      offset,
     ]);
 
     if (selectPostsRequest.rows.length === 0) {
