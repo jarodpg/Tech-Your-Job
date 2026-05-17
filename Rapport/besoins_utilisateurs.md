@@ -2,7 +2,8 @@
 
 ## 1. La communauté que nous cherchons à atteindre
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Tech Your Job</i> est une plateforme d'offres d'emploi qui s'adresse avant tout au secteur de l'informatique et l'ensemble des sous-domaines qu'il comprend. Le but est de proposer des annonces adaptées à plusieurs types de profil afin d'élargir le nombre d'utilisateurs potentiels. Parmi eux, nous pensons notamment :  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Tech Your Job</i> est une plateforme d'offres d'emploi qui s'adresse avant tout au secteur de l'informatique et l'ensemble des sous-domaines qu'il comprend. Le but est de proposer des annonces adaptées à plusieurs types de profil afin d'élargir le nombre d'utilisateurs potentiels. Parmi eux, nous pensons notamment :
+
 - aux étudiants à la recherche d'un stage,
 - aux jeunes diplômés recherchant un premier emploi,
 - aux freelances recherchant des missions afin d'agrandir leur portefeuille client,
@@ -14,7 +15,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finalement, si le temps nous le permet, nous aimerions offrir la possibilité aux entreprises de créer leur propre compte sur notre plateforme afin d'eux-même poster des annonces et augmenter leur visibilté. En effet, il s'agit dans un premier temps de récupérer manuellement des annonces déjà existentes.
 
 ## 2. Leurs besoins
+
 **Candidats**
+
 - Pouvoir se démarquer des autres postulants par leurs compétences et ne pas être piégé par un algorithme
 
 - Accéder à un vaste nombre d'offres tech sur une seule application
@@ -28,6 +31,7 @@
 => Un candidat veux avant tout trouver un emploi adapté à ses attentes sans laisser de place au hasard de l'algorithme
 
 **Entreprises**
+
 - Publier des offres d'emploi afin de trouver des salariés
 
 - Entrer en contact rapidement et facilement avec les candidats

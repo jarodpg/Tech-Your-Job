@@ -12,7 +12,6 @@ export default function RegisterPage() {
   const [HoneyPot, setHoneyPot] = useState("");
   const [clickCount, setClickCount] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
-  
 
   function handleRegister(e) {
     e.preventDefault(); // empeche le refresh
@@ -30,11 +29,10 @@ export default function RegisterPage() {
     if (newCount >= 3) {
       setIsLocked(true); // bloque tt apres 3 cliqye car islocked va etre acticé
     }
-    
 
     Register(LastName, FirstName, Email, Password);
   }
-  
+
   return (
     <main className="min-h-screen w-full bg-[#242424] flex">
       {/* formulaire*/}
@@ -58,17 +56,15 @@ export default function RegisterPage() {
 
           <form onSubmit={handleRegister} className="space-y-3">
             <div className="space-y-6 mb-10">
-              
               {/*le honey pot dc le champ pas visible*/}
               <input
                 type="text"
                 value={HoneyPot}
                 onChange={(e) => setHoneyPot(e.target.value)}
                 style={{ display: "none" }}
-                tabIndex={-1} 
+                tabIndex={-1}
                 autoComplete="off"
               />
-              
 
               <input
                 type="text"

@@ -12,6 +12,7 @@ Ce document définit les principes fondamentaux et les engagements éthiques qui
 - **Données Professionnelles Pseudonymisées :** Genre, métier, années d'études, tendances de recherche. Ces données sont détachées de votre identité réelle.
 
 ### Utilisation des données
+
 - **Interne :** Amélioration de l'expérience utilisateur et modération.
 - **Partenaires & Entreprises :** Partage de tendances macro-économiques (ex: "Quelles sont les technos les plus recherchées à Lille ?") pour aider les recruteurs à mieux comprendre le marché, sans jamais identifier un individu.
 
@@ -39,6 +40,7 @@ Notre mission est de briser le "plafond de verre" des diplômes pour favoriser l
 ## 4. Intégrité des Offres (Lutte contre les "Ghost Jobs")
 
 En tant qu'agrégateur, `Tech Your Job` s'engage à :
+
 - **Vérification de la Fraîcheur :** Supprimer ou signaler les offres expirées pour éviter de faire perdre du temps aux candidats.
 - **Lutte contre la Fraude :** Mettre en place des mécanismes de signalement pour bannir les offres frauduleuses ou les entreprises ne respectant pas les standards de rémunération légaux.
 
@@ -53,7 +55,8 @@ En tant qu'agrégateur, `Tech Your Job` s'engage à :
 
 ## 6. Éco-conception (Green IT)
 
-Nous sommes conscients de l'empreinte carbone du numérique. 
+Nous sommes conscients de l'empreinte carbone du numérique.
+
 - **Optimisation des ressources :** Notre code est optimisé pour minimiser les requêtes serveur et la consommation énergétique des appareils de nos utilisateurs.
 - **Stockage Responsable :** Nous appliquons une politique stricte de purge des données inutiles pour réduire la pollution numérique liée au stockage de masse.
 
@@ -61,10 +64,10 @@ Nous sommes conscients de l'empreinte carbone du numérique.
 
 ## 7. Conservation des Données
 
-| Type de donnée | Durée de conservation | Action |
-| :--- | :--- | :--- |
-| **Dossier Candidat** | 2 ans après le dernier contact | Suppression complète |
-| **Données de Connexion** | 12 mois | Anonymisation |
-| **Cookies** | 13 mois maximum | Renouvellement du consentement |
+| Type de donnée           | Durée de conservation          | Action                         |
+| :----------------------- | :----------------------------- | :----------------------------- |
+| **Dossier Candidat**     | 2 ans après le dernier contact | Suppression complète           |
+| **Données de Connexion** | 12 mois                        | Anonymisation                  |
+| **Cookies**              | 13 mois maximum                | Renouvellement du consentement |
 
 ---

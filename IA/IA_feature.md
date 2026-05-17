@@ -26,7 +26,7 @@ De plus, pour réduire le bruit dans les données et améliorer la précision de
 
 - TfidVectorizer
 
-- NearestNeighbors 
+- NearestNeighbors
 
 - Joblib
 
@@ -55,7 +55,6 @@ plusieurs niveaux d’expérience.
 
 Ces tests permettent de vérifier la pertinence des recommandations générées par le modèle sur différents types de profils.
 L’objectif est d’obtenir au minimum 2 recommandations pertinentes sur 3.
-
 
 ## 🚀 Déploiement / Configuration
 

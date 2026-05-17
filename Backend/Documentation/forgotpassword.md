@@ -20,11 +20,13 @@ L'enjeu majeur de cette route réside dans la **sécurité**. Elle doit interagi
 ### Flux de données
 
 **Étape 1 : Demande de réinitialisation (`/forgot-password`)**
+
 - Le frontend envoie une adresse email.
 - Le backend nettoie l'email et interroge la table `utilisateur` de la base de données.
 - Si l'email est trouvé, génération d'un token JWT et envoi d'un mail avec le lien de réinitialisation.
 
 **Étape 2 : Changement du mot de passe (`/reset-password`)**
+
 - Le frontend renvoie le token, l'ID de l'utilisateur et le nouveau mot de passe.
 - Le backend vérifie la validité et l'intégrité du token.
 - Hachage du nouveau mot de passe et mise à jour dans la base de données.
@@ -32,12 +34,14 @@ L'enjeu majeur de cette route réside dans la **sécurité**. Elle doit interagi
 ### 🧠 Logique de fonctionnement
 
 **Route `/forgot-password` :**
+
 - L'adresse email fournie est formatée (suppression des espaces invisibles via `trim()` et passage en minuscules via `toLowerCase()`).
 - Indépendamment du fait que l'email existe ou non en base de données, la route renvoie toujours un statut 200 au client.
 - Si l'utilisateur existe, un token JWT est généré en combinant la `SECRET_KEY` globale et le mot de passe actuel de l'utilisateur.
 - Un email contenant l'URL de réinitialisation est envoyé via le transporteur Brevo configuré dans la route.
 
 **Route `/reset-password` :**
+
 - Le backend récupère les informations de l'utilisateur via son ID.
 - Le token est vérifié avec la même clé combinée (`SECRET_KEY` + ancien mot de passe). Ainsi, dès que le mot de passe est changé, la clé secrète change, ce qui invalide instantanément le token (il devient à usage unique).
 - Le nouveau mot de passe est haché en utilisant `bcrypt`.

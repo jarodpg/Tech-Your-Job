@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
-
   // states pr la sécu
   const [HoneyPot, setHoneyPot] = useState("");
   const [clickCount, setClickCount] = useState(0);
@@ -17,7 +16,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
 
     //si ce champ caché est rempli alors bot détecté et ca stop tt donc aucune requete
     if (HoneyPot !== "") {
@@ -33,7 +31,6 @@ export default function LoginPage() {
     if (newCount >= 3) {
       setIsLocked(true); //bloque tt
     }
-  
 
     const success = await Login(Email, Password);
     if (success) {
@@ -77,7 +74,6 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-3">
             <div className="space-y-16">
-              
               {/* ajout du champ invisible pour les bots */}
               <input
                 type="text"
@@ -87,7 +83,6 @@ export default function LoginPage() {
                 tabIndex={-1} // ca sert a empecher le mec de faire tab pour voir si il y a pas des champs caché
                 autoComplete="off"
               />
-              
 
               <input
                 type="email"
@@ -121,8 +116,6 @@ export default function LoginPage() {
             >
               Connexion
             </button>
-            
-
           </form>
         </div>
       </div>
