@@ -1,6 +1,3 @@
-ALTER DATABASE techyourjob SET timezone TO 'Europe/Paris';
-ALTER TABLE candidature ADD CONSTRAINT candidature_user_poste_unique UNIQUE (id_utilisateur, id_poste);
-
 CREATE TABLE entreprise (
     id_entreprise INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     type_contrat TEXT[],
@@ -48,7 +45,7 @@ CREATE TABLE poste (
     total_applications INT,
     nb_remote_applications INT,
     date_update TIMESTAMP WITHOUT TIME ZONE,
-    total_visits INT,
+    total_visits INT
 );
 
 
@@ -69,7 +66,7 @@ CREATE TABLE utilisateur(
 
 CREATE TABLE profil_utilisateur(
     id_profil INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
     banniere TEXT,
     photo_profil TEXT,
     biographie TEXT,
@@ -87,7 +84,7 @@ CREATE TABLE profil_utilisateur(
 
 CREATE TABLE experience_utilisateur(
     id_experience INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
     id_entreprise INT REFERENCES entreprise(id_entreprise),
     nom_entreprise TEXT,
     titre TEXT,
@@ -99,7 +96,7 @@ CREATE TABLE experience_utilisateur(
 
 CREATE TABLE formation_utilisateur(
     id_formation INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
     id_entreprise INT REFERENCES entreprise(id_entreprise),
     nom_établissement TEXT,
     titre TEXT,
@@ -113,7 +110,7 @@ CREATE TABLE formation_utilisateur(
 
 CREATE TABLE candidature (
     id_candidature INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
     id_poste INT REFERENCES poste(id_poste),
     date_candidature TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     statut TEXT DEFAULT 'en_attente',
@@ -129,3 +126,6 @@ CREATE TABLE candidature (
 
 
 CREATE EXTENSION IF NOT EXISTS postgis;
+
+ALTER DATABASE techyourjob SET timezone TO 'Europe/Paris';
+ALTER TABLE candidature ADD CONSTRAINT candidature_user_poste_unique UNIQUE (id_utilisateur, id_poste);
