@@ -13,9 +13,19 @@ router.get("/posts/search", async (req, res) => {
         .json({ msg: 'The query parameter "q" must be provided' });
     }
 
-    const FormattedQuery = `%${query.trim()}%`;
+    const FormattedQuery = query.trim().split(/\s+/).join(" & ");
 
     const sqlSelectPosts = `
+            WITH poste_and_dictionary AS (
+                SELECT
+                    *,
+                    CASE 
+                        WHEN langues = 'fr' THEN 'french'::regconfig
+                        WHEN langues = 'en' THEN 'english'::regconfig
+                        ELSE 'simple'::regconfig
+                    END AS dictionary
+                FROM poste
+            )
             SELECT
                 id_poste,
                 entreprise.nom_compagnie,
@@ -45,28 +55,47 @@ router.get("/posts/search", async (req, res) => {
                 longitude,
                 skills,
                 titre,
-                date_publication
-            FROM poste 
+                date_publication,
+                ts_rank (
+                    setweight(to_tsvector(dictionary, coalesce(titre, '')), 'A') ||
+                    setweight(to_tsvector(dictionary, coalesce(display_name_en, '')), 'A') ||
+                    setweight(to_tsvector(dictionary, coalesce(display_name_fr, '')), 'A') ||
+                    setweight(to_tsvector(dictionary, coalesce(entreprise.nom_compagnie, '')), 'A') ||
+                    setweight(to_tsvector(dictionary, coalesce(entreprise.seo_alias, '')), 'A') ||
+                    
+                    setweight(to_tsvector(dictionary, coalesce(description, '')), 'B') ||
+                    setweight(to_tsvector(dictionary, coalesce(categorie, '')), 'B') ||
+
+                    setweight(jsonb_to_tsvector(dictionary, coalesce(skills, '[]'::jsonb), '["string"]'), 'C') ||
+                    
+                    setweight(to_tsvector(dictionary, coalesce(entreprise.type_entreprise, '')), 'D') ||
+                    setweight(to_tsvector(dictionary, coalesce(array_to_string(entreprise.secteur_entreprise, ' '), '')), 'D'),
+
+                    to_tsquery(dictionary, $1::text)
+                ) AS rank
+            FROM poste_and_dictionary AS poste 
             JOIN entreprise ON poste.id_entreprise = entreprise.id_entreprise
             WHERE 
-                description ILIKE $1
-                OR categorie ILIKE $1
-                OR display_name_en ILIKE $1
-                OR display_name_fr ILIKE $1
-                OR (
-                    jsonb_typeof(skills) = 'array'
-                    AND EXISTS (
-                        SELECT 1 
-                        FROM jsonb_array_elements(skills) AS skill
-                        WHERE skill->>'name' ILIKE $1
-                    )
+                to_tsvector(
+                    dictionary,
+                    coalesce(titre, '') || ' ' ||
+                    coalesce(display_name_en, '') || ' ' ||
+                    coalesce(display_name_fr, '') || ' ' ||
+                    coalesce(entreprise.nom_compagnie, '') || ' ' ||
+                    coalesce(entreprise.seo_alias, '') || ' ' ||
+                    coalesce(description, '') || ' ' ||
+                    coalesce(categorie, '') || ' ' ||
+                    coalesce(entreprise.type_entreprise, '') || ' ' ||
+                    coalesce(array_to_string(entreprise.secteur_entreprise, ' '), '')
                 )
-                OR titre ILIKE $1
-                OR entreprise.nom_compagnie ILIKE $1
-                OR entreprise.seo_alias ILIKE $1
-                OR entreprise.type_entreprise ILIKE $1
-                OR $1 ILIKE ANY(entreprise.secteur_entreprise)
-            ORDER BY date_publication DESC
+                @@ to_tsquery(dictionary, $1::text)
+                OR
+                jsonb_to_tsvector(
+                    dictionary,
+                    coalesce(skills, '[]'::jsonb), '["string"]'
+                )
+                @@ to_tsquery(dictionary, $1::text)
+            ORDER BY rank DESC, date_publication DESC
         `;
     const selectPostsRequest = await connection.query(sqlSelectPosts, [
       FormattedQuery,
