@@ -7,6 +7,14 @@ router.delete("/user/:id", auth, isAdmin, async (req, res) => {
   try {
     const id = req.params.id;
 
+    // je vérifie si id est un entier
+    if (!Number.isInteger(Number(id))) {
+      console.error("The id parameter must be an Integer");
+      return res
+        .status(400)
+        .json({ msg: "The id parameter must be an Integer" });
+    }
+
     // je vérifie si l'id n'est pas celui de la personne connectée
     // cela évite qu'il supprime sont propre compte
     if (parseInt(id) === parseInt(req.token.id)) {

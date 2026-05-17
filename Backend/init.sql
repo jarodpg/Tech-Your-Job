@@ -17,7 +17,7 @@ CREATE TABLE entreprise (
 
 CREATE TABLE poste (
     id_poste INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_entreprise INT REFERENCES entreprise(id_entreprise),
+    id_entreprise INT REFERENCES entreprise(id_entreprise) ON DELETE CASCADE,
     type_contrat TEXT,
     date_creation TIMESTAMP WITH TIME ZONE,
     description TEXT,
@@ -85,7 +85,7 @@ CREATE TABLE profil_utilisateur(
 CREATE TABLE experience_utilisateur(
     id_experience INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
-    id_entreprise INT REFERENCES entreprise(id_entreprise),
+    id_entreprise INT REFERENCES entreprise(id_entreprise) ON DELETE SET NULL,
     nom_entreprise TEXT,
     titre TEXT,
     date_debut DATE NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE experience_utilisateur(
 CREATE TABLE formation_utilisateur(
     id_formation INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
-    id_entreprise INT REFERENCES entreprise(id_entreprise),
+    id_entreprise INT REFERENCES entreprise(id_entreprise) ON DELETE SET NULL,
     nom_établissement TEXT,
     titre TEXT,
     date_debut DATE NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE formation_utilisateur(
 CREATE TABLE candidature (
     id_candidature INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
-    id_poste INT REFERENCES poste(id_poste),
+    id_poste INT REFERENCES poste(id_poste) ON DELETE SET NULL,
     date_candidature TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     statut TEXT DEFAULT 'en_attente',
     fichier_path TEXT,
