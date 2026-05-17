@@ -21,6 +21,7 @@ const Start_Docker = require("./Features_unique/Start_Docker");
 const enterpriseIDRoutes = require("./enterpriseID");
 const enterpriseXRoutes = require("./enterpriseX");
 const enterpriseTopXRoutes = require("./enterpriseTopX");
+const searchPostsRoutes = require("./searchPosts");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -42,5 +43,6 @@ router.use("/api", Start_Docker);
 router.use("/", enterpriseIDRoutes);
 router.use("/", enterpriseXRoutes);
 router.use("/", enterpriseTopXRoutes);
+router.use("/", searchPostsRoutes);
 
 module.exports = router;
