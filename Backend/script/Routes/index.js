@@ -25,6 +25,7 @@ const searchPostsRoutes = require("./searchPosts");
 const deleteUserRoutes = require("./admin/delete_user");
 const deleteEnterpriseRoutes = require("./admin/delete_enterprise");
 const deletePostRoutes = require("./admin/delete_post");
+const updatePrivilegeRoutes = require("./admin/update_privilege");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -50,5 +51,6 @@ router.use("/", searchPostsRoutes);
 router.use("/", deleteUserRoutes);
 router.use("/", deleteEnterpriseRoutes);
 router.use("/", deletePostRoutes);
+router.use("/", updatePrivilegeRoutes);
 
 module.exports = router;
