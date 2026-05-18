@@ -1,6 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CiViewTable } from "react-icons/ci";
+
+import DashboardModal from "../Dasboard/card-dashboard";
+import { Get_User_Info } from "@/app/services/Info_User_Service";
 
 function Rond({
   couleur,
@@ -41,8 +44,28 @@ export default function DashBoard_Preview() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  // ovuerture du dashboard
+  const [dashboardOpen, setDashboardOpen] = useState(false);
+
+  // data user
+  const [Data, setData] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = await Get_User_Info();
+      setData(data);
+      console.log(data.profil[0].candidatures_envoyees, "ddd");
+    };
+    fetchUser();
+  }, []);
+
   return (
     <div className="flex flex-col bg-[#242424] rounded-3xl items-center gap-5 p-6 w-[300px]">
+      {dashboardOpen && (
+        <DashboardModal
+          isOpen={dashboardOpen}
+          onClose={() => setDashboardOpen(false)}
+        />
+      )}
       <h1 className="flex items-center gap-3 text-white font-semibold">
         Aperçu du Dashboard
         <span>
@@ -81,21 +104,21 @@ export default function DashBoard_Preview() {
       <div className="flex flex-col gap-5 w-full">
         <Rond
           couleur="border-blue-500"
-          nombre="18"
+          nombre={Data?.profil?.[0]?.candidatures_envoyees || 0}
           titre="Candidatures Soumises"
           preview1="Apple iOS Designer - 16/04/2026"
           preview2="Google Data Analyst - 12/03/2026"
         />
         <Rond
           couleur="border-teal-400"
-          nombre="02"
+          nombre={Data?.profil?.[0]?.candidatures_positives || 0}
           titre="Candidatures Acceptées"
           preview1="Epitech AER - 01/04/2026"
           preview2="Aranet Stagiaire Data - 10/02/2026"
         />
         <Rond
           couleur="border-purple-500"
-          nombre="13"
+          nombre={Data?.profil?.[0]?.candidatures_refusees || 0}
           titre="Candidatures Rejetées"
           preview1="Amazon Web Designer - 17/03/2026"
           preview2="CapGemini IA Engineer - 06/01/2026"
@@ -104,7 +127,10 @@ export default function DashBoard_Preview() {
 
       <div className="bg-white/15 w-[80%] h-px" />
 
-      <p className="text-gray-400 text-xs flex items-center gap-1 cursor-pointer hover:text-white transition-colors">
+      <p
+        onClick={() => setDashboardOpen(true)}
+        className="text-gray-400 text-xs flex items-center gap-1 cursor-pointer hover:text-white transition-colors"
+      >
         → Consulter l'intégralité du Dashboard
       </p>
     </div>
