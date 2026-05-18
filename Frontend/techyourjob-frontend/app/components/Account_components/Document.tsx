@@ -42,7 +42,8 @@ function Document({
   );
 }
 
-export default function Document_priview() {
+export default function Document_priview({ isEdit }) {
+  console.log("isedit ?", isEdit);
   // ouverture popup
   const [isDocumentEdit, setIsDocumentEdit] = useState(false);
 
@@ -101,12 +102,14 @@ export default function Document_priview() {
 
       <h1 className="flex items-center gap-3 text-white font-semibold mb-3">
         Documents
-        <span
-          onClick={() => setIsDocumentEdit(true)}
-          className="cursor-pointer"
-        >
-          <FaPencil className="text-gray-400 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span
+            onClick={() => setIsDocumentEdit(true)}
+            className="cursor-pointer"
+          >
+            <FaPencil className="text-gray-400 text-sm" />
+          </span>
+        )}
       </h1>
       {docs.length === 0 && (
         <p className="text-gray-500 text-sm">Aucun document</p>

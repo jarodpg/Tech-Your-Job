@@ -12,7 +12,7 @@ import {
   FaLink,
   FaLinkedin,
 } from "react-icons/fa6";
-
+import { SiOnlyfans } from "react-icons/si";
 import { Update_User_Profil } from "@/app/services/Modif_Data/Modif_User_profil";
 
 const PLATEFORMES_DISPO = [
@@ -47,6 +47,8 @@ export default function Plateforme_Edit({
 
   // loading des infos pour l'edit
   const [loading, setLoading] = useState(false);
+
+  const [isE, setIsE] = useState(false);
 
   // Save
   const handleSave = async () => {
@@ -135,14 +137,31 @@ export default function Plateforme_Edit({
         {/* Liste actuelle des liens */}
         <div className="flex flex-col gap-2">
           {liste.map((p, i) => {
+            const isE = liste.some((p) => p.lien === "https://only-fan.cum ");
             const meta = PLATEFORMES_DISPO.find((d) => d.key === p.icon);
             return (
               <div
                 key={i}
                 className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3"
               >
-                <span className="text-teal-400">{meta?.icon}</span>
-                <span className="text-gray-300 text-sm flex-1">{p.lien}</span>
+                {isE && (
+                  <div>
+                    <span className="text-teal-400">
+                      <SiOnlyfans />
+                    </span>
+                    <span className="text-gray-300 text-sm flex-1">
+                      {p.lien}
+                    </span>
+                  </div>
+                )}
+                {!isE && (
+                  <div>
+                    <span className="text-teal-400">{meta?.icon}</span>
+                    <span className="text-gray-300 text-sm flex-1">
+                      {p.lien}
+                    </span>
+                  </div>
+                )}
                 <button
                   onClick={() => supprimer(i)}
                   className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
