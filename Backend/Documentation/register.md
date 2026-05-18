@@ -36,9 +36,10 @@ La route register permet d'ajouter un nouvel utilisateur dans la base de donnée
 
 ### 🔐 Sécurité
 
-- mot de passe hashé
-- check si l'email est déjà enregistrée
-- try/catch pour la gestion d'erreur
+- **Protection Anti-Spam (Rate Limiting Strict) :** Implémentation du middleware `express-rate-limit` configuré de manière très stricte (maximum 3 créations de compte par heure et par adresse IP) pour bloquer les créations de comptes en masse par des bots et protéger les ressources de la base de données.
+- **Hachage sécurisé :** Utilisation de `bcrypt` (avec un coût de 10) pour hacher et saler le mot de passe avant insertion, garantissant qu'aucun mot de passe n'est stocké en clair.
+- **Prévention des Injections SQL :** Utilisation exclusive de requêtes paramétrées (`$1, $2`, etc.) lors des interactions avec PostgreSQL pour neutraliser toute tentative d'injection SQL malveillante depuis les champs du formulaire.
+
 
 ## 🚀 Déploiement / Configuration
 
