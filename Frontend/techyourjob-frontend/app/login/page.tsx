@@ -101,7 +101,7 @@ export default function LoginPage() {
 
             <div className="flex justify-start ml-2 mb-15">
               <a
-                href="/forgotpassword"
+                href="/forgot-password"
                 className="text-[#7288C9] ml-1 cursor-pointer font-bold underline"
               >
                 Forgot Password?
