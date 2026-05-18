@@ -16,3 +16,5 @@ minio
 multer
 uuid
 nodemailer
+pandas
+json
