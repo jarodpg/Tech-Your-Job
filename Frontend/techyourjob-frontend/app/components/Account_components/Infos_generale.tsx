@@ -16,7 +16,13 @@ interface Info {
   PP: string;
 }
 
-export default function Infos_generale({ infos }: { infos: Info }) {
+export default function Infos_generale({
+  isEdit,
+  infos,
+}: {
+  isEdit: boolean;
+  infos: Info;
+}) {
   const [data, setData] = useState<Info>(infos);
 
   // pour ouvrir la poup modif
@@ -31,12 +37,14 @@ export default function Infos_generale({ infos }: { infos: Info }) {
       />
       <h1 className="flex items-center gap-3 text-white font-bold">
         Informations Générales
-        <span>
-          <FaPencil
-            onClick={() => setIsEditOpen(true)}
-            className="text-gray-500 text-sm cursor-pointer"
-          />
-        </span>
+        {isEdit == true && (
+          <span>
+            <FaPencil
+              onClick={() => setIsEditOpen(true)}
+              className="text-gray-500 text-sm cursor-pointer"
+            />
+          </span>
+        )}
       </h1>
 
       <div className="relative mb-8">

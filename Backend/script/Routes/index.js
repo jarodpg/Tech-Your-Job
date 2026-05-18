@@ -28,6 +28,7 @@ const deletePostRoutes = require("./admin/delete_post");
 const updatePrivilegeRoutes = require("./admin/update_privilege");
 const SearchUser = require("./admin/rechercher_user");
 const SearchEntreprise = require("./admin/rechercher_entreprise");
+const See_Other_Account = require("./See_Account");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -56,5 +57,6 @@ router.use("/", deletePostRoutes);
 router.use("/", updatePrivilegeRoutes);
 router.use("/", SearchUser);
 router.use("/", SearchEntreprise);
+router.use("/", See_Other_Account);
 
 module.exports = router;
