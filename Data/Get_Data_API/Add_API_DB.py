@@ -84,7 +84,7 @@ def Entreprise_Into_DB():
                 nameVU.append(infos_entreprise.get("companyName"))
 
 
-Entreprise_Into_DB()
+# Entreprise_Into_DB()
 
 
 def get_entreprise_id(company_name):

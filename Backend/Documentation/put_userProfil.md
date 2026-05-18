@@ -16,6 +16,7 @@ La route PUT user/profil permet à l'utilisateur de modifier ses informations da
 - **MINIO.js** pour importer les paramètres de connexion au stockage minio
 - **config_multer** pour définir la façon dont sont traités les fichiers uploadés
 - **user_image.js** pour récupérer les images depuis leur URL
+- **Middleware.js** pour protéger la route avec le token de l'utilisateur
 
 ### Flux de donnees
 
