@@ -3,6 +3,11 @@
 import { useState } from "react";
 import { Rechercher_user } from "../services/Admin/Search_User";
 import { Update_Privilege } from "../services/Admin/Elevation_User";
+import { Delete_User } from "../services/Admin/Delete_User";
+import { Delete_Entreprise } from "../services/Admin/Delete_Entreprise";
+import { Rechercher_entreprise } from "../services/Admin/Search_entreprise";
+import { Delete_Poste } from "../services/Admin/Delete_Poste";
+import { Rechercher_poste } from "../services/Admin/Search_poste";
 
 const AdminDashboard = () => {
   interface User {
@@ -13,24 +18,69 @@ const AdminDashboard = () => {
     role: string;
   }
 
+  const [searchOffre, setSearchOffre] = useState("");
+
   //affichage role dispo
   const [isUpd, setIsUpd] = useState<number | null>(null);
 
+  // user part
   const [user_search, setUser_search] = useState("");
   const [user, setUser] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = async () => {
+  // entreprise part
+  const [entreprise_search, setEntreprise_search] = useState("");
+  interface Entreprise {
+    id_entreprise: number;
+    nom_compagnie: string;
+  }
+  const [entreprise, setEntreprise] = useState<Entreprise[]>([]);
+
+  // poste part
+  interface Poste {
+    id_poste: number;
+    titre: string;
+    nom_compagnie?: string;
+    type_contrat?: string;
+  }
+  const [poste, setPoste] = useState<Poste[]>([]);
+
+  // fonction de recherche
+  const handleSearch = async (what) => {
     setLoading(true);
     try {
-      const data = await Rechercher_user(user_search);
-      setUser(data);
+      if (what == "user") {
+        const data = await Rechercher_user(user_search);
+        setUser(data);
+      }
+      if (what == "entreprise") {
+        const data = await Rechercher_entreprise(entreprise_search);
+        setEntreprise(data);
+      }
+      if (what == "poste") {
+        const data = await Rechercher_poste(entreprise_search);
+        setEntreprise(data);
+      }
     } catch (err) {
       console.error(err);
     }
     setLoading(false);
   };
 
+  // pour supprimer un utilisateur
+  const handeDelete_user = async (userId: number) => {
+    setLoading(true);
+    try {
+      await Delete_User(userId);
+      setUser((prev) => prev.filter((u) => u.id_utilisateur !== userId));
+      setIsUpd(null);
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+  // pour changer de role
   const handleRoleChange = async (userId: number, role: string) => {
     try {
       await Update_Privilege(userId, role);
@@ -43,6 +93,30 @@ const AdminDashboard = () => {
     }
   };
 
+  // pour supprimer une entreprise
+  const handleDelete_entreprise = async (id) => {
+    setLoading(true);
+    try {
+      await Delete_Entreprise(id);
+      setEntreprise((prev) => prev.filter((e) => e.id_entreprise !== id));
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+  // pour supprimer un poste
+  const handleDetele_poste = async (id) => {
+    setLoading(true);
+    try {
+      await Delete_Poste(id);
+      setPoste((prev) => prev.filter((p) => p.id_poste !== id));
+    } catch (err) {
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
   //  datas de test
   const [offres] = useState([
     { titre: "Développeur Fullstack JS", boite: "NextGen Tech", type: "CDI" },
@@ -50,17 +124,6 @@ const AdminDashboard = () => {
 
     { titre: "Data Analyst", boite: "StatMarket", type: "Stage" },
   ]);
-
-  // flemme de gerer le siret pr linstan
-  const [entreprises] = useState([
-    { nom: "SecureNet France", statut: "En attente" },
-
-    { nom: "DevAgency", statut: "Nouveau compte" },
-  ]);
-
-  // use states pr garder les inputs (sur demande de pvcraft mdr)
-  const [searchOffre, setSearchOffre] = useState("");
-  const [searchBoite, setSearchBoite] = useState("");
 
   return (
     <div className="bg-[#242424] min-h-screen font-sans text-[#8e8e8e] p-4 md:p-8">
@@ -86,6 +149,7 @@ const AdminDashboard = () => {
             placeholder="Chercher une offre..."
             value={searchOffre}
             onChange={(e) => setSearchOffre(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch("poste")}
             className="w-full bg-[#242424] border border-[#8e8e8e]/20 text-[#8e8e8e] text-sm rounded-full px-4 py-2 mb-6 focus:outline-none focus:border-[#7288c9]/50 transition"
           />
 
@@ -104,11 +168,7 @@ const AdminDashboard = () => {
 
                 <div className="mt-5 flex gap-3">
                   <button className="flex-1 bg-[#7288c9] text-[#242424] font-bold py-2 rounded-full text-s hover:opacity-90 transition">
-                    Valider
-                  </button>
-
-                  <button className="flex-1 border border-[#8e8e8e] text-[#8e8e8e] py-2 rounded-full text-s hover:bg-[#8e8e8e] hover:text-[#242424] transition">
-                    Refuser
+                    Supprimer le poste
                   </button>
                 </div>
               </div>
@@ -129,7 +189,7 @@ const AdminDashboard = () => {
             placeholder="Chercher un utilisateur..."
             value={user_search}
             onChange={(e) => setUser_search(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch("user")}
             className="w-full bg-[#242424] border border-[#8e8e8e]/20 text-[#8e8e8e] text-sm rounded-full px-4 py-2 mb-6 focus:outline-none focus:border-[#7288c9]/50 transition"
           />
 
@@ -165,7 +225,10 @@ const AdminDashboard = () => {
                     </span>
                   </div>
                   <div className="flex gap-2 flax-row">
-                    <button className="flex-1 bg-[#2c2c2c] border border-[#7288c9] text-[#7288c9] py-2 rounded-full text-[15px] font-bold hover:bg-[#7288c9] hover:text-[#242424] transition">
+                    <button
+                      onClick={() => handeDelete_user(usr.id_utilisateur)}
+                      className="flex-1 bg-[#2c2c2c] border border-[#7288c9] text-[#7288c9] py-2 rounded-full text-[15px] font-bold hover:bg-[#7288c9] hover:text-[#242424] transition"
+                    >
                       Supprimer l'utilisateur
                     </button>
                     <button
@@ -225,28 +288,38 @@ const AdminDashboard = () => {
           <input
             type="text"
             placeholder="Chercher une boite..."
-            value={searchBoite}
-            onChange={(e) => setSearchBoite(e.target.value)}
+            value={entreprise_search}
+            onChange={(e) => setEntreprise_search(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch("entreprise")}
             className="w-full bg-[#242424] border border-[#8e8e8e]/20 text-[#8e8e8e] text-sm rounded-full px-4 py-2 mb-6 focus:outline-none focus:border-[#7288c9]/50 transition"
           />
 
           <div className="space-y-4">
             {/* et ici aussi le filter est parti */}
-            {entreprises.map((ent, i) => (
-              <div
-                key={i}
-                className="bg-[#242424] border border-[#8e8e8e]/20 p-5 rounded-2xl"
-              >
-                <h3 className="font-bold text-white">{ent.nom}</h3>
-                <p className="text-xs mt-1 italic text-[#8e8e8e]">
-                  {ent.statut}
-                </p>
-
-                <button className="w-full mt-4 bg-white/5 border border-[#8e8e8e]/30 text-[#7288c9] py-2 rounded-full font-bold  hover:bg-[#7288c9] hover:text-[#242424] transition">
-                  Certifier la boîte
-                </button>
-              </div>
-            ))}
+            {loading ? (
+              <p className="text-[#8e8e8e] text-xs text-center py-4">
+                Recherche...
+              </p>
+            ) : entreprise.length === 0 ? (
+              <p className="text-[#8e8e8e]/40 text-xs text-center py-4">
+                Aucune entreprise trouvée
+              </p>
+            ) : (
+              entreprise.map((ent) => (
+                <div
+                  key={ent.id_entreprise}
+                  className="bg-[#242424] border border-[#8e8e8e]/20 p-5 rounded-2xl"
+                >
+                  <h3 className="font-bold text-white">{ent.nom_compagnie}</h3>
+                  <button
+                    onClick={() => handleDelete_entreprise(ent.id_entreprise)}
+                    className="w-full mt-4 bg-white/5 border border-[#8e8e8e]/30 text-[#7288c9] py-2 rounded-full font-bold hover:bg-[#7288c9] hover:text-[#242424] transition"
+                  >
+                    Supprimer l'entreprise
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

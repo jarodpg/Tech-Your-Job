@@ -119,7 +119,7 @@ CREATE TABLE candidature (
     message TEXT,
     consigne TEXT,
     date_rendue TIMESTAMP WITH TIME ZONE,
-    fichier_attendues TEXT[],
+    fichier_attendues TEXT[],    id_entreprise INT REFERENCES entreprise(id_entreprise) ON DELETE CASCADE,
     attendues TEXT,
     fichier_candidats TEXT[] 
 );
