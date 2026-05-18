@@ -18,15 +18,12 @@ const AdminDashboard = () => {
     role: string;
   }
 
-  const [searchOffre, setSearchOffre] = useState("");
-
-  //affichage role dispo
-  const [isUpd, setIsUpd] = useState<number | null>(null);
-
   // user part
   const [user_search, setUser_search] = useState("");
   const [user, setUser] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  //affichage role dispo
+  const [isUpd, setIsUpd] = useState<number | null>(null);
 
   // entreprise part
   const [entreprise_search, setEntreprise_search] = useState("");
@@ -44,6 +41,8 @@ const AdminDashboard = () => {
     type_contrat?: string;
   }
   const [poste, setPoste] = useState<Poste[]>([]);
+  //offres
+  const [searchOffre, setSearchOffre] = useState("");
 
   // fonction de recherche
   const handleSearch = async (what) => {
@@ -58,8 +57,8 @@ const AdminDashboard = () => {
         setEntreprise(data);
       }
       if (what == "poste") {
-        const data = await Rechercher_poste(entreprise_search);
-        setEntreprise(data);
+        const data = await Rechercher_poste(searchOffre);
+        setPoste(data);
       }
     } catch (err) {
       console.error(err);
@@ -80,7 +79,7 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
-  // pour changer de role
+  // pour changer de role un utilisateur
   const handleRoleChange = async (userId: number, role: string) => {
     try {
       await Update_Privilege(userId, role);
@@ -117,14 +116,6 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
-  //  datas de test
-  const [offres] = useState([
-    { titre: "Développeur Fullstack JS", boite: "NextGen Tech", type: "CDI" },
-    { titre: "Ingénieur DevOps", boite: "CloudSys", type: "Alternance" },
-
-    { titre: "Data Analyst", boite: "StatMarket", type: "Stage" },
-  ]);
-
   return (
     <div className="bg-[#242424] min-h-screen font-sans text-[#8e8e8e] p-4 md:p-8">
       {/* le title */}
@@ -155,24 +146,38 @@ const AdminDashboard = () => {
 
           <div className="space-y-4">
             {/* on a enleve le filter, just un map normal */}
-            {offres.map((off, index) => (
-              <div
-                key={index}
-                className="bg-[#242424] border border-[#8e8e8e]/20 p-5 rounded-2xl transition hover:border-[#7288c9]/50"
-              >
-                <h3 className="font-bold text-white text-md">{off.titre}</h3>
+            {loading ? (
+              <p className="text-[#8e8e8e] text-xs text-center py-4">
+                Recherche...
+              </p>
+            ) : poste.length === 0 ? (
+              <p className="text-[#8e8e8e]/40 text-xs text-center py-4">
+                Aucun poste trouvé
+              </p>
+            ) : (
+              // partie des postes
+              poste.map((off) => (
+                <div
+                  key={off.id_poste}
+                  className="bg-[#242424] border border-[#8e8e8e]/20 p-5 rounded-2xl transition hover:border-[#7288c9]/50"
+                >
+                  <h3 className="font-bold text-white text-md">{off.titre}</h3>
 
-                <p className="text-sm text-[#8e8e8e] mt-1">
-                  {off.boite} / {off.type}
-                </p>
+                  <p className="text-sm text-[#8e8e8e] mt-1">
+                    {off.nom_compagnie} / {off.type_contrat}
+                  </p>
 
-                <div className="mt-5 flex gap-3">
-                  <button className="flex-1 bg-[#7288c9] text-[#242424] font-bold py-2 rounded-full text-s hover:opacity-90 transition">
-                    Supprimer le poste
-                  </button>
+                  <div className="mt-5 flex gap-3">
+                    <button
+                      onClick={() => handleDetele_poste(off.id_poste)}
+                      className="flex-1 bg-[#7288c9] text-[#242424] font-bold py-2 rounded-full text-s hover:opacity-90 transition"
+                    >
+                      Supprimer le poste
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -206,6 +211,7 @@ const AdminDashboard = () => {
                   : "Essayer avec + de 2 caracteres"}
               </p>
             ) : (
+              // partie des users
               user.map((usr) => (
                 <div
                   key={usr.id_utilisateur}
@@ -305,6 +311,7 @@ const AdminDashboard = () => {
                 Aucune entreprise trouvée
               </p>
             ) : (
+              // partie des entreprises
               entreprise.map((ent) => (
                 <div
                   key={ent.id_entreprise}

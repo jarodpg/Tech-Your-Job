@@ -7,7 +7,6 @@ router.get("/user/:id/account", auth, async (req, res) => {
   try {
     const id = req.params.id;
     const user_role = req.token.role;
-    const user_id = req.token.id;
 
     console.log("sdsdsd", user_role);
     if (user_role !== "enterprise") {
