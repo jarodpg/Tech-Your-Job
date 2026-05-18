@@ -29,7 +29,7 @@ export default function Account() {
     const fetchUser = async () => {
       const data = await Get_User_Info();
       setData(data);
-      if (data.global[0].role == "entreprise") {
+      if (data.global[0].role == "enterprise") {
         setIsUser(false);
       }
       console.log(data.experience[0]);
