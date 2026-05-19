@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 
 import { Get_User_Info } from "../services/Info_User_Service";
 
+import { See_Profile_User } from "../services/Entreprise/See_Profile_User";
+import { useSearchParams } from "next/navigation";
+
 // components
 import DashBoard_Preview from "../components/Account_components/Dashboard_preview";
 import Document_priview from "../components/Account_components/Document";
@@ -20,23 +23,40 @@ import AddTestTechnique from "../components/Account_components/Entreprise/AJoute
 import Reponse_candidats from "../components/Account_components/Entreprise/Managae_reponse";
 
 export default function Account() {
-  const [isDocumentEdit, setisDocumentEdit] = useState(false);
+  // pour visionner un profile user
+  const searchParams = useSearchParams();
+  const viewUserId = searchParams.get("user");
+
+  //data
   const [Data, setData] = useState(null);
+
+  // pour savoir si on edit ou non les donnee de la page
+  const [isEdit, setIsEdit] = useState(true);
 
   //sauvegarde du job
   const [isUser, setIsUser] = useState(true);
   useEffect(() => {
     const fetchUser = async () => {
-      const data = await Get_User_Info();
-      setData(data);
-      if (data.global[0].role == "entreprise") {
-        setIsUser(false);
+      let data;
+
+      if (viewUserId) {
+        // voir un compte
+        data = await See_Profile_User(viewUserId);
+        setIsEdit(false);
+        setIsUser(true);
+      } else {
+        // mon profil
+        data = await Get_User_Info();
+        if (data.global[0].role === "enterprise") {
+          setIsEdit(false);
+          setIsUser(false);
+        }
       }
-      console.log(data.experience[0]);
-      console.log(data.formation[0]);
+
+      setData(data);
     };
     fetchUser();
-  }, []);
+  }, [viewUserId]);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
@@ -46,10 +66,21 @@ export default function Account() {
       {isUser && (
         <div className="grid grid-cols-[0.7fr_2.3fr] gap-x-2 gap-y-4 mt-4 px-4 pb-4">
           <div className="flex flex-col gap-4">
-            <DashBoard_Preview />
-            <Document_priview />
+            {!Data && (
+              <h1 className="text-bold">
+                Acces reserve pour les entreprises partenaire !
+              </h1>
+            )}
+            {Data && <DashBoard_Preview infos={Data.profil[0]} />}
+            {Data && (
+              <Document_priview
+                isEdit={isEdit}
+                docs={Data.profil[0]?.document}
+              />
+            )}
             {Data && (
               <Competence_Preview
+                isEdit={isEdit}
                 infos={{
                   competences_experience: Data.experience.flatMap((e) =>
                     (e["compétences"] ?? []).map((c) => ({
@@ -78,6 +109,7 @@ export default function Account() {
           <div className="flex flex-col gap-4">
             {Data && (
               <Infos_generale
+                isEdit={isEdit}
                 infos={{
                   ...Data.global[0],
                   ...Data.profil[0],
@@ -88,6 +120,7 @@ export default function Account() {
             <div className="grid grid-cols-2 gap-4">
               {Data && (
                 <Biographie_account
+                  isEdit={isEdit}
                   infos={{
                     ...Data.profil[0],
                   }}
@@ -96,6 +129,7 @@ export default function Account() {
               <div className="flex flex-col gap-4">
                 {Data && (
                   <Contact_account
+                    isEdit={isEdit}
                     infos={{
                       ...Data.global[0],
                     }}
@@ -104,6 +138,7 @@ export default function Account() {
 
                 {Data && (
                   <Plateforme_Account
+                    isEdit={isEdit}
                     infos={{
                       ...Data.profil[0],
                     }}
@@ -113,6 +148,7 @@ export default function Account() {
             </div>
             {Data && (
               <ExperiencePro_account
+                isEdit={isEdit}
                 infos={{
                   experience: Data.experience,
                   competences_experience: Data.experience.flatMap((e) =>
@@ -124,7 +160,9 @@ export default function Account() {
                 }}
               />
             )}
-            {Data && <Formation_Account infos={Data.formation} />}
+            {Data && (
+              <Formation_Account isEdit={isEdit} infos={Data.formation} />
+            )}
           </div>
         </div>
       )}

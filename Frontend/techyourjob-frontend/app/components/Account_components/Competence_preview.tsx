@@ -98,8 +98,10 @@ interface Info {
 }
 
 export default function Competence_Preview({
+  isEdit,
   infos: initialInfos,
 }: {
+  isEdit: boolean;
   infos: Info;
 }) {
   // poup voir tt competences
@@ -158,9 +160,11 @@ export default function Competence_Preview({
       />
       <h1 className="flex items-center gap-3 text-white text-xl font-bold mb-2">
         Compétences
-        <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
-          <FaPencil className="text-gray-500 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
+            <FaPencil className="text-gray-500 text-sm" />
+          </span>
+        )}
       </h1>
       {apercu.map(({ competence, source, logo }, i) => (
         <div key={i}>

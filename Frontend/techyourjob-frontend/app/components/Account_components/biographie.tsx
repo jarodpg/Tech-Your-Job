@@ -10,7 +10,13 @@ interface Info {
   biographie: string;
 }
 
-export default function Biographie_account({ infos }: { infos: Info }) {
+export default function Biographie_account({
+  isEdit,
+  infos,
+}: {
+  isEdit: boolean;
+  infos: Info;
+}) {
   const [description, setDescription] = useState(
     "Lorem ipsum dolor sit amet consectetur. Malesuada lacus nunc vitae in. Rutrum et ipsum tincidunt quis aliquet id libero sit pretium. Diam metus feugiat nunc mauris risus felis. Erat viverra sociis pellentesque non at. Id nullam porttitor et non sed.\n\nElit lectus dictum eu fermentum at habitasse. Neque nunc justo ullamcorper nunc tellus nam. Ut a viverra risus mi...",
   );
@@ -34,9 +40,11 @@ export default function Biographie_account({ infos }: { infos: Info }) {
       />
       <h1 className="flex items-center gap-3 text-white font-bold">
         Biographie
-        <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
-          <FaPencil className="text-gray-500 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
+            <FaPencil className="text-gray-500 text-sm" />
+          </span>
+        )}
       </h1>
 
       <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">

@@ -11,7 +11,13 @@ interface Info {
   telephone: string;
 }
 
-export default function Contact_account({ infos }: { infos: Info }) {
+export default function Contact_account({
+  isEdit,
+  infos,
+}: {
+  isEdit: boolean;
+  infos: Info;
+}) {
   // const [Phone, setPhone] = useState("+33 7 87 93 47 91");
   // const [Email, setEmail] = useState("nathan.sosniak@epitech.eu");
 
@@ -34,9 +40,11 @@ export default function Contact_account({ infos }: { infos: Info }) {
       />
       <h1 className="flex items-center gap-3 text-white font-bold">
         Contact
-        <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
-          <FaPencil className="text-gray-500 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
+            <FaPencil className="text-gray-500 text-sm" />
+          </span>
+        )}
       </h1>
 
       <div className="flex flex-row gap-10">

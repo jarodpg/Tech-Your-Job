@@ -59,7 +59,13 @@ interface Info {
   plateforme: PlateformeItem;
 }
 
-export default function Plateforme_Account({ infos }: { infos: Info }) {
+export default function Plateforme_Account({
+  isEdit,
+  infos,
+}: {
+  isEdit: boolean;
+  infos: Info;
+}) {
   const plateformes = Object.entries(infos.plateforme ?? {}).map(
     ([icon, lien]) => ({ icon, lien: lien as string }),
   );
@@ -77,9 +83,11 @@ export default function Plateforme_Account({ infos }: { infos: Info }) {
       />
       <h1 className="flex items-center gap-3 text-white font-bold">
         Plateformes
-        <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
-          <FaPencil className="text-gray-500 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span onClick={() => setIsEditOpen(true)} className="cursor-pointer">
+            <FaPencil className="text-gray-500 text-sm" />
+          </span>
+        )}
       </h1>
 
       <div className="flex flex-col gap-3">

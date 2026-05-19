@@ -139,6 +139,7 @@ function Formation({
 }
 
 export default function Formation_Account({
+  isEdit,
   infos: initialInfos,
 }: {
   infos: Info[];
@@ -197,12 +198,14 @@ export default function Formation_Account({
       )}
       <h1 className="flex items-center gap-3 text-white font-bold">
         Formations
-        <span
-          onClick={() => setSelectedFormation(formations[0])}
-          className="cursor-pointer"
-        >
-          <FaPencil className="text-gray-500 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span
+            onClick={() => setSelectedFormation(formations[0])}
+            className="cursor-pointer"
+          >
+            <FaPencil className="text-gray-500 text-sm" />
+          </span>
+        )}
       </h1>
 
       {formations.map((f, i) => (
@@ -215,12 +218,14 @@ export default function Formation_Account({
               Date={`${f.date_debut} - ${f.date_fin}`}
               Description={f.description}
             />
-            <span
-              onClick={() => setSelectedFormation(f)}
-              className="cursor-pointer ml-2 mt-1"
-            >
-              <FaPencil className="text-gray-500 text-sm hover:text-white transition-colors" />
-            </span>
+            {isEdit == true && (
+              <span
+                onClick={() => setSelectedFormation(f)}
+                className="cursor-pointer ml-2 mt-1"
+              >
+                <FaPencil className="text-gray-500 text-sm hover:text-white transition-colors" />
+              </span>
+            )}
           </div>
           {i < formations.length - 1 && (
             <div className="bg-white/12 h-px w-full mt-4" />
@@ -228,26 +233,28 @@ export default function Formation_Account({
         </div>
       ))}
       <div className="bg-white/12 h-px w-full" />
-      <button
-        onClick={() =>
-          setSelectedFormation({
-            id_formation: -1,
-            nom_établissement: "",
-            titre: "",
-            date_debut: "",
-            date_fin: "",
-            description: "",
-            compétences: [],
-            competences_formation: [],
-            diplome: "",
-            logo: null,
-          })
-        }
-        className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors"
-      >
-        <IoAddOutline className="text-base" />
-        Ajouter une formation
-      </button>
+      {isEdit == true && (
+        <button
+          onClick={() =>
+            setSelectedFormation({
+              id_formation: -1,
+              nom_établissement: "",
+              titre: "",
+              date_debut: "",
+              date_fin: "",
+              description: "",
+              compétences: [],
+              competences_formation: [],
+              diplome: "",
+              logo: null,
+            })
+          }
+          className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors"
+        >
+          <IoAddOutline className="text-base" />
+          Ajouter une formation
+        </button>
+      )}
     </div>
   );
 }

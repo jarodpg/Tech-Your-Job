@@ -22,7 +22,7 @@ export default function Reponse_candidats() {
   // poste des l'entreprise
   useEffect(() => {
     const fetchPostes = async () => {
-      const data = await Get_Enterprise(1);
+      const data = await Get_Enterprise(2);
       setPostes(data?.offre ?? []);
     };
     fetchPostes();
@@ -41,7 +41,7 @@ export default function Reponse_candidats() {
       const grouped: Record<string, string[]> = {};
       for (const f of fichiers) {
         const parts = f.split("/");
-        const userKey = parts.slice(0, 2).join("/");
+        const userKey = parts.slice(1, 2).join("/");
         if (!grouped[userKey]) grouped[userKey] = [];
         grouped[userKey].push(f);
       }
@@ -117,25 +117,38 @@ export default function Reponse_candidats() {
                 Aucun candidat
               </p>
             ) : (
-              users.map(([userKey, fichiers]) => (
-                <div
-                  key={userKey}
-                  className="grid grid-cols-[1fr_auto_80px] gap-3 px-4 py-3 border-b border-white/5 last:border-0 items-center hover:bg-white/[0.02] transition-colors"
-                >
-                  <span className="text-white/80 text-sm font-medium truncate">
-                    {userKey}
-                  </span>
-                  <span className="text-white/40 text-xs">
-                    {fichiers.length} fichier(s)
-                  </span>
-                  <button
-                    onClick={() => handleLancer(fichiers)}
-                    className="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-[10px] font-bold uppercase tracking-wider py-1.5 rounded-lg border border-emerald-500/20 transition-all"
+              users.map(([userKey, fichiers]) => {
+                const userId = userKey.split("_")[1];
+                return (
+                  <div
+                    key={userKey}
+                    className="grid grid-cols-[1fr_auto_80px] gap-3 px-4 py-3 border-b border-white/5 last:border-0 items-center hover:bg-white/[0.02] transition-colors"
                   >
-                    Lancer
-                  </button>
-                </div>
-              ))
+                    <div className="flex flex-row gap-4 items-center">
+                      <span className="text-white/80 text-sm font-medium truncate">
+                        {userKey}
+                      </span>
+                      <button
+                        onClick={() =>
+                          window.open(`/account?user=${userId}`, "_blank")
+                        }
+                        className="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-[10px] font-bold uppercase tracking-wider py-1.5 rounded-lg border border-emerald-500/20 transition-all"
+                      >
+                        Voir l'utilisateur
+                      </button>
+                    </div>
+                    <span className="text-white/40 text-xs">
+                      {fichiers.length} fichier(s)
+                    </span>
+                    <button
+                      onClick={() => handleLancer(fichiers)}
+                      className="bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-[10px] font-bold uppercase tracking-wider py-1.5 rounded-lg border border-emerald-500/20 transition-all"
+                    >
+                      Lancer
+                    </button>
+                  </div>
+                );
+              })
             )}
           </div>
         )}

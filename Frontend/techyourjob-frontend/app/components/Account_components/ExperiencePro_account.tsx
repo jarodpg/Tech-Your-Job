@@ -147,6 +147,7 @@ function Experience_Pro({
 }
 
 export default function ExperiencePro_account({
+  isEdit,
   infos: initialInfos,
 }: ExperienceProAccountProps) {
   // on prend l'experience selectionner
@@ -208,12 +209,14 @@ export default function ExperiencePro_account({
       <h1 className="flex items-center gap-3 text-white font-bold">
         Expériences Professionnelles
         {/* on ouvre la premiere experince */}
-        <span
-          onClick={() => setSelectedExp(experiences[0])}
-          className="cursor-pointer"
-        >
-          <FaPencil className="text-gray-500 text-sm" />
-        </span>
+        {isEdit == true && (
+          <span
+            onClick={() => setSelectedExp(experiences[0])}
+            className="cursor-pointer"
+          >
+            <FaPencil className="text-gray-500 text-sm" />
+          </span>
+        )}
       </h1>
 
       {experiences.map((exp, i) => (
@@ -229,12 +232,14 @@ export default function ExperiencePro_account({
               Description={exp.description}
             />
             {/* on met un crayon pour modifier l'experience */}
-            <span
-              onClick={() => setSelectedExp(exp)}
-              className="cursor-pointer ml-2 mt-1"
-            >
-              <FaPencil className="text-gray-500 text-sm hover:text-white transition-colors" />
-            </span>
+            {isEdit == true && (
+              <span
+                onClick={() => setSelectedExp(exp)}
+                className="cursor-pointer ml-2 mt-1"
+              >
+                <FaPencil className="text-gray-500 text-sm hover:text-white transition-colors" />
+              </span>
+            )}
           </div>
           {i < experiences.length - 1 && (
             <div className="bg-white/12 h-px w-full mt-4" />
@@ -243,24 +248,26 @@ export default function ExperiencePro_account({
       ))}
 
       <div className="bg-white/12 h-px w-full" />
-      <button
-        onClick={() =>
-          setSelectedExp({
-            id_experience: -1,
-            titre: "",
-            date_debut: "",
-            date_fin: "",
-            description: "",
-            nom_entreprise: "",
-            competences_experience: [],
-            logo: null,
-          })
-        }
-        className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors"
-      >
-        <IoAddOutline className="text-base" />
-        Ajouter une expérience
-      </button>
+      {isEdit == true && (
+        <button
+          onClick={() =>
+            setSelectedExp({
+              id_experience: -1,
+              titre: "",
+              date_debut: "",
+              date_fin: "",
+              description: "",
+              nom_entreprise: "",
+              competences_experience: [],
+              logo: null,
+            })
+          }
+          className="flex items-center justify-center gap-2 text-gray-400 text-sm cursor-pointer hover:text-white transition-colors"
+        >
+          <IoAddOutline className="text-base" />
+          Ajouter une expérience
+        </button>
+      )}
     </div>
   );
 }
