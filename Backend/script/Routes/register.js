@@ -57,9 +57,6 @@ router.post("/register", registerLimiter, async (req, res) => {
       VALUES
         ($1)
     `;
-    const insert2Request = await client.query(sqlInsert2, [
-      insertRequest.rows[0].id_utilisateur,
-    ]);
 
     await client.query("COMMIT");
 

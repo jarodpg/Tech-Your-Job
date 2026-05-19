@@ -3,13 +3,12 @@ const router = express.Router();
 
 const connection = require("../DB");
 const { auth } = require("../Middleware");
+const fetch = require("node-fetch");
 
-const IA_SERVICE_URL =
-  process.env.IA_SERVICE_URL || "http://ia:8000"
+const IA_SERVICE_URL = process.env.IA_SERVICE_URL || "http://ia:8000";
 
 router.post("/recommend", auth, async (req, res) => {
   try {
-
     const userId = req.token.id;
 
     const sqlProfil = `
@@ -48,16 +47,17 @@ router.post("/recommend", auth, async (req, res) => {
     `;
 
     // Fetch
-    const [ profilResult, experiencesResult, formationsResult ] = await Promise.all([
-      connection.query(sqlProfil, [userId]),
-      connection.query(sqlExperiences, [userId]),
-      connection.query(sqlFormations, [userId]),
-    ]);
+    const [profilResult, experiencesResult, formationsResult] =
+      await Promise.all([
+        connection.query(sqlProfil, [userId]),
+        connection.query(sqlExperiences, [userId]),
+        connection.query(sqlFormations, [userId]),
+      ]);
 
     // Validation
     if (profilResult.rows.length === 0) {
       return res.status(400).json({
-        error: "Profil introuvable. Complétez votre profil."
+        error: "Profil introuvable. Complétez votre profil.",
       });
     }
 
@@ -65,11 +65,14 @@ router.post("/recommend", auth, async (req, res) => {
     const experiences = experiencesResult.rows;
     const formations = formationsResult.rows;
 
-    const hasData = profil.profession_actuelle || experiences.length > 0 || formations.length > 0;
+    const hasData =
+      profil.profession_actuelle ||
+      experiences.length > 0 ||
+      formations.length > 0;
 
     if (!hasData) {
       return res.status(400).json({
-        error: "Profil incomplet pour les recommandations."
+        error: "Profil incomplet pour les recommandations.",
       });
     }
 
@@ -95,10 +98,7 @@ router.post("/recommend", auth, async (req, res) => {
       .filter(Boolean)
       .join(" ");
 
-    const descriptions = [
-      ...experiences,
-      ...formations
-    ]
+    const descriptions = [...experiences, ...formations]
       .map((item) => item.description || "")
       .filter(Boolean)
       .join(" ");
@@ -122,7 +122,7 @@ router.post("/recommend", auth, async (req, res) => {
     // Gestion erreur
     if (!texte || texte.length < 3) {
       return res.status(400).json({
-        error: "Impossible de générer les recommandations."
+        error: "Impossible de générer les recommandations.",
       });
     }
 
@@ -130,18 +130,14 @@ router.post("/recommend", auth, async (req, res) => {
     let iaResponse;
 
     try {
-      iaResponse = await fetch(
-        `${IA_SERVICE_URL}/recommend`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ texte }),
-        }
-      );
+      iaResponse = await fetch(`${IA_SERVICE_URL}/recommend`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ texte }),
+      });
     } catch (fetchErr) {
-
       console.error("Service IA inaccessible :", fetchErr.message);
 
       return res.status(503).json({
@@ -161,7 +157,6 @@ router.post("/recommend", auth, async (req, res) => {
     // Réussite
     const recommendations = await iaResponse.json();
     return res.status(200).json(recommendations);
-
   } catch (err) {
     console.error("Erreur /recommend :", err);
 
@@ -170,6 +165,5 @@ router.post("/recommend", auth, async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;
