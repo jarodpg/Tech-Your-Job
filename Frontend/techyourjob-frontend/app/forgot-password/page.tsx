@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
           <h1 className="text-[#ADADAD] font-bold text-s flex justify-center">
             Remembered your password?{" "}
             <a
-              href="/login"
+              href="/auth"
               className="text-[#7288C9] ml-1 cursor-pointer underline"
             >
               Login
