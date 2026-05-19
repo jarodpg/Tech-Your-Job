@@ -51,22 +51,41 @@ router.post("/login", loginLimiter, async (req, res) => {
       return res.status(401).json({ msg: "Invalid credentials" });
     }
 
-    // je crée le token
+    // je crée les tokens
     const jsonData = {
       id: checkRequest.rows[0].id_utilisateur,
       email: checkRequest.rows[0].email,
       role: checkRequest.rows[0].role,
     };
-    const secretKey = process.env.SECRET_KEY;
-    const options = { expiresIn: "1h" };
-    const token = jwt.sign(jsonData, secretKey, options);
 
-    // je stocke le token dans un cookie
-    res.cookie("token", token, {
+    // access token
+    const access_secretKey = process.env.ACCESS_SECRET_KEY;
+    const access_options = { expiresIn: "15m" };
+    const access_token = jwt.sign(jsonData, access_secretKey, access_options);
+
+    // je stocke l'access_token dans un cookie
+    res.cookie("access_token", access_token, {
       httpOnly: true, // empêche js de lire le cookie
-      sameSite: "Strict", // le cookie est envoyé uniquement si la requête provient de notre site
+      sameSite: "strict", // le cookie est envoyé uniquement si la requête provient de notre site
       secure: false, // car en localhost en http et non https
-      maxAge: 3600 * 1000, // secondes dans 1h * 1000 car javascript compte en ms = durée de vie du cookie : de 1 heure
+      maxAge: 900 * 1000, // secondes dans 1h * 1000 car javascript compte en ms = durée de vie du cookie : de 1 heure
+    });
+
+    // refresh token
+    const refresh_secretKey = process.env.REFRESH_SECRET_KEY;
+    const refresh_options = { expiresIn: "7d" };
+    const refresh_token = jwt.sign(
+      jsonData,
+      refresh_secretKey,
+      refresh_options,
+    );
+
+    // je stocke le refresh_token dans un cookie
+    res.cookie("refresh_token", refresh_token, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: false,
+      maxAge: 604800 * 1000,
     });
 
     console.log("Login succesful");
