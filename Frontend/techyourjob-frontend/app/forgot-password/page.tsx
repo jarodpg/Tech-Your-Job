@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
       <div className="hidden md:flex w-[55%] h-screen items-center justify-center p-8">
         <div
           className="w-full h-full rounded-[70px] bg-cover bg-center"
-          style={{ backgroundImage: "url('image 3.png')" }}
+          style={{ backgroundImage: "url('image3.png')" }}
         />
       </div>
     </main>
