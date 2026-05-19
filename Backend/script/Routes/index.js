@@ -28,6 +28,9 @@ const deletePostRoutes = require("./admin/delete_post");
 const updatePrivilegeRoutes = require("./admin/update_privilege");
 const SearchUser = require("./admin/rechercher_user");
 
+const ia = require("./ia");
+
+router.use("/", ia);
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
 router.use("/", logoutRoutes);
