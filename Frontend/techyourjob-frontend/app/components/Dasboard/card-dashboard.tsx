@@ -4,6 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { X, ArrowUpRight, Calendar } from "lucide-react";
 
 import { Get_User_Info } from "@/app/services/Info_User_Service";
+import Card_data from "./card_data";
+import Card_Data_Salaire from "./card_data_salaire";
+import JobRecommendations from "./card_IA";
 
 const DateInput = ({
   value,
@@ -146,7 +149,7 @@ export default function DashboardModal({
       />
 
       {/* Card */}
-      <div className="relative bg-[#121212] w-full max-w-5xl max-h-[90vh] rounded-[40px] overflow-hidden shadow-2xl border border-white/5 flex flex-col">
+      <div className="relative bg-[#242424] w-full max-w-5xl max-h-[90vh] rounded-[40px] overflow-hidden shadow-2xl border border-white/5 flex flex-col">
         {/* Header */}
         <div className="p-8 pb-4 flex justify-between items-start shrink-0">
           <div>
@@ -233,17 +236,23 @@ export default function DashboardModal({
 
           {/* Section Recommandations */}
           <div className="mt-10 pb-4">
-            <h2 className="text-white text-lg font-semibold mb-6">
-              Recommandations Personnalisées
-            </h2>
+            <h2 className="text-white text-lg font-semibold mb-6">Données</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]" />
-              <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]" />
-              <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]" />
-              <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]" />
-              <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]" />
-              <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]" />
+              <div className="felx flex-col">
+                <Card_data type={false} />
+              </div>
+              <div className="felx flex-col">
+                <Card_data type={true} />
+              </div>
+              <div className="felx flex-col">
+                <Card_Data_Salaire />
+              </div>
             </div>
+          </div>
+
+          {/* recommandation IA */}
+          <div className="mt-10 pb-4">
+            <JobRecommendations />
           </div>
         </div>
       </div>
