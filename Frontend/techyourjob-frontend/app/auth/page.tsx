@@ -89,7 +89,7 @@ export default function AuthPage() {
             x: isDesktop ? (isLogin ? "55vw" : "0vw") : "0px" 
           }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute top-0 left-0 w-full md:w-[45%] h-full z-10 flex items-center justify-center p-6"
+          className="absolute top-0 left-0 w-full md:w-[45vw] h-full z-10 flex items-center justify-center p-6"
         >
           {/*gère le texte qui passe en dessous de l'image  */}
           <AnimatePresence mode="wait">
@@ -117,7 +117,7 @@ export default function AuthPage() {
             x: isDesktop ? (isLogin ? "0vw" : "45vw") : "0px" 
           }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="hidden md:block absolute top-0 left-0 w-[55%] h-screen p-8 z-20 pointer-events-none"
+          className="hidden md:block absolute top-0 left-0 w-[55vw] h-screen p-8 z-20 pointer-events-none"
         >
           <div
             className="w-full h-full rounded-[70px] bg-cover bg-center shadow-2xl pointer-events-auto"
@@ -175,7 +175,7 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
       </div>
 
       {/* formulaire */}
-      <motion.div layout className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl">
+      <motion.div className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl">
         <h2 className="text-white text-5xl font-bold text-center mb-10">
           {isLogin ? "Welcome Back!" : "Welcome!"}
         </h2>
