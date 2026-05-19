@@ -116,7 +116,8 @@ export default function Offre_Page() {
 
       {/* Titre + bouton Filtres */}
       <div className="flex flex-row justify-between items-center px-15 py-5">
-        <h1 className="font-bold text-4xl">Recommandation Job</h1>
+        
+        <h1 className="font-bold text-2xl md:text-4xl">Recommandation Job</h1>
         <button className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors">
           Filtres
         </button>
@@ -150,7 +151,7 @@ export default function Offre_Page() {
           </div>
         ) : (
           <div className="flex flex-col">
-            <div className="grid grid-cols-3 gap-10 px-5 mr-8 py-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 px-4 md:px-5 md:mr-8 py-2">
               {(test ?? []).map((item, i) => (
                 <Postlite
                   key={i}

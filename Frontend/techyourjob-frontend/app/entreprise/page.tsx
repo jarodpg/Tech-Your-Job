@@ -65,7 +65,7 @@ export default function Entreprise_All() {
         </p>
 
         {Top && (
-          <div className="grid grid-cols-[1.8fr_1fr_1fr_1fr_1fr] gap-3 h-32">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.8fr_1fr_1fr_1fr_1fr] gap-3 md:h-32">
             <div className="bg-[#111113] border border-purple-500/25 rounded-2xl p-4 flex flex-col justify-between cursor-pointer hover:border-purple-500/50 transition-colors">
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl bg-purple-900/40 flex items-center justify-center shrink-0 overflow-hidden">
