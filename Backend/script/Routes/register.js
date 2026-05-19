@@ -17,17 +17,28 @@ const registerLimiter = rateLimit({
 
 // ajout de registerLimiter juste avant le async
 router.post("/register", registerLimiter, async (req, res) => {
+  const client = await connection.connect();
+
   try {
+    await client.query("BEGIN");
+
     const sqlCheck = "SELECT * FROM utilisateur WHERE email = $1;";
-    const checkRequest = await connection.query(sqlCheck, [req.body.email]);
+    const checkRequest = await client.query(sqlCheck, [req.body.email]);
 
     if (checkRequest.rows.length > 0) {
-      console.log("Error : user already exists");
+      console.error("Error : user already exists");
       return res.status(409).json({ msg: "Account already exists" });
     }
 
-    const sqlInsert =
-      "INSERT INTO utilisateur (nom, prenom, email, mdp, role) VALUES ($1, $2, $3, $4, $5)";
+    // ajout dans la table utilisateur
+    const sqlInsert = `
+      INSERT INTO 
+        utilisateur (nom, prenom, email, mdp, role) 
+      VALUES 
+        ($1, $2, $3, $4, $5)
+      RETURNING
+        id_utilisateur
+    `;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const values = [
       req.body.name,
@@ -37,13 +48,30 @@ router.post("/register", registerLimiter, async (req, res) => {
       "user",
     ];
 
-    await connection.query(sqlInsert, values);
+    const insertRequest = await client.query(sqlInsert, values);
+
+    // ajout dans la table profil_utilisateur
+    const sqlInsert2 = `
+      INSERT INTO
+        profil_utilisateur (id_utilisateur)
+      VALUES
+        ($1)
+    `;
+    const insert2Request = await client.query(sqlInsert2, [
+      insertRequest.rows[0].id_utilisateur,
+    ]);
+
+    await client.query("COMMIT");
 
     console.log("New registered user");
-    return res.status(200).json({ msg: "New registered user" });
+    return res.status(201).json({ msg: "New registered user" });
   } catch (err) {
+    await client.query("ROLLBACK");
+
     console.error("Internal server error:", err);
     return res.status(500).json({ msg: "Internal server error" });
+  } finally {
+    client.release();
   }
 });
 
