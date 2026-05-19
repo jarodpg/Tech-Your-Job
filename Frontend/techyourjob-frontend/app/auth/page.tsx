@@ -10,6 +10,10 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
 
+  // states pour l'erruer 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+
   // detection mode mobile pour image
   useEffect(() => {
     const media = window.matchMedia("(min-width: 768px)");
@@ -18,6 +22,11 @@ export default function AuthPage() {
     media.addEventListener("change", listener);
     return () => media.removeEventListener("change", listener);
   }, []);
+
+  // effacage de l'erreur quand on bascule de login a register 
+  useEffect(() => {
+    setErrorMessage("");
+  }, [isLogin]);
 
   // States champ commun et sécurité
   const [Email, setEmail] = useState("");
@@ -28,8 +37,10 @@ export default function AuthPage() {
   const [clickCount, setClickCount] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); //  initialisation de l'erreur au clic
+    
     if (HoneyPot !== "") return;
     if (isLocked) return;
 
@@ -37,10 +48,33 @@ export default function AuthPage() {
     if (clickCount >= 2) setIsLocked(true);
 
     if (isLogin) {
-      const success = await Login(Email, Password);
-      if (success) router.push("/offre");
+      try {
+
+        const success = await Login(Email, Password);
+        if (success) {
+          router.push("/offre");
+        } else {
+          setErrorMessage("Des informations sont incorrectes.");
+        }
+      } catch (error) {
+        setErrorMessage("Des informations sont incorrectes.");
+      }
+
     } else {
-      Register(LastName, FirstName, Email, Password);
+      try {
+        // le try va intercepter le "throw new error" envoyé par ton auth.service.ts
+        await Register(LastName, FirstName, Email, Password);
+        
+        // Si la ligne du dessus n'a pas crash, c'est que c'est un succès (200 OK)
+        setShowSuccessToast(true);
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+
+      } catch (error) {
+        // ici dc pour si le compte existe deja ou s'il y a un probleme serveur
+        setErrorMessage("Des informations sont incorrectes.");
+      }
     }
   };
 
@@ -71,6 +105,7 @@ export default function AuthPage() {
               HoneyPot={HoneyPot}
               setHoneyPot={setHoneyPot}
               isLocked={isLocked}
+              errorMessage={errorMessage} // tranfert de lerrerur de auth au composant childrren
             />
           </AnimatePresence>
         </motion.div>
@@ -91,12 +126,32 @@ export default function AuthPage() {
         </motion.div>
 
       </div>
+
+      {/* pop up */}
+      <AnimatePresence>
+
+        {showSuccessToast && (
+
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+
+            className="fixed bottom-6 right-6 z-50 bg-[#7288C9] text-white px-11 py-7 rounded-2xl shadow-2xl flex items-center space-x-3 font-bold border border-white/10"
+          >
+            <svg className="w-6 h-6 shrink-0 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Inscription réussie ! Redirection...</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
 
 // composant pour les animations de fondu
-function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword, setFirstName, setLastName, HoneyPot, setHoneyPot, isLocked }) {
+function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword, setFirstName, setLastName, HoneyPot, setHoneyPot, isLocked, errorMessage }) {
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -138,14 +193,14 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
           {/* champs register */}
           {!isLogin && (
             <div className="space-y-4">
-              <input onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" />
-              <input onChange={(e) => setLastName(e.target.value)} placeholder="Last name" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" />
+              <input onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
+              <input onChange={(e) => setLastName(e.target.value)} placeholder="Last name" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
             </div>
           )}
 
           {/*champs commun des deux email password */}
-          <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email address" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" />
-          <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" />
+          <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email address" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
+          <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
 
           {/* forgot paddword pr login*/}
           {isLogin && (
@@ -159,7 +214,21 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
             </div>
           )}
 
-          <button disabled={isLocked} className="w-full bg-[#242424] text-xl text-[#7288c9] font-bold py-4 rounded-full border-1 border-[#8e8e8e] mt-6 hover:bg-[#1f1f1f] transition-colors">
+          {/*message quand erreur , les informations sont incorrectes jsp quoi */}
+          <AnimatePresence>
+            {errorMessage && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="text-[#ff5c5c] text-sm font-bold pl-2 pt-1"
+              >
+                {errorMessage}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <button disabled={isLocked} className="w-full bg-[#242424] text-xl text-[#7288c9] font-bold py-4 rounded-full border-1 border-[#8e8e8e] mt-6 hover:bg-[#1f1f1f] transition-colors cursor-pointer">
             {isLogin ? "Connexion" : "S'inscrire"}
           </button>
         </form>
