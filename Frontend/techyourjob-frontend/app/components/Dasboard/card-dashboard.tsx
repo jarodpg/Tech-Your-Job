@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { X, ArrowUpRight, Calendar } from "lucide-react";
 
+import { Get_User_Info } from "@/app/services/Info_User_Service";
+
 const DateInput = ({
   value,
   onChange,
@@ -55,6 +57,7 @@ const StatCard = ({
     green: "bg-[#064e3b] text-white",
     purple: "bg-[#a855f7] text-white",
     white: "bg-white text-slate-900",
+    grey: "bg-[#e3dfde] text-slate-900",
   };
 
   return (
@@ -115,6 +118,23 @@ export default function DashboardModal({
     };
   }, [isOpen]);
 
+  // data user
+  const [Data, setData] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = await Get_User_Info();
+      setData(data);
+      console.log(data.profil[0].candidatures_envoyees, "ddd");
+    };
+    fetchUser();
+  }, []);
+
+  // pour le nombre en attente
+  const attente =
+    (Data?.profil?.[0]?.candidatures_envoyees || 0) -
+    (Data?.profil?.[0]?.candidatures_positives || 0) -
+    (Data?.profil?.[0]?.candidatures_refusees || 0);
+
   if (!isOpen) return null;
 
   return (
@@ -164,14 +184,15 @@ export default function DashboardModal({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <StatCard
               title="Candidatures Envoyées"
-              value="18"
+              value={Data?.profil?.[0]?.candidatures_envoyees || 0}
               variant="blue"
               trendValue="5"
               subValue="de plus que la semaine dernière"
             />
+
             <StatCard
               title="Candidatures Acceptées"
-              value="02"
+              value={Data?.profil?.[0]?.candidatures_positives || 0}
               variant="green"
               trendValue="3"
               trend="down"
@@ -179,24 +200,31 @@ export default function DashboardModal({
             />
             <StatCard
               title="Candidatures Refusées"
-              value="13"
+              value={Data?.profil?.[0]?.candidatures_refusees || 0}
               variant="purple"
               trendValue="6"
               subValue="de plus que la semaine dernière"
             />
 
             {/* Graphique de Vues */}
-            <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]"></div>
+            {/* <div className="bg-white rounded-2xl p-5 flex flex-col justify-between min-h-[160px]"></div> */}
+            <StatCard
+              title="Vu du profil"
+              variant="grey"
+              value={Data?.profil?.[0]?.nb_vues_profil || 0}
+              trendValue="3"
+              subValue="vs. 12 la semaine dernière"
+            />
 
             <StatCard
               title="Candidatures Consultées"
-              value="15"
+              value={Data?.profil?.[0]?.candidatures_consultees || 0}
               trendValue="3"
               subValue="vs. 12 la semaine dernière"
             />
             <StatCard
               title="Candidatures en Attente"
-              value="03"
+              value={attente || 0}
               trendValue="3"
               trend="down"
               subValue="vs. 6 la semaine dernière"

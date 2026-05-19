@@ -6,6 +6,7 @@ L’objectif principal de ce modèle est de proposer des recommandations d’off
 L’idée était de mettre en place une solution capable d’analyser automatiquement les compétences, les expériences passées et les intitulés de postes afin de rapprocher efficacement un utilisateur des offres les plus adaptées.
 
 Ce système permet également :
+
 - d’améliorer l’expérience utilisateur,
 - de faciliter la recherche d’emploi,
 - et de proposer des recommandations rapides sans intervention manuelle.
@@ -23,6 +24,7 @@ Ces outils permettent de mettre en place rapidement un système de recommandatio
 ### Traitement du texte
 
 Les offres d’emploi et les profils utilisateurs contiennent principalement des données textuelles :
+
 - intitulés de postes,
 - compétences,
 - descriptions,
@@ -46,8 +48,9 @@ Cette approche reste légère en ressources et rapide à exécuter, ce qui facil
 Une réflexion a également été menée sur l’importance des différentes informations utilisées par le modèle.
 
 Toutes les données n’ayant pas la même valeur dans une recherche d’emploi, un système de pondération a été ajouté afin de donner plus d’importance :
+
 - au titre du poste,
-- aux compétences techniques (*skills*),
+- aux compétences techniques (_skills_),
 
 Cette approche permet d’obtenir des recommandations plus cohérentes et plus précises.
 
@@ -55,9 +58,10 @@ Cette approche permet d’obtenir des recommandations plus cohérentes et plus p
 
 ## Gestion du bruit et amélioration de la précision
 
-Afin d’améliorer les performances du modèle, une liste de *stop words* français a été utilisée.
+Afin d’améliorer les performances du modèle, une liste de _stop words_ français a été utilisée.
 
 Cela permet de supprimer les mots peu utiles ou trop fréquents dans les descriptions, comme :
+
 - “le”,
 - “de”,
 - “avec”,
@@ -72,9 +76,10 @@ Cette étape réduit le bruit dans les données et améliore la qualité des vec
 Des profils fictifs ont été ajoutés manuellement dans la base de données afin de tester la pertinence des recommandations générées par le modèle.
 
 Ces profils contenaient :
+
 - différents métiers dans la tech,
 - plusieurs anciens métiers,
-- des compétences (*skills*) variées,
+- des compétences (_skills_) variées,
 - ainsi que différents niveaux d’expérience.
 
 L’objectif était de simuler plusieurs types de parcours professionnels afin de vérifier que les recommandations proposées correspondaient correctement aux profils utilisateurs.
@@ -84,8 +89,9 @@ Ces tests ont permis de valider le bon fonctionnement du système de recommandat
 ### Ajustements réalisés
 
 Plusieurs ajustements ont été effectués pendant les tests :
+
 - amélioration des pondérations,
-- ajout des *stop words*,
+- ajout des _stop words_,
 - nettoyage des données,
 
 Ces modifications ont permis d’améliorer progressivement la qualité des recommandations.
@@ -104,4 +110,3 @@ Le modèle présente encore certaines limites :
 Ces limites pourront être améliorées dans de futures versions grâce à des modèles NLP plus avancés.
 
 ---
-

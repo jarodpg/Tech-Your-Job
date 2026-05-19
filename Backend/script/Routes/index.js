@@ -27,6 +27,10 @@ const deleteEnterpriseRoutes = require("./admin/delete_enterprise");
 const deletePostRoutes = require("./admin/delete_post");
 const updatePrivilegeRoutes = require("./admin/update_privilege");
 const getTopSalaryRoutes = require("./data/get_topSalary");
+const SearchUser = require("./admin/rechercher_user");
+const SearchEntreprise = require("./admin/rechercher_entreprise");
+const SearchPOste = require("./admin/rechercher_poste");
+const See_Other_Account = require("./See_Account");
 
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
@@ -54,5 +58,9 @@ router.use("/", deleteEnterpriseRoutes);
 router.use("/", deletePostRoutes);
 router.use("/", updatePrivilegeRoutes);
 router.use("/dashboard", getTopSalaryRoutes);
+router.use("/", SearchUser);
+router.use("/", SearchEntreprise);
+router.use("/", See_Other_Account);
+router.use("/", SearchPOste);
 
 module.exports = router;

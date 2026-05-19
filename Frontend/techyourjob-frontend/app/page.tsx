@@ -6,23 +6,20 @@ import Header from "./components/NavBar/header";
 import { useState } from "react";
 import LogoCarousel from "./components/LogoCarousel";
 
-
 const cards = [
-  { title: "Développeur Web"},
-  { title: "Développeur IA"},
-  { title: "Data Engineer"},
-  { title: "DevOps Engineer"},
-  { title: "Cybersécurité"},
-  { title: "UX Designer"},
-  { title: "Product Manager"},
-  { title: "Cloud Architect"},
+  { title: "Développeur Web" },
+  { title: "Développeur IA" },
+  { title: "Data Engineer" },
+  { title: "DevOps Engineer" },
+  { title: "Cybersécurité" },
+  { title: "UX Designer" },
+  { title: "Product Manager" },
+  { title: "Cloud Architect" },
 ];
 
 const CARDS_PER_SLIDE = 4;
 
-
-export default  function HomePage() {
-    
+export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
 
   const [current, setCurrent] = useState(0);
@@ -94,15 +91,25 @@ export default  function HomePage() {
             <h2 className="text-3xl font-bold mb-10">Explorer nos offres</h2>
 
             <div className="relative flex items-center gap-4">
-
               {/* Bouton gauche */}
               <button
                 onClick={prev}
                 aria-label="Slide précédente"
                 className="flex-shrink-0 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white transition-all duration-150 hover:bg-white/25 active:scale-95"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
 
@@ -113,7 +120,10 @@ export default  function HomePage() {
                   style={{ transform: `translateX(-${current * 100}%)` }}
                 >
                   {slides.map((slide, i) => (
-                    <div key={i} className="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div
+                      key={i}
+                      className="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                    >
                       {slide.map((card) => (
                         <div
                           key={card.title}
@@ -123,7 +133,11 @@ export default  function HomePage() {
                             <h3 className="text-2xl font-bold">{card.title}</h3>
                           </div>
                           <div className="h-3/4 flex flex-col justify-between bg-[url('/image18.png')] bg-cover bg-center rounded-b-xl">
-                            <p className="text-xl p-4">+350 offres<br />Top 5</p>
+                            <p className="text-xl p-4">
+                              +350 offres
+                              <br />
+                              Top 5
+                            </p>
                             <div className="flex justify-center mb-6">
                               <button className="px-12 py-3 bg-white text-purple-700 rounded-full font-bold hover:bg-purple-100 transition">
                                 Découvrir +
@@ -156,11 +170,21 @@ export default  function HomePage() {
                 aria-label="Slide suivante"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/15 text-white transition-all duration-150 hover:bg-white/25 active:scale-95"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
-
             </div>
 
             <div className="flex flex-col mt-12 items-center gap-8">
@@ -226,25 +250,28 @@ export default  function HomePage() {
 
               <div className="space-y-6 relative">
                 <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-auto mr-12 border-r-4 border-gray-500">
-                  <h3 className="font-bold text-sm mb-1">
-                    1 consigne
-                  </h3>
+                  <h3 className="font-bold text-sm mb-1">1 consigne</h3>
                   <p className="text-sm text-gray-300">
-                    Une mission claire et concrète basée sur un vrai besoin technique d'entreprise.
+                    Une mission claire et concrète basée sur un vrai besoin
+                    technique d'entreprise.
                   </p>
                 </div>
 
                 <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-0 border-r-4 border-gray-500">
-                  <h4 className="font-bold text-sm mb-1 text-right">1 question</h4>
+                  <h4 className="font-bold text-sm mb-1 text-right">
+                    1 question
+                  </h4>
                   <p className="text-sm text-gray-300 text-right">
-                    Pas de QCM interminable. Une seule problématique d'architecture ou de code à résoudre.
+                    Pas de QCM interminable. Une seule problématique
+                    d'architecture ou de code à résoudre.
                   </p>
                 </div>
 
                 <div className="bg-[#333] p-4 rounded-xl max-w-sm ml-auto mr-12 border-r-4 border-gray-500">
                   <h4 className="font-bold text-sm mb-1">Centralisation</h4>
                   <p className="text-sm text-gray-300">
-                    Retrouve tout ce dont tu as besoin pour trouver le travail de tes rêves
+                    Retrouve tout ce dont tu as besoin pour trouver le travail
+                    de tes rêves
                   </p>
                 </div>
               </div>
