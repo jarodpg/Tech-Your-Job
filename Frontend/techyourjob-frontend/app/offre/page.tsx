@@ -27,11 +27,13 @@ export default function Offre_Page() {
   // tout les points des postes
   const [pointsPoste, setPointsPoste] = useState<[number, number][]>([]);
 
-  const [data, setData] = useState();
-
+  //  constante pour openOn envoie la liste des postes trouvés au composant parent
   const [open, setOpen] = useState(false);
   const [test, setTest] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // pour verifier si on recherche ou non
+  const [isSearching, setIsSearching] = useState(false);
 
   const [FIltre, setFIltre] = useState({
     reverse: "false",
@@ -71,6 +73,7 @@ export default function Offre_Page() {
         // setTest(Array.isArray(data) ? data : []);
         const posts = Array.isArray(data.posts) ? data.posts : [];
         setTest(posts);
+
         setPointsPoste(
           posts
             .filter((p) => p.latitude && p.longitude)
@@ -97,6 +100,19 @@ export default function Offre_Page() {
     load();
   }, [FIltre, actuelId]);
 
+  // pour mettre els points a jour sur la map
+  const updateMapPoints = (posts) => {
+    setPointsPoste(
+      posts
+        .filter((p) => p.latitude && p.longitude)
+        .map((p) => ({
+          id: p.id_poste,
+          lat: p.latitude,
+          lon: p.longitude,
+        })),
+    );
+  };
+
   const [selectedPost, setSelectedPost] = useState(null);
 
   return (
@@ -107,9 +123,13 @@ export default function Offre_Page() {
       <div className="flex bg-[#1A1A1A] py-8 border-b border-white/10">
         <div className="mx-auto">
           <SearchBar
-            onFilterChange={(newFilters) => {
-              setactuelId(1);
-              setFIltre((prev) => ({ ...prev, ...newFilters }));
+            onSearchSuccess={(searchResults) => {
+              setIsSearching(true);
+              setTest(searchResults);
+              updateMapPoints(searchResults);
+            }}
+            onResetSearch={() => {
+              setIsSearching(false);
             }}
           />
         </div>

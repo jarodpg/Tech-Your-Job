@@ -11,6 +11,7 @@ import {
   FaStar,
   FaGlobe,
 } from "react-icons/fa";
+import { CiSearch } from "react-icons/ci";
 import * as Slider from "@radix-ui/react-slider";
 
 const TypeContrat = [
@@ -122,6 +123,13 @@ export default function SideBareFiltre({ onFilterChange }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  // localisation
+  const [locationInput, setLocationInput] = useState("");
+
+  const handleLocationSubmit = () => {
+    onFilterChange({ location: locationInput || null });
+  };
+
   useEffect(() => {
     if (startDate && endDate) {
       onFilterChange({ age: jourEntreDate });
@@ -190,6 +198,7 @@ export default function SideBareFiltre({ onFilterChange }) {
     setTypeSelectionner(null);
     setSalaire([0, 100]);
     setExperience([0]);
+    setLocationInput("");
     setDistance([0]);
     setLangueSelectionnee(null);
     setStartDate("");
@@ -201,6 +210,7 @@ export default function SideBareFiltre({ onFilterChange }) {
       minsalary: 0,
       maxsalary: 100,
       experience: 0,
+      location: null,
       distance: null,
       language: null,
       age: null,
@@ -507,7 +517,20 @@ export default function SideBareFiltre({ onFilterChange }) {
         open={openDistance}
         onToggle={() => setOpenDistance(!openDistance)}
       >
-        <div className="flex flex-col gap-4 px-1">
+        <div className="flex flex-col gap-4 px-1 ">
+          <div className="border border-white/15 rounded-2xl flex items-center">
+            <input
+              value={locationInput}
+              onChange={(e) => setLocationInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleLocationSubmit()}
+              placeholder="Ville, région..."
+              className="bg-transparent text-white placeholder-[#717171] text-sm flex-1 outline-none p-3"
+            />
+            <CiSearch
+              onClick={handleLocationSubmit}
+              className="text-white/60 text-xl mr-5 cursor-pointer"
+            />
+          </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-purple-300 bg-purple-950/50 border border-purple-800/40 rounded-md px-2 py-0.5">
               {distance[0] === 0 ? "Toute distance" : `${distance[0]} km`}
