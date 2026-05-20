@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { Get_Salaries_By_Page } from "@/app/services/Data/Get_Salary_service";
 
@@ -65,8 +65,9 @@ export default function Card_Data_Salaire() {
                   {data.nom_compagnie}
                 </td>
                 <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                  {data.salaire_anuelle_moyen ? data.salaire_annuel_moyen : "-"}{" "}
-                  {data.salaire_currency}
+                  {data.salaire_annuel_moyen}
+                  {"K "}
+                  {data.salaire_currency || "€"}
                 </td>
               </tr>
             ))}

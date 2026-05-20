@@ -1,3 +1,5 @@
+import { secureFetch } from "../Authentification/refresh";
+
 const BACKEND_URL = "http://localhost:5000";
 
 export async function Upload_Candidature(offre_id: number, fichier: File) {
@@ -7,9 +9,8 @@ export async function Upload_Candidature(offre_id: number, fichier: File) {
 
   const url = `${BACKEND_URL}/uploadtest`;
 
-  const res = await fetch(url, {
+  const res = await secureFetch(url, {
     method: "PUT",
-    credentials: "include",
     body: formData,
   });
 

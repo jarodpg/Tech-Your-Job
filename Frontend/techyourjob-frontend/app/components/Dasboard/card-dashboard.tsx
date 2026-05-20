@@ -237,16 +237,16 @@ export default function DashboardModal({
           {/* Section Recommandations */}
           <div className="mt-10 pb-4">
             <h2 className="text-white text-lg font-semibold mb-6">Données</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="felx flex-col">
                 <Card_data type={false} />
               </div>
               <div className="felx flex-col">
                 <Card_data type={true} />
               </div>
-              <div className="felx flex-col">
-                <Card_Data_Salaire />
-              </div>
+            </div>
+            <div className="w-full mt-7">
+              <Card_Data_Salaire />
             </div>
           </div>
 

@@ -1,3 +1,5 @@
+import { secureFetch } from "../Authentification/refresh";
+
 const BACKEND_URL = "http://localhost:5000";
 
 export async function Update_User_Profil(data: {
@@ -36,9 +38,8 @@ export async function Update_User_Profil(data: {
   if (data.banner) formData.append("banner", data.banner);
   if (data.doc) formData.append("doc", data.doc);
 
-  const res = await fetch(`${BACKEND_URL}/user/profil`, {
+  const res = await secureFetch(`${BACKEND_URL}/user/profil`, {
     method: "PUT",
-    credentials: "include",
     body: formData,
   });
 

@@ -1,3 +1,5 @@
+import { secureFetch } from "../Authentification/refresh";
+
 const BACKEND_URL = "http://localhost:5000";
 
 export async function Add_User_Experience(data: {
@@ -8,9 +10,8 @@ export async function Add_User_Experience(data: {
   description?: string;
   skills?: string[];
 }) {
-  const res = await fetch(`${BACKEND_URL}/user/experience`, {
+  const res = await secureFetch(`${BACKEND_URL}/user/experience`, {
     method: "POST",
-    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
