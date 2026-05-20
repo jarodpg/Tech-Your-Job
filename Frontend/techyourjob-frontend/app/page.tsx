@@ -5,6 +5,7 @@ import { FaRegArrowAltCircleDown } from "react-icons/fa";
 import Header from "./components/NavBar/header";
 import { useState } from "react";
 import LogoCarousel from "./components/LogoCarousel";
+import Footer from "./components/Autre/Footer";
 
 const cards = [
   { title: "Développeur Web" },
@@ -291,6 +292,9 @@ export default function HomePage() {
               En avant <ArrowRightCircle className="w-5 h-5" />
             </button>
           </a>
+          <div className="mt-20">
+            <Footer />
+          </div>
         </footer>
       </main>
     </div>

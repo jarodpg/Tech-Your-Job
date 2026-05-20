@@ -10,6 +10,7 @@ import SearchBar from "../components/Autre/searchBar";
 
 import { Get_Enterprises } from "../services/Entreprise/Get_Enterprises";
 import { Get_Enterprise_Top } from "../services/Entreprise/Top_X_entreprise";
+import Footer from "../components/Autre/Footer";
 
 export default function Entreprise_All() {
   // const entreprise
@@ -178,6 +179,7 @@ export default function Entreprise_All() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
