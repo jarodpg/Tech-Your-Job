@@ -23,6 +23,7 @@
     "make-fetch-happen": "^15.0.5",
     "minio": "^8.0.7",
     "multer": "^2.1.1",
+    "node-fetch": "^2.7.0",
     "nodemailer": "^8.0.7",
     "nodemon": "^3.1.14",
     "path": "^0.12.7",
