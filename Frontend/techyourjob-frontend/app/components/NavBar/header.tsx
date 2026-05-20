@@ -56,50 +56,56 @@ function Header() {
   };
 
   return (
-    <div className="bg-[#2C2C2C] sticky top-0 z-50 border-b border-white/10">
-      <div className="flex justify-between items-center px-7 h-16">
-        <div className="flex items-center gap-2.5">
-          <img
-            style={{ width: "38px" }}
-            src="techyourjob.png"
-            alt="Logo Tech Your Job"
-          />
+    <div className="bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/[0.05]">
+      <div className="flex justify-between items-center px-10 h-20">
+        <div className="flex items-center gap-4 group cursor-pointer">
+          <div>
+            <img
+              className="w-14"
+              src="techyourjob.png"
+              alt="Logo Tech Your Job"
+            />
+          </div>
 
-          <span className="font-extrabold text-white text-lg tracking-wide">
+          <span className="font-black text-zinc-100 text-xl tracking-tighter group-hover:text-purple-400 transition-colors">
             Tech Your Job
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
-          <nav className="flex items-stretch h-16">
+        <div className="hidden md:flex items-center gap-12">
+          <nav className="flex items-center gap-1">
             {navLinks.map(({ icon, label, alt, href }) => (
               <Link
                 key={label}
                 href={href}
-                className="relative flex items-center gap-2 px-3 group transition-colors duration-200"
+                className="relative flex items-center gap-2.5 px-5 py-2 group transition-all duration-300 rounded-xl hover:bg-white/[0.03]"
               >
-                <img style={{ width: "18px" }} src={icon} alt={alt} />
+                <img
+                  className="w-4.5 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all"
+                  src={icon}
+                  alt={alt}
+                />
 
-                <span className="font-bold text-sm text-white/80 group-hover:text-white transition-colors duration-200">
+                <span className="font-bold text-[13px] text-zinc-400 group-hover:text-zinc-100 transition-colors">
                   {label}
                 </span>
 
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-1 bg-purple-500 rounded-full opacity-0 group-hover:w-8 group-hover:opacity-100 transition-all duration-300" />
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-4 border-l border-white/[0.08] pl-8">
             <div className="relative">
               <button
                 onClick={() => {
                   setNotifOpen(!notifOpen);
                   setUserMenuOpen(false);
                 }}
-                className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/[0.05] hover:bg-zinc-800 transition-all text-zinc-400 hover:text-zinc-100"
                 aria-label="Notifications"
               >
-                <img style={{ width: "20px" }} src="Bell.svg" alt="" />
+                <img className="w-5" src="Bell.svg" alt="" />
               </button>
 
               <Notifications
@@ -159,35 +165,43 @@ function Header() {
                   setUserMenuOpen(!userMenuOpen);
                   setNotifOpen(false);
                 }}
-                className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/[0.05] hover:bg-zinc-800 transition-all"
                 aria-label="Mon profil"
               >
-                <UserAvatar size={28} />
+                <UserAvatar size={24} />
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-[#2C2C2C] border border-white/10 rounded-lg shadow-xl py-2 z-50">
+                <div className="absolute right-0 mt-4 w-64 bg-[#0d0d0d] border border-white/[0.08] rounded-2xl shadow-2xl py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="px-4 py-3 border-b border-white/[0.05] mb-2">
+                    <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
+                      Connecté en tant que
+                    </p>
+                    <p className="text-sm font-bold text-zinc-100">
+                      {prenom || "Utilisateur"}
+                    </p>
+                  </div>
                   <Link
                     href="/account"
                     onClick={() => setUserMenuOpen(false)}
-                    className="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.03] transition-colors"
                   >
-                    Profil
+                    Mon Profil
                   </Link>
 
                   <button
                     onClick={() => setUserMenuOpen(false)}
-                    className="w-full text-left block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.03] transition-colors"
                   >
-                    Télécharger les données
+                    Paramètres
                   </button>
 
-                  <hr className="my-1 border-white/10" />
+                  <hr className="my-2 border-white/[0.05]" />
 
                   <Link
                     href="/auth"
                     onClick={() => setUserMenuOpen(false)}
-                    className="block px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
                   >
                     Se déconnecter
                   </Link>

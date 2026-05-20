@@ -20,49 +20,58 @@ export default function Entreprise_lite({
   return (
     <div
       onClick={onClick}
-      className="bg-[#111113] rounded-xl px-4 py-3 grid grid-cols-[40px_1fr_auto] gap-4 items-center cursor-pointer hover:border-white/12 hover:scale-101 hover:bg-[#161618] transition-all"
+      className="bg-[#121212] border border-white/[0.05] rounded-2xl px-6 py-4 grid grid-cols-[56px_1fr_auto] gap-6 items-center cursor-pointer hover:border-zinc-700 hover:bg-[#161616] hover:translate-x-1 transition-all duration-300 group"
     >
       {/* Logo */}
-      <div className="w-10 h-10 rounded-lg bg-purple-900/30 flex items-center justify-center shrink-0 overflow-hidden">
+      <div className="w-14 h-14 rounded-xl bg-zinc-800/50 border border-white/[0.05] flex items-center justify-center shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
         {entreprise.logo ? (
           <img
             src={entreprise.logo}
             alt={entreprise.nom_compagnie}
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover"
           />
         ) : (
-          <span className="text-purple-300 font-bold text-sm">
+          <span className="text-zinc-400 font-bold text-lg">
             {entreprise.nom_compagnie?.slice(0, 2).toUpperCase()}
           </span>
         )}
       </div>
 
       {/* Infos */}
-      <div className="flex flex-col gap-1 min-w-0">
-        <p className="text-sm font-semibold text-gray-100 truncate">
-          {entreprise.nom_compagnie}
-          <span className="text-gray-500 font-normal ml-2 text-xs">
+      <div className="flex flex-col gap-1.5 min-w-0">
+        <div className="flex items-center gap-3">
+          <p className="text-base font-bold text-zinc-100 group-hover:text-purple-400 transition-colors">
+            {entreprise.nom_compagnie}
+          </p>
+          <div className="h-1 w-1 rounded-full bg-zinc-700" />
+          <p className="text-xs text-zinc-500 font-medium truncate">
             {entreprise.ville.slice(2, -2)}
-          </span>
-        </p>
+          </p>
+        </div>
         <div className="flex gap-2">
-          {(entreprise.secteur_entreprise || ["Non renseigné"]).map((s, i) => (
-            <span
-              key={i}
-              className="text-[10px] px-2 py-0.5 rounded-full bg-purple-900/20 border border-purple-500/20 text-purple-400"
-            >
-              {s}
-            </span>
-          ))}
+          {(entreprise.secteur_entreprise || ["Non renseigné"])
+            .slice(0, 3)
+            .map((s, i) => (
+              <span
+                key={i}
+                className="text-[10px] px-2.5 py-1 rounded-md bg-zinc-800/80 border border-white/[0.05] text-zinc-400 font-semibold uppercase tracking-wider"
+              >
+                {s}
+              </span>
+            ))}
         </div>
       </div>
 
       {/* Offres */}
-      <div className="text-right shrink-0">
-        <p className="text-sm font-bold text-purple-400">
-          {entreprise.nb_offre ?? 0}
+      <div className="flex flex-col items-end gap-1">
+        <div className="bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-lg">
+          <p className="text-sm font-black text-purple-400">
+            {entreprise.nb_offre ?? 0}
+          </p>
+        </div>
+        <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+          offres
         </p>
-        <p className="text-[10px] text-gray-500">offres</p>
       </div>
     </div>
   );
