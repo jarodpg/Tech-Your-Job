@@ -99,7 +99,7 @@ const Postlite: React.FC<PostliteProps> = ({ job, onClick }) => {
               borderColor: "rgba(255,255,255,0.1)",
             }}
           >
-            +{job.skills.length - 4}
+            + {job.skills.length - 4}
           </span>
         )}
       </div>

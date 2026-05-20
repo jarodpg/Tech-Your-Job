@@ -18,12 +18,17 @@ export default function Offre_Preview({
 }) {
   const [DataPoste, setDataPoste] = useState<Record<string, any>>({});
   const [isTestOpen, setIsTestOpen] = useState(false);
+
+  const [Langue, setLangue] = useState("None");
   useEffect(() => {
     async function load() {
       try {
         const data = await Get_Unique_Offre(Poste.id_poste);
         setDataPoste(data);
-        console.log(DataPoste);
+        console.log("lagrin", data);
+        if (data.langues == "fr") {
+          setLangue("Français");
+        }
       } catch (err) {
         console.error("Erreur API :", err);
       }
@@ -127,7 +132,7 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-white/10 bg-white/5 text-gray-300">
                 <FaBriefcase size={10} />
-                {DataPoste?.categorie}
+                {Langue !== "None" ? Langue : DataPoste?.langues}
               </span>
             </div>
           </div>
@@ -138,8 +143,11 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <MdOutlinePlace size={15} className="text-purple-400 shrink-0" />
               <span>
-                {/* {DataPoste?.latitude} {DataPoste?.longitude} */}
-                {DataPoste?.Localisation}
+                {DataPoste?.place?.[0] === "Non renseigne"
+                  ? "Non renseigné"
+                  : `${DataPoste?.place?.[0] || ""}, ${
+                      DataPoste?.place?.[1] || ""
+                    }`}
               </span>
             </div>
 

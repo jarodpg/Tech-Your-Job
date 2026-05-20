@@ -12,7 +12,6 @@ jest.mock("../script/DB", () => ({
   query: jest.fn(), // Au cas où
 }));
 
-const db = require("../script/DB");
 const router = require("../script/Routes/register");
 
 const app = express();
