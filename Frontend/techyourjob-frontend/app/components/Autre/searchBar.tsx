@@ -52,13 +52,14 @@ export default function SearchBar({ onSearchSuccess, onResetSearch }) {
           className="bg-transparent text-white placeholder-[#717171] text-sm flex-1 outline-none"
         />
 
-        <div className="h-6 w-px bg-white/20 shrink-0" />
+        <div className="h-5 md:h-6 w-px bg-white/20 shrink-0" />
 
         <button
           onClick={handleSearch}
           className="bg-[#8308D4] text-white text-sm font-semibold px-6 h-10 rounded-full shrink-0 hover:bg-[#9a0af5] transition-colors"
         >
-          Recherche
+          <span className="hidden xs:inline">Recherche</span>
+          <span className="xs:hidden">Rechercher</span> 
         </button>
       </div>
     </div>
