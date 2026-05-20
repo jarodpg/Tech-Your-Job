@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Notifications from "./Notification";
 import Link from "next/link";
@@ -22,14 +21,13 @@ function Header() {
     },
   ];
 
-  // constante poup open ou pas
   const [notifOpen, setNotifOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
     <div className="bg-[#2C2C2C] sticky top-0 z-50 border-b border-white/10">
       <div className="flex justify-between items-center px-7 h-16">
-        {/* Logo */}
         <div className="flex items-center gap-2.5">
           <img
             style={{ width: "38px" }}
@@ -61,7 +59,10 @@ function Header() {
           <div className="flex items-center gap-1">
             <div className="relative">
               <button
-                onClick={() => setNotifOpen(!notifOpen)}
+                onClick={() => {
+                  setNotifOpen(!notifOpen);
+                  setUserMenuOpen(false);
+                }}
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
                 aria-label="Notifications"
               >
@@ -114,21 +115,61 @@ function Header() {
                 ]}
               />
             </div>
-            <Link href="/login">
+            
+            {/* menu pr pc */}
+            <div className="relative">
               <button
+                onClick={() => {
+                  setUserMenuOpen(!userMenuOpen);
+                  setNotifOpen(false);
+                }}
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
                 aria-label="Mon profil"
               >
                 <img style={{ width: "22px" }} src="User.svg" alt="" />
               </button>
-            </Link>
+
+              {userMenuOpen && (
+
+                <div className="absolute right-0 mt-2 w-56 bg-[#2C2C2C] border border-white/10 rounded-lg shadow-xl py-2 z-50">
+                  <Link
+                    href="/account"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    Profil
+                  </Link>
+
+                  <button
+                    onClick={() => setUserMenuOpen(false)}
+                    className="w-full text-left block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    Télécharger les données
+                  </button>
+
+                  <hr className="my-1 border-white/10" />
+
+                <Link
+                  href="/auth"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="block px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+                >
+                  Se déconnecter
+                </Link>
+                </div>
+              )}
+            </div>
+
           </div>
         </div>
 
         <div className="flex md:hidden items-center gap-1">
           <div className="relative">
             <button
-              onClick={() => setNotifOpen(!notifOpen)}
+              onClick={() => {
+                setNotifOpen(!notifOpen);
+                setUserMenuOpen(false);
+              }}
               className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
               aria-label="Notifications"
             >
@@ -181,17 +222,55 @@ function Header() {
               ]}
             />
           </div>
-          <Link href="/login">
+          
+          {/* menu pr mobile */}
+          <div className="relative">
             <button
+              onClick={() => {
+                setUserMenuOpen(!userMenuOpen);
+                setNotifOpen(false);
+              }}
               className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
               aria-label="Mon profil"
             >
               <img style={{ width: "22px" }} src="User.svg" alt="" />
             </button>
-          </Link>
+
+            {userMenuOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-[#2C2C2C] border border-white/10 rounded-lg shadow-xl py-2 z-50">
+                <Link
+                  href="/account"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  Profil
+                </Link>
+                <button
+                  onClick={() => setUserMenuOpen(false)}
+                  className="w-full text-left block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  Télécharger les données
+                </button>
+                <hr className="my-1 border-white/10" />
+                <Link
+                  href="/auth"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="block px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+                >
+                  Se déconnecter
+                </Link>
+              </div>
+            )}
+          </div>
+
 
           <button
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => {
+              setMenuOpen(!menuOpen);
+              // MODIFICATION : Ferme le menu user si on clique sur le burger 
+              setUserMenuOpen(false);
+              setNotifOpen(false);
+            }}
             className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
             aria-label="Menu"
           >
