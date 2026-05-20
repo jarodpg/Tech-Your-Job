@@ -120,7 +120,7 @@ function Header() {
               ]}
             />
           </div>
-          <Link href="/auth">
+          <Link href="/login">
             <button
               className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
               aria-label="Mon profil"

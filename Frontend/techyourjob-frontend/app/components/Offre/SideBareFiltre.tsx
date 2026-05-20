@@ -310,9 +310,10 @@ export default function SideBareFiltre({ onFilterChange }) {
         onToggle={() => setOpenDate(!openDate)}
       >
         <div className="flex flex-col gap-2">
-          <div className="flex items-end gap-2">
-            {/* Début */}
-            <div className="flex flex-col gap-1 flex-1">
+      
+          <div className="grid grid-cols-1 gap-3">
+        {/* Début */}
+            <div className="flex flex-col gap-1">
               <span className="text-[10px] uppercase tracking-widest text-gray-500">
                 Début
               </span>
