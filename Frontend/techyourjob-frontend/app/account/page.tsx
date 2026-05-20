@@ -21,6 +21,7 @@ import Formation_Account from "../components/Account_components/Formation_accoun
 // page entreprise
 import AddTestTechnique from "../components/Account_components/Entreprise/AJouter_test_technique";
 import Reponse_candidats from "../components/Account_components/Entreprise/Managae_reponse";
+import Footer from "../components/Autre/Footer";
 
 export default function Account() {
   const searchParams = useSearchParams();
@@ -115,7 +116,7 @@ export default function Account() {
                   infos={{
                     ...Data.global[0],
                     ...Data.profil[0],
-                    PP: Data.profil[0].photo_profil,
+                    PP: Data.profil[0].photo_profil ,
                   }}
                 />
               )}

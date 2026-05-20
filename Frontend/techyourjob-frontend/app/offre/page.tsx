@@ -10,6 +10,7 @@ import { Get_Offre } from "../services/Offres/Offre_Service";
 
 // test
 import dynamic from "next/dynamic";
+import Footer from "../components/Autre/Footer";
 const MapView = dynamic(() => import("../components/Offre/map_offre"), {
   ssr: false,
 });
@@ -193,6 +194,10 @@ export default function Offre_Page() {
       {open && selectedPost && (
         <Offre_Preview onClose={() => setOpen(false)} Poste={selectedPost} />
       )}
+
+      <Footer />
     </div>
+
+    
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Header from "../components/NavBar/header";
+import Footer from "../components/Autre/Footer";
 
 function HiringPage() {
   const [openPopup, setOpenPopup] = useState(false);
@@ -189,6 +190,7 @@ function HiringPage() {
             </div>
           </div>
         </section>
+      
       </main>
     </div>
   );
