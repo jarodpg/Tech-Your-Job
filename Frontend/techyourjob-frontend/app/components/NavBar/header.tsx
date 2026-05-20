@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Notifications from "./Notification";
 import Link from "next/link";
-import { Get_User_Info } from "../../services/Info_User_Service";
+
+import { Data_User_erith } from "@/app/contexte/UserContext";
 
 function Header() {
   const navLinks = [
@@ -26,19 +27,33 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  
-  const UserButton = () => (
-    <Link href= "/account">
-      <button
-        className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
-        aria-label="Mon profil"
-      >
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isLoggedIn ? 'bg-purple-600/30 border border-purple-500/50' : 'bg-[#3a3a3a]'}`}>
-          <img style={{ width: "20px" }} src="User.svg" alt="Profil" />
+  const { isLoggedIn, prenom, photoProfil } = Data_User_erith();
+
+  const UserAvatar = ({ size = 22 }) => {
+    if (isLoggedIn && photoProfil) {
+      return (
+        <img
+          src={photoProfil}
+          alt="Photo de profil"
+          className="rounded-full object-cover"
+          style={{ width: size, height: size }}
+        />
+      );
+    }
+
+    if (isLoggedIn && prenom) {
+      return (
+        <div
+          className="rounded-full bg-purple-600 flex items-center justify-center text-white font-bold"
+          style={{ width: size, height: size, fontSize: size * 0.45 }}
+        >
+          {prenom.charAt(0).toUpperCase()}
         </div>
-      </button>
-    </Link>
-  );
+      );
+    }
+
+    return <img style={{ width: size }} src="User.svg" alt="Profil" />;
+  };
 
   return (
     <div className="bg-[#2C2C2C] sticky top-0 z-50 border-b border-white/10">
@@ -92,7 +107,6 @@ function Header() {
                 onClose={() => setNotifOpen(false)}
                 notifications={[
                   {
-                    
                     id: 1,
                     type: "entreprise",
                     titre: "Google vous suit",
@@ -104,7 +118,8 @@ function Header() {
                     id: 2,
                     type: "offre",
                     titre: "Candidature envoyee",
-                    message: "Votre candidature chez Airbus a bien ete soumise.",
+                    message:
+                      "Votre candidature chez Airbus a bien ete soumise.",
                     date: "il y a 1h",
                     lu: false,
                   },
@@ -112,7 +127,8 @@ function Header() {
                     id: 3,
                     type: "refus",
                     titre: "Candidature refusee",
-                    message: "Votre candidature chez Amazon n'a pas ete retenue.",
+                    message:
+                      "Votre candidature chez Amazon n'a pas ete retenue.",
                     date: "il y a 3h",
                     lu: true,
                   },
@@ -135,7 +151,7 @@ function Header() {
                 ]}
               />
             </div>
-            
+
             {/* menu pr pc */}
             <div className="relative">
               <button
@@ -146,11 +162,10 @@ function Header() {
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
                 aria-label="Mon profil"
               >
-                <img style={{ width: "22px" }} src="User.svg" alt="" />
+                <UserAvatar size={28} />
               </button>
 
               {userMenuOpen && (
-
                 <div className="absolute right-0 mt-2 w-56 bg-[#2C2C2C] border border-white/10 rounded-lg shadow-xl py-2 z-50">
                   <Link
                     href="/account"
@@ -169,17 +184,16 @@ function Header() {
 
                   <hr className="my-1 border-white/10" />
 
-                <Link
-                  href="/auth"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="block px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
-                >
-                  Se déconnecter
-                </Link>
+                  <Link
+                    href="/auth"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+                  >
+                    Se déconnecter
+                  </Link>
                 </div>
               )}
             </div>
-
           </div>
         </div>
 
@@ -243,7 +257,7 @@ function Header() {
               ]}
             />
           </div>
-          
+
           {/* menu pr mobile */}
           <div className="relative">
             <button
@@ -254,7 +268,7 @@ function Header() {
               className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
               aria-label="Mon profil"
             >
-              <img style={{ width: "22px" }} src="User.svg" alt="" />
+              <UserAvatar size={28} />
             </button>
 
             {userMenuOpen && (
@@ -283,7 +297,6 @@ function Header() {
               </div>
             )}
           </div>
-
 
           <button
             onClick={() => {
@@ -328,9 +341,7 @@ function Header() {
             >
               <img style={{ width: "18px" }} src={icon} alt={alt} />
 
-              <span className="font-bold text-sm text-white/80">
-                {label}
-              </span>
+              <span className="font-bold text-sm text-white/80">{label}</span>
             </Link>
           ))}
         </nav>
