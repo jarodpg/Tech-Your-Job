@@ -1,3 +1,5 @@
+import { secureFetch } from "../Authentification/refresh";
+
 const BACKEND_URL = "http://localhost:5000";
 
 export async function Update_User_Global(data: {
@@ -9,9 +11,8 @@ export async function Update_User_Global(data: {
   country?: string;
   location?: string;
 }) {
-  const res = await fetch(`${BACKEND_URL}/user/global`, {
+  const res = await secureFetch(`${BACKEND_URL}/user/global`, {
     method: "PUT",
-    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });

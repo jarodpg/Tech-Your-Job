@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
-  const token = req.cookies["token"];
+  const token = req.cookies["access_token"];
   if (!token) {
     return res.status(401).json({ msg: "Not allowed" });
   }
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ msg: "Not allowed" });
     }

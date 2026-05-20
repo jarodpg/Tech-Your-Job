@@ -1,7 +1,8 @@
+import { secureFetch } from "../Authentification/refresh";
+
 export async function Delete_User(userId: number) {
-  const res = await fetch(`http://localhost:5000/user/${userId}`, {
+  const res = await secureFetch(`http://localhost:5000/user/${userId}`, {
     method: "DELETE",
-    credentials: "include",
   });
   if (!res.ok) {
     const body = await res.text();
