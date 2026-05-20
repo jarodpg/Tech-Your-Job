@@ -26,27 +26,9 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  // utilisateur connecté ou non
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const data = await Get_User_Info();
-
-        if (data && data.profil && data.profil[0]) {
-          setIsLoggedIn(true);
-        }
-      } catch {
-        setIsLoggedIn(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
+  
   const UserButton = () => (
-    <Link href={isLoggedIn ? "/account" : "/auth"}>
+    <Link href= "/account">
       <button
         className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
         aria-label="Mon profil"
@@ -306,7 +288,6 @@ function Header() {
           <button
             onClick={() => {
               setMenuOpen(!menuOpen);
-              // MODIFICATION : Ferme le menu user si on clique sur le burger 
               setUserMenuOpen(false);
               setNotifOpen(false);
             }}
