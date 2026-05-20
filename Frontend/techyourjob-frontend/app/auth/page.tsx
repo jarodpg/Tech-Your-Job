@@ -189,10 +189,7 @@ function FormContent({
       </div>
 
       {/* formulaire */}
-      <motion.div
-        layout
-        className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl"
-      >
+      <motion.div className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl">
         <h2 className="text-white text-5xl font-bold text-center mb-10">
           {isLogin ? "Welcome Back!" : "Welcome!"}
         </h2>
