@@ -1,12 +1,12 @@
 const BACKEND_URL = "http://localhost:5000";
+import { secureFetch } from "./Authentification/refresh";
 
 export async function Get_User_Info() {
   const url = `${BACKEND_URL}/user`;
 
-  const res = await fetch(url, {
+  const res = await secureFetch(url, {
     method: "GET",
     cache: "no-store",
-    credentials: "include",
     headers: { "Content-Type": "application/json" },
   });
 

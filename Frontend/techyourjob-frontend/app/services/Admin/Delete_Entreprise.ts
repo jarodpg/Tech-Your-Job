@@ -1,7 +1,8 @@
+import { secureFetch } from "../Authentification/refresh";
+
 export async function Delete_Entreprise(userId: number) {
-  const res = await fetch(`http://localhost:5000/enterprise/${userId}`, {
+  const res = await secureFetch(`http://localhost:5000/enterprise/${userId}`, {
     method: "DELETE",
-    credentials: "include",
   });
   if (!res.ok) {
     const body = await res.text();

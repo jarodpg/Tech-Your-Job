@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Login, Register } from "../services/auth.service";
+import { Login, Register } from "../services/Authentification/auth.service";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
@@ -10,7 +10,7 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  // states pour l'erruer 
+  // states pour l'erruer
   const [errorMessage, setErrorMessage] = useState("");
   const [showSuccessToast, setShowSuccessToast] = useState(false);
 
@@ -23,7 +23,7 @@ export default function AuthPage() {
     return () => media.removeEventListener("change", listener);
   }, []);
 
-  // effacage de l'erreur quand on bascule de login a register 
+  // effacage de l'erreur quand on bascule de login a register
   useEffect(() => {
     setErrorMessage("");
   }, [isLogin]);
@@ -37,10 +37,10 @@ export default function AuthPage() {
   const [clickCount, setClickCount] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
 
- const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(""); //  initialisation de l'erreur au clic
-    
+
     if (HoneyPot !== "") return;
     if (isLocked) return;
 
@@ -49,7 +49,6 @@ export default function AuthPage() {
 
     if (isLogin) {
       try {
-
         const success = await Login(Email, Password);
         if (success) {
           router.push("/offre");
@@ -59,18 +58,16 @@ export default function AuthPage() {
       } catch (error) {
         setErrorMessage("Des informations sont incorrectes.");
       }
-
     } else {
       try {
         // le try va intercepter le "throw new error" envoyé par ton auth.service.ts
         await Register(LastName, FirstName, Email, Password);
-        
+
         // Si la ligne du dessus n'a pas crash, c'est que c'est un succès (200 OK)
         setShowSuccessToast(true);
         setTimeout(() => {
           router.push("/");
         }, 1000);
-
       } catch (error) {
         // ici dc pour si le compte existe deja ou s'il y a un probleme serveur
         setErrorMessage("Des informations sont incorrectes.");
@@ -81,24 +78,23 @@ export default function AuthPage() {
   return (
     <main className="min-h-screen w-full bg-[#242424] overflow-hidden relative">
       <div className="relative w-full h-screen">
-        
         {/* le formulaire*/}
-        <motion.div 
+        <motion.div
           initial={false}
-          animate={{ 
-            x: isDesktop ? (isLogin ? "55vw" : "0vw") : "0px" 
+          animate={{
+            x: isDesktop ? (isLogin ? "55vw" : "0vw") : "0px",
           }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
           className="absolute top-0 left-0 w-full md:w-[45%] h-full z-10 flex items-center justify-center p-6"
         >
           {/*gère le texte qui passe en dessous de l'image  */}
           <AnimatePresence mode="wait">
-            <FormContent 
+            <FormContent
               key={isLogin ? "login" : "register"}
-              isLogin={isLogin} 
-              setIsLogin={setIsLogin} 
+              isLogin={isLogin}
+              setIsLogin={setIsLogin}
               handleSubmit={handleSubmit}
-              setEmail={setEmail} 
+              setEmail={setEmail}
               setPassword={setPassword}
               setFirstName={setFirstName}
               setLastName={setLastName}
@@ -113,8 +109,8 @@ export default function AuthPage() {
         {/* image */}
         <motion.div
           initial={false}
-          animate={{ 
-            x: isDesktop ? (isLogin ? "0vw" : "45vw") : "0px" 
+          animate={{
+            x: isDesktop ? (isLogin ? "0vw" : "45vw") : "0px",
           }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
           className="hidden md:block absolute top-0 left-0 w-[55%] h-screen p-8 z-20 pointer-events-none"
@@ -124,23 +120,29 @@ export default function AuthPage() {
             style={{ backgroundImage: "url('image3.png')" }}
           />
         </motion.div>
-
       </div>
 
       {/* pop up */}
       <AnimatePresence>
-
         {showSuccessToast && (
-
           <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-
             className="fixed bottom-6 right-6 z-50 bg-[#7288C9] text-white px-11 py-7 rounded-2xl shadow-2xl flex items-center space-x-3 font-bold border border-white/10"
           >
-            <svg className="w-6 h-6 shrink-0 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            <svg
+              className="w-6 h-6 shrink-0 text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
             </svg>
             <span>Inscription réussie ! Redirection...</span>
           </motion.div>
@@ -151,9 +153,21 @@ export default function AuthPage() {
 }
 
 // composant pour les animations de fondu
-function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword, setFirstName, setLastName, HoneyPot, setHoneyPot, isLocked, errorMessage }) {
+function FormContent({
+  isLogin,
+  setIsLogin,
+  handleSubmit,
+  setEmail,
+  setPassword,
+  setFirstName,
+  setLastName,
+  HoneyPot,
+  setHoneyPot,
+  isLocked,
+  errorMessage,
+}) {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 1 }}
@@ -165,8 +179,8 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
         <h1 className="text-white text-7xl font-bold">Tech Your Job</h1>
         <p className="text-[#adadad] font-bold">
           {isLogin ? "Does not have an Account? " : "Already have an account? "}
-          <span 
-            onClick={() => setIsLogin(!isLogin)} 
+          <span
+            onClick={() => setIsLogin(!isLogin)}
             className="text-[#7288C9] underline cursor-pointer ml-1"
           >
             {isLogin ? "Register" : "Login"}
@@ -175,32 +189,57 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
       </div>
 
       {/* formulaire */}
-      <motion.div layout className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl">
+      <motion.div
+        layout
+        className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl"
+      >
         <h2 className="text-white text-5xl font-bold text-center mb-10">
           {isLogin ? "Welcome Back!" : "Welcome!"}
         </h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input 
-            type="text" 
-            value={HoneyPot} 
-            onChange={(e) => setHoneyPot(e.target.value)} 
-            style={{ display: "none" }} 
-            tabIndex={-1} 
-            autoComplete="off" 
+          <input
+            type="text"
+            value={HoneyPot}
+            onChange={(e) => setHoneyPot(e.target.value)}
+            style={{ display: "none" }}
+            tabIndex={-1}
+            autoComplete="off"
           />
-          
+
           {/* champs register */}
           {!isLogin && (
             <div className="space-y-4">
-              <input onChange={(e) => setFirstName(e.target.value)} placeholder="First name" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
-              <input onChange={(e) => setLastName(e.target.value)} placeholder="Last name" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
+              <input
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First name"
+                className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
+                required
+              />
+              <input
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last name"
+                className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
+                required
+              />
             </div>
           )}
 
           {/*champs commun des deux email password */}
-          <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email address" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
-          <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all" required />
+          <input
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email address"
+            className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
+            required
+          />
+          <input
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
+            required
+          />
 
           {/* forgot paddword pr login*/}
           {isLogin && (
@@ -217,7 +256,7 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
           {/*message quand erreur , les informations sont incorrectes jsp quoi */}
           <AnimatePresence>
             {errorMessage && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -228,7 +267,10 @@ function FormContent({ isLogin, setIsLogin, handleSubmit, setEmail, setPassword,
             )}
           </AnimatePresence>
 
-          <button disabled={isLocked} className="w-full bg-[#242424] text-xl text-[#7288c9] font-bold py-4 rounded-full border-1 border-[#8e8e8e] mt-6 hover:bg-[#1f1f1f] transition-colors cursor-pointer">
+          <button
+            disabled={isLocked}
+            className="w-full bg-[#242424] text-xl text-[#7288c9] font-bold py-4 rounded-full border-1 border-[#8e8e8e] mt-6 hover:bg-[#1f1f1f] transition-colors cursor-pointer"
+          >
             {isLogin ? "Connexion" : "S'inscrire"}
           </button>
         </form>

@@ -1,9 +1,8 @@
+import { secureFetch } from "../Authentification/refresh";
+
 export async function Rechercher_user(query: string) {
-  const res = await fetch(
+  const res = await secureFetch(
     `http://localhost:5000/user/search?info=${encodeURIComponent(query)}`,
-    {
-      credentials: "include",
-    },
   );
   if (!res.ok) {
     const body = await res.text();

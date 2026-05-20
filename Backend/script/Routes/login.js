@@ -68,8 +68,9 @@ router.post("/login", loginLimiter, async (req, res) => {
       httpOnly: true, // empêche js de lire le cookie
       sameSite: "strict", // le cookie est envoyé uniquement si la requête provient de notre site
       secure: false, // car en localhost en http et non https
-      maxAge: 900 * 1000, // secondes dans 1h * 1000 car javascript compte en ms = durée de vie du cookie : de 1 heure
+      maxAge: 15 * 60 * 1000, // secondes dans 15min * 1000 car javascript compte en ms = durée de vie du cookie : de 1 heure
     });
+    console.log("Access token created");
 
     // refresh token
     const refresh_secretKey = process.env.REFRESH_SECRET_KEY;
@@ -85,8 +86,9 @@ router.post("/login", loginLimiter, async (req, res) => {
       httpOnly: true,
       sameSite: "strict",
       secure: false,
-      maxAge: 604800 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+    console.log("Refresh token created");
 
     console.log("Login succesful");
     return res.status(200).json({ msg: "Login succesful" });

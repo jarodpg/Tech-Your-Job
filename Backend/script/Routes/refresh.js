@@ -9,6 +9,18 @@ router.post("/refresh", (req, res) => {
 
     // s'il y en a pas
     if (!refresh_token) {
+      res.clearCookie("access_token", {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: false,
+      });
+      res.clearCookie("refresh_token", {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: false,
+      });
+
+      console.error("Refresh token missing");
       return res.status(401).json({ msg: "Refresh token missing" });
     }
 
@@ -18,9 +30,18 @@ router.post("/refresh", (req, res) => {
       process.env.REFRESH_SECRET_KEY,
       (err, decoded) => {
         if (err) {
-          res.clearCookie("access_token");
-          res.clearCookie("refresh_token");
+          res.clearCookie("access_token", {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: false,
+          });
+          res.clearCookie("refresh_token", {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: false,
+          });
 
+          console.error("Invalid or expired refresh token");
           return res
             .status(401)
             .json({ msg: "Invalid or expired refresh token" });
@@ -33,7 +54,7 @@ router.post("/refresh", (req, res) => {
           role: decoded.role,
         };
         const access_secretKey = process.env.ACCESS_SECRET_KEY;
-        const access_options = { expiresIn: "15m" };
+        const access_options = { expiresIn: "10s" };
         const access_token = jwt.sign(
           jsonData,
           access_secretKey,
@@ -45,9 +66,10 @@ router.post("/refresh", (req, res) => {
           httpOnly: true,
           sameSite: "strict",
           secure: false,
-          maxAge: 900 * 1000,
+          maxAge: 10 * 1000,
         });
 
+        console.error("Access token refreshed");
         return res.status(200).json({ msg: "Token refreshed" });
       },
     );
@@ -56,3 +78,5 @@ router.post("/refresh", (req, res) => {
     return res.status(500).json({ msg: "Internal server error" });
   }
 });
+
+module.exports = router;
