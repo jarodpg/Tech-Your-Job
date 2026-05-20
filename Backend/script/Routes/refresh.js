@@ -54,7 +54,7 @@ router.post("/refresh", (req, res) => {
           role: decoded.role,
         };
         const access_secretKey = process.env.ACCESS_SECRET_KEY;
-        const access_options = { expiresIn: "10s" };
+        const access_options = { expiresIn: "15m" };
         const access_token = jwt.sign(
           jsonData,
           access_secretKey,
@@ -66,7 +66,7 @@ router.post("/refresh", (req, res) => {
           httpOnly: true,
           sameSite: "strict",
           secure: false,
-          maxAge: 10 * 1000,
+          maxAge: 15 * 60 * 1000,
         });
 
         console.error("Access token refreshed");

@@ -1,3 +1,5 @@
+import { secureFetch } from "../Authentification/refresh";
+
 const BACKEND_URL = "http://localhost:5000";
 
 // on va aller ajouter une nouvelle formation
@@ -10,9 +12,8 @@ export async function Add_User_Formation(data: {
   skills?: string[];
   degree?: string;
 }) {
-  const res = await fetch(`${BACKEND_URL}/user/formation`, {
+  const res = await secureFetch(`${BACKEND_URL}/user/formation`, {
     method: "POST",
-    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
