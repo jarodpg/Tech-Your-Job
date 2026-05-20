@@ -1,12 +1,13 @@
+import { secureFetch } from "../Authentification/refresh";
+
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export async function Get_Salaries_By_Page(page: number = 1) {
-  const res = await fetch(`${BACKEND_URL}dashboard/salary/${page}`, {
+  const res = await secureFetch(`${BACKEND_URL}dashboard/salary/${page}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
     cache: "no-store",
   });
 
