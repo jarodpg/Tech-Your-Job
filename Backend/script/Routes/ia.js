@@ -3,7 +3,7 @@ const router = express.Router();
 
 const connection = require("../DB");
 const { auth } = require("../Middleware");
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 
 const IA_SERVICE_URL = process.env.IA_SERVICE_URL || "http://ia:8000";
 

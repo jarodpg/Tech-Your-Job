@@ -59,7 +59,6 @@ export default function JobRecommendations() {
       if (!res.ok) {
         throw new Error(`Erreur ${res.status}`);
       }
-
       const data: Poste[] = await res.json();
       setResults(data);
     } catch {
@@ -96,7 +95,7 @@ export default function JobRecommendations() {
 
   const formatSalaire = (poste: Poste): string | null => {
     if (poste.salaire_min && poste.salaire_max)
-      return `${poste.salaire_min} – ${poste.salaire_max} k€`;
+      return `${poste.salaire_min} - ${poste.salaire_max} k€`;
     if (poste.salaire_min) return `À partir de ${poste.salaire_min} k€`;
     if (poste.salaire_max) return `Jusqu'à ${poste.salaire_max} k€`;
     return null;
@@ -119,7 +118,7 @@ export default function JobRecommendations() {
         Offres sélectionnées en fonction de votre profil.
       </p>
 
-      {/* Squelette de chargement en mode grille */}
+      {/* chargement en mode grille */}
       {loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(6)].map((_, i) => (
