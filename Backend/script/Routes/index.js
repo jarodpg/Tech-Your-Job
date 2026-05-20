@@ -33,6 +33,7 @@ const SearchPOste = require("./admin/rechercher_poste");
 const See_Other_Account = require("./See_Account");
 const refreshRoutes = require("./refresh");
 const ia = require("./ia");
+const ProfilstatsRoutes = require("./data/Profilstats");
 
 router.use("/", ia);
 router.use("/", registerRoutes);
@@ -65,6 +66,7 @@ router.use("/", SearchUser);
 router.use("/", SearchEntreprise);
 router.use("/", See_Other_Account);
 router.use("/", SearchPOste);
+router.use("/", ProfilstatsRoutes);
 router.use("/", refreshRoutes);
 
 module.exports = router;
