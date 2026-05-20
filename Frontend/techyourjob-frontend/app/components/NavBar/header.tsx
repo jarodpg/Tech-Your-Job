@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Notifications from "./Notification";
 import Link from "next/link";
+import { Get_User_Info } from "../../services/Info_User_Service";
 
 function Header() {
   const navLinks = [
@@ -25,6 +26,38 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
+  // utilisateur connecté ou non
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await Get_User_Info();
+
+        if (data && data.profil && data.profil[0]) {
+          setIsLoggedIn(true);
+        }
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const UserButton = () => (
+    <Link href={isLoggedIn ? "/account" : "/auth"}>
+      <button
+        className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+        aria-label="Mon profil"
+      >
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isLoggedIn ? 'bg-purple-600/30 border border-purple-500/50' : 'bg-[#3a3a3a]'}`}>
+          <img style={{ width: "20px" }} src="User.svg" alt="Profil" />
+        </div>
+      </button>
+    </Link>
+  );
+
   return (
     <div className="bg-[#2C2C2C] sticky top-0 z-50 border-b border-white/10">
       <div className="flex justify-between items-center px-7 h-16">
@@ -34,6 +67,7 @@ function Header() {
             src="techyourjob.png"
             alt="Logo Tech Your Job"
           />
+
           <span className="font-extrabold text-white text-lg tracking-wide">
             Tech Your Job
           </span>
@@ -48,9 +82,11 @@ function Header() {
                 className="relative flex items-center gap-2 px-3 group transition-colors duration-200"
               >
                 <img style={{ width: "18px" }} src={icon} alt={alt} />
+
                 <span className="font-bold text-sm text-white/80 group-hover:text-white transition-colors duration-200">
                   {label}
                 </span>
+
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               </Link>
             ))}
@@ -68,6 +104,7 @@ function Header() {
               >
                 <img style={{ width: "20px" }} src="Bell.svg" alt="" />
               </button>
+
               <Notifications
                 isOpen={notifOpen}
                 onClose={() => setNotifOpen(false)}
@@ -176,6 +213,7 @@ function Header() {
             >
               <img style={{ width: "20px" }} src="Bell.svg" alt="" />
             </button>
+
             <Notifications
               isOpen={notifOpen}
               onClose={() => setNotifOpen(false)}
@@ -281,11 +319,13 @@ function Header() {
                   menuOpen ? "rotate-45 translate-y-2" : ""
                 }`}
               />
+
               <span
                 className={`block h-0.5 bg-white rounded-full transition-all duration-200 ${
                   menuOpen ? "opacity-0" : ""
                 }`}
               />
+
               <span
                 className={`block h-0.5 bg-white rounded-full transition-all duration-200 ${
                   menuOpen ? "-rotate-45 -translate-y-2" : ""
@@ -306,7 +346,10 @@ function Header() {
               className="flex items-center gap-3 px-7 py-3.5 hover:bg-white/5 transition-colors duration-200"
             >
               <img style={{ width: "18px" }} src={icon} alt={alt} />
-              <span className="font-bold text-sm text-white/80">{label}</span>
+
+              <span className="font-bold text-sm text-white/80">
+                {label}
+              </span>
             </Link>
           ))}
         </nav>
