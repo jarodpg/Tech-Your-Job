@@ -32,7 +32,9 @@ const SearchEntreprise = require("./admin/rechercher_entreprise");
 const SearchPOste = require("./admin/rechercher_poste");
 const See_Other_Account = require("./See_Account");
 const refreshRoutes = require("./refresh");
+const ia = require("./ia");
 
+router.use("/", ia);
 router.use("/", registerRoutes);
 router.use("/", loginRoutes);
 router.use("/", logoutRoutes);

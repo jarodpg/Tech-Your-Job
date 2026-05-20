@@ -106,5 +106,14 @@ services:
       mc mb --ignore-existing local/documents;
       "
 
+  ia:
+    build:
+      context: ./IA/
+      dockerfile: Dockerfile
+    container_name: ia
+    ports:
+      - "${PORT_IA}:8000"
+
+
 volumes:
   minio_data:

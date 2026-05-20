@@ -21,31 +21,25 @@ import Formation_Account from "../components/Account_components/Formation_accoun
 // page entreprise
 import AddTestTechnique from "../components/Account_components/Entreprise/AJouter_test_technique";
 import Reponse_candidats from "../components/Account_components/Entreprise/Managae_reponse";
+import Footer from "../components/Autre/Footer";
 
 export default function Account() {
-  // pour visionner un profile user
   const searchParams = useSearchParams();
   const viewUserId = searchParams.get("user");
 
-  //data
   const [Data, setData] = useState(null);
-
-  // pour savoir si on edit ou non les donnee de la page
   const [isEdit, setIsEdit] = useState(true);
-
-  //sauvegarde du job
   const [isUser, setIsUser] = useState(true);
+
   useEffect(() => {
     const fetchUser = async () => {
       let data;
 
       if (viewUserId) {
-        // voir un compte
         data = await See_Profile_User(viewUserId);
         setIsEdit(false);
         setIsUser(true);
       } else {
-        // mon profil
         data = await Get_User_Info();
         if (data.global[0].role === "enterprise") {
           setIsEdit(false);
@@ -62,116 +56,127 @@ export default function Account() {
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
       <Header />
 
-      {/* // si c'est un user */}
-      {isUser && (
-        <div className="grid grid-cols-[0.7fr_2.3fr] gap-x-2 gap-y-4 mt-4 px-4 pb-4">
-          <div className="flex flex-col gap-4">
-            {!Data && (
-              <h1 className="text-bold">
-                Acces reserve pour les entreprises partenaire !
-              </h1>
-            )}
-            {Data && <DashBoard_Preview infos={Data.profil[0]} />}
-            {Data && (
-              <Document_priview
-                isEdit={isEdit}
-                docs={Data.profil[0]?.document}
-              />
-            )}
-            {Data && (
-              <Competence_Preview
-                isEdit={isEdit}
-                infos={{
-                  competences_experience: Data.experience.flatMap((e) =>
-                    (e["compétences"] ?? []).map((c) => ({
-                      competence: c,
-                      source: e.nom_entreprise,
-                      sourceType: "experience" as const,
-                      sourceId: e.id_experience,
-                      logo: e.logo ?? null,
-                    })),
-                  ),
-                  competences_formation: Data.formation.flatMap((f) =>
-                    (f["compétences"] ?? []).map((c) => ({
-                      competence: c,
-                      source: f["nom_établissement"],
-                      sourceType: "formation" as const,
-                      sourceId: f.id_formation,
-                      logo: f.logo ?? null,
-                    })),
-                  ),
-                }}
-              />
-            )}
-            {/* <Competence_Preview /> */}
-          </div>
+   
+      <main className="flex-1">
+        
+    
+        <h1 className="sr-only">
+          {isUser ? "Mon Espace" : "Espace Entreprise"}
+        </h1>
 
-          <div className="flex flex-col gap-4">
-            {Data && (
-              <Infos_generale
-                isEdit={isEdit}
-                infos={{
-                  ...Data.global[0],
-                  ...Data.profil[0],
-                  PP: Data.profil[0].photo_profil,
-                }}
-              />
-            )}
-            <div className="grid grid-cols-2 gap-4">
+        {isUser && (
+          <div className="grid grid-cols-[0.7fr_2.3fr] gap-x-2 gap-y-4 mt-4 px-4 pb-4">
+            <div className="flex flex-col gap-4">
+              
+       
+              {!Data && (
+                <div role="alert" className="text-bold text-red-500">
+                  Acces reserve pour les entreprises partenaire !
+                </div>
+              )}
+              
+              {Data && <DashBoard_Preview infos={Data.profil[0]} />}
               {Data && (
-                <Biographie_account
+                <Document_priview
+                  isEdit={isEdit}
+                  docs={Data.profil[0]?.document}
+                />
+              )}
+              {Data && (
+                <Competence_Preview
                   isEdit={isEdit}
                   infos={{
-                    ...Data.profil[0],
+                    competences_experience: Data.experience.flatMap((e) =>
+                      (e["compétences"] ?? []).map((c) => ({
+                        competence: c,
+                        source: e.nom_entreprise,
+                        sourceType: "experience" as const,
+                        sourceId: e.id_experience,
+                        logo: e.logo ?? null,
+                      })),
+                    ),
+                    competences_formation: Data.formation.flatMap((f) =>
+                      (f["compétences"] ?? []).map((c) => ({
+                        competence: c,
+                        source: f["nom_établissement"],
+                        sourceType: "formation" as const,
+                        sourceId: f.id_formation,
+                        logo: f.logo ?? null,
+                      })),
+                    ),
                   }}
                 />
               )}
-              <div className="flex flex-col gap-4">
-                {Data && (
-                  <Contact_account
-                    isEdit={isEdit}
-                    infos={{
-                      ...Data.global[0],
-                    }}
-                  />
-                )}
+            </div>
 
+            <div className="flex flex-col gap-4">
+              {Data && (
+                <Infos_generale
+                  isEdit={isEdit}
+                  infos={{
+                    ...Data.global[0],
+                    ...Data.profil[0],
+                    PP: Data.profil[0].photo_profil ,
+                  }}
+                />
+              )}
+              <div className="grid grid-cols-2 gap-4">
                 {Data && (
-                  <Plateforme_Account
+                  <Biographie_account
                     isEdit={isEdit}
                     infos={{
                       ...Data.profil[0],
                     }}
                   />
                 )}
+                <div className="flex flex-col gap-4">
+                  {Data && (
+                    <Contact_account
+                      isEdit={isEdit}
+                      infos={{
+                        ...Data.global[0],
+                      }}
+                    />
+                  )}
+
+                  {Data && (
+                    <Plateforme_Account
+                      isEdit={isEdit}
+                      infos={{
+                        ...Data.profil[0],
+                      }}
+                    />
+                  )}
+                </div>
               </div>
+              {Data && (
+                <ExperiencePro_account
+                  isEdit={isEdit}
+                  infos={{
+                    experience: Data.experience,
+                    competences_experience: Data.experience.flatMap((e) =>
+                      (e["compétences"] ?? []).map((c) => ({
+                        competence: c,
+                        source: e.nom_entreprise,
+                      })),
+                    ),
+                  }}
+                />
+              )}
+              {Data && (
+                <Formation_Account isEdit={isEdit} infos={Data.formation} />
+              )}
             </div>
-            {Data && (
-              <ExperiencePro_account
-                isEdit={isEdit}
-                infos={{
-                  experience: Data.experience,
-                  competences_experience: Data.experience.flatMap((e) =>
-                    (e["compétences"] ?? []).map((c) => ({
-                      competence: c,
-                      source: e.nom_entreprise,
-                    })),
-                  ),
-                }}
-              />
-            )}
-            {Data && (
-              <Formation_Account isEdit={isEdit} infos={Data.formation} />
-            )}
           </div>
-        </div>
-      )}
-      {!isUser && (
-        <div className="flex flex-row gap-5">
-          <AddTestTechnique />
-          <Reponse_candidats />
-        </div>
-      )}
+        )}
+        
+        {!isUser && (
+          <div className="flex flex-row gap-5">
+            <AddTestTechnique />
+            <Reponse_candidats />
+          </div>
+        )}
+      </main>
     </div>
   );
 }
