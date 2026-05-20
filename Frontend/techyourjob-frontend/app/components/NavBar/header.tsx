@@ -73,6 +73,7 @@ function Header() {
                 onClose={() => setNotifOpen(false)}
                 notifications={[
                   {
+                    
                     id: 1,
                     type: "entreprise",
                     titre: "Google vous suit",
