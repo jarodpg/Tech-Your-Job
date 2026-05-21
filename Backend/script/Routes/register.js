@@ -41,7 +41,7 @@ router.post("/register", registerLimiter, async (req, res) => {
     `;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const allowedRoles = ["user", "entreprise"];
+    const allowedRoles = ["user", "enterprise"];
 
     const role = allowedRoles.includes(req.body.role)
       ? req.body.role
@@ -54,7 +54,7 @@ router.post("/register", registerLimiter, async (req, res) => {
       hashedPassword,
       role,
     ];
-    
+
     const insertRequest = await client.query(sqlInsert, values);
 
     // ajout dans la table profil_utilisateur
