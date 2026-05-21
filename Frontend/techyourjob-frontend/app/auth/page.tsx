@@ -260,9 +260,9 @@ function FormContent({
 
               <button
                 type="button"
-                onClick={() => setRole("entreprise")}
+                onClick={() => setRole("enterprise")}
                 className={`flex-1 py-3 rounded-full border font-bold transition-all ${
-                  Role === "entreprise"
+                  Role === "enterprise"
                     ? "bg-[#7288C9] border-[#7288C9] text-white"
                     : "bg-[#242424] border-[#8e8e8e] text-[#8e8e8e] hover:border-[#7288C9]"
                 }`}
