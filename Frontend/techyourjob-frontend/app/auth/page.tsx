@@ -36,6 +36,7 @@ export default function AuthPage() {
   const [HoneyPot, setHoneyPot] = useState("");
   const [clickCount, setClickCount] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
+  const [Role, setRole] = useState("user"); // nouveau
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ export default function AuthPage() {
     } else {
       try {
         // le try va intercepter le "throw new error" envoyé par ton auth.service.ts
-        await Register(LastName, FirstName, Email, Password);
+        await Register(LastName, FirstName, Email, Password, Role);
 
         // Si la ligne du dessus n'a pas crash, c'est que c'est un succès (200 OK)
         setShowSuccessToast(true);
@@ -102,6 +103,8 @@ export default function AuthPage() {
               setHoneyPot={setHoneyPot}
               isLocked={isLocked}
               errorMessage={errorMessage} // tranfert de lerrerur de auth au composant childrren
+              Role={Role}
+              setRole={setRole}
             />
           </AnimatePresence>
         </motion.div>
@@ -165,6 +168,8 @@ function FormContent({
   setHoneyPot,
   isLocked,
   errorMessage,
+  Role,
+  setRole,
 }) {
   return (
     <motion.div
@@ -237,6 +242,35 @@ function FormContent({
             className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
             required
           />
+
+          {/* Sélecteur de rôle */}
+          {!isLogin && (
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setRole("user")}
+                className={`flex-1 py-3 rounded-full border font-bold transition-all ${
+                  Role === "user"
+                    ? "bg-[#7288C9] border-[#7288C9] text-white"
+                    : "bg-[#242424] border-[#8e8e8e] text-[#8e8e8e] hover:border-[#7288C9]"
+                }`}
+              >
+                Candidat
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRole("entreprise")}
+                className={`flex-1 py-3 rounded-full border font-bold transition-all ${
+                  Role === "entreprise"
+                    ? "bg-[#7288C9] border-[#7288C9] text-white"
+                    : "bg-[#242424] border-[#8e8e8e] text-[#8e8e8e] hover:border-[#7288C9]"
+                }`}
+              >
+                Entreprise
+              </button>
+            </div>
+          )}
 
           {/* forgot paddword pr login*/}
           {isLogin && (

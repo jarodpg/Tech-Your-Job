@@ -1,6 +1,6 @@
 const BACKEND_URL = "http://localhost:5000";
 
-export async function Register(name, firstname, email, password) {
+export async function Register(name, firstname, email, password, role = "user") {
   console.log(name, firstname, email, password);
   const res = await fetch(`${BACKEND_URL}/register`, {
     method: "POST",
@@ -11,6 +11,7 @@ export async function Register(name, firstname, email, password) {
       firstname,
       email,
       password,
+      role,
     }),
   });
   if (!res.ok) throw new Error("Erreur API");
