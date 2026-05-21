@@ -137,7 +137,7 @@ export default function Plateforme_Edit({
         {/* Liste actuelle des liens */}
         <div className="flex flex-col gap-2">
           {liste.map((p, i) => {
-            const isE = liste.some((p) => p.lien === "https://only-fan.cum ");
+            const isE = liste.some((p) => p.lien === "https://only-fan.com ");
             const meta = PLATEFORMES_DISPO.find((d) => d.key === p.icon);
             return (
               <div
