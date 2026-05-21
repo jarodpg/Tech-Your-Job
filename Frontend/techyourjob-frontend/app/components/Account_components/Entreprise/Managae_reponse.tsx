@@ -150,7 +150,6 @@ export default function Reponse_candidats() {
               ) : (
                 users.map(([userKey, fichiers]) => {
                   const userId = userKey.split("_")[1];
-                  console.log(userId, "ICI");
                   return (
                     <div
                       key={userKey}
@@ -158,9 +157,16 @@ export default function Reponse_candidats() {
                     >
                       <div className="flex flex-wrap gap-2 items-center">
                         <button
-                          onClick={() =>
-                            window.open(`/account?user=${userId}`, "_blank")
-                          }
+                          onClick={async () => {
+                            try {
+                              window.open(`/account?user=${userId}`, "_blank");
+                              await Update_Stats_User(userId, {
+                                nb_vues_profil: 1,
+                              });
+                            } catch (err) {
+                              console.error("Erreur stats refus :", err);
+                            }
+                          }}
                           className="bg-white/5 hover:bg-white/10 text-white text-[10px] font-bold uppercase tracking-wider py-1.5 px-3 rounded-lg border border-white/10 transition-all"
                         >
                           Voir

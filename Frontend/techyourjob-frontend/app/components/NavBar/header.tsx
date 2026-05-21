@@ -4,6 +4,7 @@ import Notifications from "./Notification";
 import Link from "next/link";
 
 import { Data_User_erith } from "@/app/contexte/UserContext";
+import { Logout_User } from "@/app/services/Authentification/Logout";
 
 function Header() {
   const navLinks = [
@@ -53,6 +54,11 @@ function Header() {
     }
 
     return <img style={{ width: size }} src="User.svg" alt="Profil" />;
+  };
+
+  const handleLogout = async () => {
+    setUserMenuOpen(false);
+    await Logout_User();
   };
 
   return (
@@ -198,13 +204,12 @@ function Header() {
 
                   <hr className="my-2 border-white/[0.05]" />
 
-                  <Link
-                    href="/auth"
-                    onClick={() => setUserMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
                   >
                     Se déconnecter
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>
@@ -301,13 +306,12 @@ function Header() {
                   Télécharger les données
                 </button>
                 <hr className="my-1 border-white/10" />
-                <Link
-                  href="/auth"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="block px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
                 >
                   Se déconnecter
-                </Link>
+                </button>
               </div>
             )}
           </div>
