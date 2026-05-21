@@ -47,6 +47,20 @@ services:
     build: ./Data/Get_Data_API
     container_name: scheduler
 
+  # mise à jour des données du dashboard toutes les 15min
+  dashboard_scheduler:
+    build: ./Data/Dashboard
+    container_name: dashboard_scheduler
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - PORT_DB=${PORT_DB}
+    volumes:
+      - ./Frontend/techyourjob-frontend/public/data/cache:/usr/local/app/../../Frontend/techyourjob-frontend/public/data/cache
+    env_file:
+      - .env
+
   # backend
   backend:
     build:
@@ -113,7 +127,6 @@ services:
     container_name: ia
     ports:
       - "${PORT_IA}:8000"
-
 
 volumes:
   minio_data:
