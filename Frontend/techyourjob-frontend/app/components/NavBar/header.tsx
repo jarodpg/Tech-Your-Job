@@ -57,7 +57,7 @@ function Header() {
 
   return (
     <div className="bg-[#0a0a0a]/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/[0.05]">
-      <div className="flex justify-between items-center px-10 h-20">
+      <div className="flex justify-between items-center px-10  h-20">
         <div className="flex items-center gap-4 group cursor-pointer">
           <div>
             <img
