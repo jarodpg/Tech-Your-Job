@@ -56,10 +56,7 @@ export default function Account() {
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
       <Header />
 
-   
       <main className="flex-1">
-        
-    
         <h1 className="sr-only">
           {isUser ? "Mon Espace" : "Espace Entreprise"}
         </h1>
@@ -67,14 +64,12 @@ export default function Account() {
         {isUser && (
           <div className="grid grid-cols-[0.7fr_2.3fr] gap-x-2 gap-y-4 mt-4 px-4 pb-4">
             <div className="flex flex-col gap-4">
-              
-       
               {!Data && (
                 <div role="alert" className="text-bold text-red-500">
                   Acces reserve pour les entreprises partenaire !
                 </div>
               )}
-              
+
               {Data && <DashBoard_Preview infos={Data.profil[0]} />}
               {Data && (
                 <Document_priview
@@ -116,7 +111,7 @@ export default function Account() {
                   infos={{
                     ...Data.global[0],
                     ...Data.profil[0],
-                    PP: Data.profil[0].photo_profil ,
+                    PP: Data.profil[0].photo_profil,
                   }}
                 />
               )}
@@ -169,10 +164,9 @@ export default function Account() {
             </div>
           </div>
         )}
-        
+
         {!isUser && (
           <div className="flex flex-row gap-5">
-            <AddTestTechnique />
             <Reponse_candidats />
           </div>
         )}

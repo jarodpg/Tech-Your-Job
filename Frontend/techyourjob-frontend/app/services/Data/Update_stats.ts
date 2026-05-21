@@ -1,14 +1,26 @@
 import { secureFetch } from "../Authentification/refresh";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const ENV_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const BACKEND_URL = ENV_URL.endsWith("/") ? ENV_URL.slice(0, -1) : ENV_URL;
 
-export async function Update_Stats_User(ID: number) {
-  const res = await secureFetch(`${BACKEND_URL}candidatures/${ID}`, {
-    method: "GET",
+interface StatsUpdateFields {
+  nb_vues_profil?: number;
+  candidatures_envoyees?: number;
+  candidatures_consultees?: number;
+  candidatures_positives?: number;
+  candidatures_refusees?: number;
+}
+
+export async function Update_Stats_User(
+  ID: number,
+  fieldsToUpdate: StatsUpdateFields,
+) {
+  const res = await secureFetch(`${BACKEND_URL}/candidatures/${ID}`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    cache: "no-store",
+    body: JSON.stringify(fieldsToUpdate),
   });
 
   if (!res.ok) {

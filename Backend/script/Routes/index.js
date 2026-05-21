@@ -34,6 +34,7 @@ const See_Other_Account = require("./See_Account");
 const refreshRoutes = require("./refresh");
 const ia = require("./ia");
 const ProfilstatsRoutes = require("./data/Profilstats");
+const Add_test_technique = require("./Features_unique/Add_test_technique");
 
 router.use("/", ia);
 router.use("/", registerRoutes);
@@ -68,5 +69,6 @@ router.use("/", See_Other_Account);
 router.use("/", SearchPOste);
 router.use("/", ProfilstatsRoutes);
 router.use("/", refreshRoutes);
+router.use("/", Add_test_technique);
 
 module.exports = router;
