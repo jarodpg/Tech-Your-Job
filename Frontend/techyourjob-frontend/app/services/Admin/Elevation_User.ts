@@ -2,7 +2,7 @@ import { secureFetch } from "../Authentification/refresh";
 
 export async function Update_Privilege(userId: number, role: string) {
   const res = await secureFetch(
-    `http://localhost:5000/privilege/${userId}/${role}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/privilege/${userId}/${role}`,
     {
       method: "PUT",
     },

@@ -10,7 +10,7 @@ export async function Get_Enterprises(
 
   const query = params.toString() ? `?${params.toString()}` : "";
   const res = await fetch(
-    `http://localhost:5000/enterprise/${reverse}/${start}${query}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/enterprise/${reverse}/${start}${query}`,
   );
 
   if (!res.ok) {

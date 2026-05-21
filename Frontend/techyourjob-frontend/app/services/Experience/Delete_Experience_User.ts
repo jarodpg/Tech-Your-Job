@@ -1,6 +1,6 @@
 import { secureFetch } from "../Authentification/refresh";
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function Delete_User_Experience(ID: number) {
   const res = await secureFetch(`${BACKEND_URL}/user/experience/${ID}`, {

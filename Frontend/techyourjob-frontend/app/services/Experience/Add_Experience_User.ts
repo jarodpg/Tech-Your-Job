@@ -1,6 +1,6 @@
 import { secureFetch } from "../Authentification/refresh";
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function Add_User_Experience(data: {
   enterprise_name?: string;

@@ -5,6 +5,7 @@ const router = express.Router();
 router.get("/enterprise/:id", async (req, res) => {
   try {
     const id = req.params.id;
+    const backend_url = process.env.NEXT_PUBLIC_API_URL;
 
     const sqlSelectEntreprise = `
       SELECT 
@@ -14,7 +15,7 @@ router.get("/enterprise/:id", async (req, res) => {
         seo_alias,
         CASE 
           WHEN logo IS NOT NULL AND logo NOT LIKE 'https%'
-            THEN 'http://localhost:5000/logo/' || logo
+            THEN $2 || '/logo/' || logo
 
           ELSE 
             logo
@@ -33,7 +34,7 @@ router.get("/enterprise/:id", async (req, res) => {
     `;
     const selectEntrepriseRequest = await connection.query(
       sqlSelectEntreprise,
-      [id],
+      [id, backend_url],
     );
 
     const sqlSelectPosteEntreprise = `
@@ -43,7 +44,7 @@ router.get("/enterprise/:id", async (req, res) => {
         entreprise.nom_compagnie,
         CASE 
           WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-            THEN 'http://localhost:5000/logo/' || entreprise.logo
+            THEN $2 || '/logo/' || entreprise.logo
 
           ELSE 
             entreprise.logo
@@ -77,7 +78,7 @@ router.get("/enterprise/:id", async (req, res) => {
     `;
     const selectPosteEntrepriseRequest = await connection.query(
       sqlSelectPosteEntreprise,
-      [id],
+      [id, backend_url],
     );
 
     if (selectEntrepriseRequest.rows.length === 0) {
