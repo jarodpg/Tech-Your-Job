@@ -53,14 +53,21 @@ router.get("/enterprise/:id", async (req, res) => {
         salaire_currency,
         (salaire_min + salaire_max) / 2 || 'K' AS salaire_annuel_moyen,
         CASE
-          WHEN NOW() - date_publication < INTERVAL '1 day'
-            THEN TO_CHAR(AGE(NOW(), date_publication), 'HH24"h"MI')
+            WHEN NOW() - date_publication < INTERVAL '1 day'
+                THEN
+                    TO_CHAR(EXTRACT(HOUR FROM (NOW() - date_publication)), 'FM00') || 'h' ||
+                    TO_CHAR(EXTRACT(MINUTE FROM (NOW() - date_publication)), 'FM00')
 
-          WHEN NOW() - date_publication < INTERVAL '2 day'
-            THEN TO_CHAR(AGE(NOW(), date_publication), 'DD "jour" HH24"h"MI')
+            WHEN NOW() - date_publication < INTERVAL '2 day'
+                THEN    
+                    EXTRACT(DAY FROM (NOW() - date_publication))::int || ' jour ' ||
+                    TO_CHAR(EXTRACT(HOUR FROM (NOW() - date_publication)), 'FM00') || 'h' ||
+                    TO_CHAR(EXTRACT(MINUTE FROM (NOW() - date_publication)), 'FM00')
 
-          ELSE 
-            TO_CHAR(AGE(NOW(), date_publication), 'DD "jours" HH24"h"MI')
+            ELSE 
+                EXTRACT(DAY FROM (NOW() - date_publication))::int || ' jours ' ||
+                TO_CHAR(EXTRACT(HOUR FROM (NOW() - date_publication)), 'FM00') || 'h' ||
+                TO_CHAR(EXTRACT(MINUTE FROM (NOW() - date_publication)), 'FM00')
         END AS since_posted,
         latitude,
         longitude
