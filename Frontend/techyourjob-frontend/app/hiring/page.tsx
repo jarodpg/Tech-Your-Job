@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/NavBar/header";
 import Footer from "../components/Autre/Footer";
 
@@ -24,7 +24,7 @@ function HiringPage() {
               meilleurs profils recherchés.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="/register">
+              <a href="/auth?mode=register">
                 <button className="bg-[#8a2be2] px-6 py-3 rounded-xl font-medium cursor-pointer">
                   Commencer à recruter gratuitement
                 </button>

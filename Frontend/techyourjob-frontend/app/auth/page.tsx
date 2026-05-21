@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Login, Register } from "../services/Authentification/auth.service";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,7 +8,10 @@ import Link from "next/link";
 
 export default function AuthPage() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(true);
+  const searchParams = useSearchParams();
+  const mode = searchParams.get("mode");
+
+  const [isLogin, setIsLogin] = useState(() => mode !== "register");
   const [isDesktop, setIsDesktop] = useState(false);
 
   // states pour l'erruer
