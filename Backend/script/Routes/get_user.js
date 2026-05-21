@@ -5,6 +5,8 @@ const { auth } = require("../Middleware");
 
 router.get("/user", auth, async (req, res) => {
   try {
+    const backend_url = process.env.NEXT_PUBLIC_API_URL;
+
     // infos de la table utilisateur
     const sqlSelectUtilisateur = `
             SELECT 
@@ -65,7 +67,7 @@ router.get("/user", auth, async (req, res) => {
                 compétences,
                 CASE 
                     WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+                        THEN $2 || '/logo/' || entreprise.logo
 
                     ELSE 
                         entreprise.logo
@@ -76,7 +78,7 @@ router.get("/user", auth, async (req, res) => {
         `;
     const selectExperience_UtilisateurRequest = await connection.query(
       sqlSelectExperience_Utilisateur,
-      [req.token.id],
+      [req.token.id, backend_url],
     );
 
     // infos de la table formation_utilisateur
@@ -93,7 +95,7 @@ router.get("/user", auth, async (req, res) => {
                 diplome,
                 CASE 
                     WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+                        THEN $2 || '/logo/' || entreprise.logo
 
                     ELSE 
                         entreprise.logo
@@ -104,7 +106,7 @@ router.get("/user", auth, async (req, res) => {
         `;
     const selectFormation_UtilisateurRequest = await connection.query(
       sqlSelectFormation_Utilisateur,
-      [req.token.id],
+      [req.token.id, backend_url],
     );
 
     console.log("User data retrieved");

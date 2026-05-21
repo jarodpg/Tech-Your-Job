@@ -7,6 +7,7 @@ router.get("/user/:id/account", auth, async (req, res) => {
   try {
     const id = req.params.id;
     const user_role = req.token.role;
+    const backend_url = process.env.NEXT_PUBLIC_API_URL;
 
     console.log("sdsdsd", user_role);
     if (user_role !== "enterprise") {
@@ -33,24 +34,24 @@ router.get("/user/:id/account", auth, async (req, res) => {
       `SELECT id_experience, experience_utilisateur.id_entreprise, nom_entreprise,
               titre, date_debut, date_fin, description, compétences,
               CASE WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-                   THEN 'http://localhost:5000/logo/' || entreprise.logo
+                   THEN $2 || '/logo/' || entreprise.logo
                    ELSE entreprise.logo END AS logo
        FROM experience_utilisateur
        LEFT JOIN entreprise ON experience_utilisateur.id_entreprise = entreprise.id_entreprise
        WHERE id_utilisateur = $1`,
-      [id],
+      [id, backend_url],
     );
 
     const formation = await connection.query(
       `SELECT id_formation, formation_utilisateur.id_entreprise, nom_établissement,
               titre, date_debut, date_fin, description, compétences, diplome,
               CASE WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-                   THEN 'http://localhost:5000/logo/' || entreprise.logo
+                   THEN $2 || '/logo/' || entreprise.logo
                    ELSE entreprise.logo END AS logo
        FROM formation_utilisateur
        LEFT JOIN entreprise ON formation_utilisateur.id_entreprise = entreprise.id_entreprise
        WHERE id_utilisateur = $1`,
-      [id],
+      [id, backend_url],
     );
 
     return res.status(200).json({

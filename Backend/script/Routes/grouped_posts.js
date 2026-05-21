@@ -65,6 +65,7 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
     const language = req.query.language;
     const experience = req.query.experience;
     const age = req.query.age;
+    const backend_url = process.env.NEXT_PUBLIC_API_URL;
 
     // je vérifie si reverse est bien un booléen
     if (reverse !== "true" && reverse !== "false") {
@@ -107,7 +108,7 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
                 entreprise.nom_compagnie,
                 CASE 
                     WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+                        THEN $13 || '/logo/' || entreprise.logo
 
                     ELSE 
                         entreprise.logo
@@ -206,6 +207,7 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
       language ?? null,
       experience ?? null,
       age ?? null,
+      backend_url,
     ]);
 
     // if (selectPosteRequest.rows.length === 0) {

@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function searchPosts(query, page) {
   const res = await fetch(

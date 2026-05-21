@@ -6,6 +6,7 @@ router.get("/enterprise/:reverse/:start", async (req, res) => {
   try {
     const reverse = req.params.reverse;
     const start = req.params.start;
+    const backend_url = process.env.NEXT_PUBLIC_API_URL;
     let sectors = req.query.sectors;
     let types = req.query.types;
 
@@ -43,7 +44,7 @@ router.get("/enterprise/:reverse/:start", async (req, res) => {
                 seo_alias,
                 CASE 
                     WHEN logo IS NOT NULL AND logo NOT LIKE 'https%'
-                        THEN 'http://localhost:5000/logo/' || logo
+                        THEN $5 || '/logo/' || logo
 
                     ELSE 
                         logo
@@ -66,7 +67,7 @@ router.get("/enterprise/:reverse/:start", async (req, res) => {
                                 'nom_compagnie', entreprise.nom_compagnie,
                                 'logo', CASE 
                                     WHEN entreprise.logo IS NOT NULL AND entreprise.logo NOT LIKE 'https%'
-                                        THEN 'http://localhost:5000/logo/' || entreprise.logo
+                                        THEN $5 || '/logo/' || entreprise.logo
 
                                     ELSE 
                                         entreprise.logo
@@ -123,7 +124,7 @@ router.get("/enterprise/:reverse/:start", async (req, res) => {
         `;
     const selectEntrepriseRequest = await connection.query(
       sqlSelectEntreprise,
-      [reverse, start, sectors ?? null, types ?? null],
+      [reverse, start, sectors ?? null, types ?? null, backend_url],
     );
 
     if (selectEntrepriseRequest.rows.length === 0) {

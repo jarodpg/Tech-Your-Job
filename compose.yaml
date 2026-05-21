@@ -5,6 +5,8 @@ services:
       context: ./Frontend/techyourjob-frontend/
       dockerfile: Dockerfile
     container_name: frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
       - "${PORT_FRONT}:3000"
     volumes:
@@ -86,6 +88,7 @@ services:
       - MAIL_PASS=${MAIL_PASS}
       - FRONTEND_URL=${FRONTEND_URL}
       - MAIL_SENDER=${MAIL_SENDER}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
       - "${PORT_BACK}:5000"
     volumes:

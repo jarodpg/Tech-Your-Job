@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function secureFetch(url: string, options: RequestInit = {}) {
   //securite pour pas boucle sur auth si on est deja dedans

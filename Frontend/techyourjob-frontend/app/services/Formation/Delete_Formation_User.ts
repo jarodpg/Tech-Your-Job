@@ -1,6 +1,6 @@
 import { secureFetch } from "../Authentification/refresh";
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // on va aller delete une formation avec son ID
 export async function Delete_User_Formation(ID: number) {

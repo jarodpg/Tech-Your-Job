@@ -52,11 +52,14 @@ export default function Reponse_candidats() {
 
   // pour laner le test d'un utilisateur
   const handleLancer = async (fichierPaths: string[]) => {
-    const res = await fetch("http://localhost:5000/api/docker/start", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fichierPaths }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/docker/start`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fichierPaths }),
+      },
+    );
     const { url } = await res.json();
     window.open(url, "_blank");
   };
