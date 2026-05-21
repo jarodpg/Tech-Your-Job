@@ -118,13 +118,20 @@ router.get("/grouped_posts/:reverse/:start", async (req, res) => {
                 (salaire_min + salaire_max) / 2 || 'K' AS salaire_annuel_moyen,
                 CASE
                     WHEN NOW() - date_publication < INTERVAL '1 day'
-                        THEN TO_CHAR(AGE(NOW(), date_publication), 'HH24"h"MI')
+                        THEN
+                            TO_CHAR(EXTRACT(HOUR FROM (NOW() - date_publication)), 'FM00') || 'h' ||
+                            TO_CHAR(EXTRACT(MINUTE FROM (NOW() - date_publication)), 'FM00')
 
                     WHEN NOW() - date_publication < INTERVAL '2 day'
-                        THEN TO_CHAR(AGE(NOW(), date_publication), 'DD "jour" HH24"h"MI')
+                        THEN    
+                            EXTRACT(DAY FROM (NOW() - date_publication))::int || ' jour ' ||
+                            TO_CHAR(EXTRACT(HOUR FROM (NOW() - date_publication)), 'FM00') || 'h' ||
+                            TO_CHAR(EXTRACT(MINUTE FROM (NOW() - date_publication)), 'FM00')
 
                     ELSE 
-                        TO_CHAR(AGE(NOW(), date_publication), 'DD "jours" HH24"h"MI')
+                        EXTRACT(DAY FROM (NOW() - date_publication))::int || ' jours ' ||
+                        TO_CHAR(EXTRACT(HOUR FROM (NOW() - date_publication)), 'FM00') || 'h' ||
+                        TO_CHAR(EXTRACT(MINUTE FROM (NOW() - date_publication)), 'FM00')
                 END AS since_posted,
                 latitude,
                 longitude
