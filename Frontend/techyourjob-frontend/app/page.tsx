@@ -293,10 +293,11 @@ export default function HomePage() {
             </button>
           </a>
           <div className="mt-20">
-            <Footer />
           </div>
         </footer>
       </main>
+      <Footer/>
+
     </div>
   );
 }

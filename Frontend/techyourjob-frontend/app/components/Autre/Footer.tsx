@@ -9,7 +9,7 @@ export default function Footer() {
   const [activePopup, setActivePopup] = useState<string | null>(null);
 
   return (
-    <footer className="w-full mt-auto bg-[#0a0a0a] border-t border-white/[0.05] text-zinc-500 text-sm font-sans py-20 relative">
+    <footer className="w-full mt-auto bg-[#0a0a0a] border-t border-white/[0.05] text-zinc-500 text-sm font-sans py-8 relative">
       <div className="max-w-7xl mx-auto px-10 flex flex-col md:flex-row items-center justify-between gap-16 md:gap-8">
         {/* redirections */}
         <div className="w-full md:w-1/3 flex justify-center md:justify-start order-1">

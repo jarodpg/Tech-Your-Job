@@ -192,6 +192,8 @@ function HiringPage() {
         </section>
       
       </main>
+
+      <Footer />
     </div>
   );
 }
