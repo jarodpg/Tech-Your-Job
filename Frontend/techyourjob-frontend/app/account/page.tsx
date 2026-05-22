@@ -64,7 +64,7 @@ function AccountContent() {
         </h1>
 
         {isUser && (
-          <div className="grid grid-cols-[0.7fr_2.3fr] gap-x-2 gap-y-4 mt-4 px-4 pb-4">
+          <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-x-4 gap-y-4 mt-4 px-4 pb-4">
             <div className="flex flex-col gap-4">
               {!Data && (
                 <div role="alert" className="text-bold text-red-500">

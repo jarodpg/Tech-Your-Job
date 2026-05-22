@@ -146,7 +146,7 @@ export default function Competence_Preview({
   const apercu = competences.slice(-3);
 
   return (
-    <div className="flex flex-col bg-[#2a2a2a] rounded-3xl p-6 w-[340px]">
+    <div className="flex flex-col bg-[#242424] rounded-3xl p-5 w-[300px]">
       <Competences_Plus
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

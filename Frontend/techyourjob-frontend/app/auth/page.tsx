@@ -73,8 +73,8 @@ function AuthContent() {
         // Si la ligne du dessus n'a pas crash, c'est que c'est un succès (200 OK)
         setShowSuccessToast(true);
         setTimeout(() => {
-          router.push("/");
-        }, 1000);
+          setIsLogin(true);
+        }, 1500);
       } catch (error) {
         // ici dc pour si le compte existe deja ou s'il y a un probleme serveur
         setErrorMessage("Des informations sont incorrectes.");
