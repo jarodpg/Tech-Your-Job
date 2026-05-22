@@ -184,7 +184,7 @@ export default function Entreprise_Preview({ entreprise, onClose }) {
                   </div>
                   <div className="flex flex-col items-end">
                     <p className="text-sm font-black text-purple-400">
-                      {offre.salaire_annuel_moyen}
+                      {offre.salaire_annuel_moyen || "Non renseigné"}
                     </p>
                     <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-tighter">
                       / an

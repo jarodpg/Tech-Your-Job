@@ -33,22 +33,27 @@ export default function Entreprise_All() {
     fetchTop();
   }, []);
 
+  // pour les pages
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 5;
+
   // on va recuperer X entreprise et on gere les filtres pour aller recharger
   useEffect(() => {
     const fetchEntreprises = async () => {
       const data = await Get_Enterprises(
         false,
-        0,
+        page * PAGE_SIZE,
         filters.sectors,
         filters.types,
       );
       setEntreprises(data);
     };
     fetchEntreprises();
-  }, [filters]);
+  }, [filters, page]);
 
   const handleFilterChange = (newFilter) => {
     setFilters((prev) => ({ ...prev, ...newFilter }));
+    setPage(0);
   };
 
   const Top = topEntreprises[0];
@@ -69,7 +74,10 @@ export default function Entreprise_All() {
 
         {Top && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.6fr_1fr_1fr_1fr_1fr] gap-4">
-            <div className="bg-[#121212] border border-purple-500/20 rounded-[2rem] p-6 flex flex-col justify-between cursor-pointer hover:border-purple-500/40 hover:bg-[#161616] transition-all duration-300 group">
+            <div
+              onClick={() => setSelectedEntreprise(Top)}
+              className="bg-[#121212] border border-purple-500/20 rounded-[2rem] p-6 flex flex-col justify-between cursor-pointer hover:border-purple-500/40 hover:bg-[#161616] transition-all duration-300 group"
+            >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-900/20 border border-purple-500/20 flex items-center justify-center shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
@@ -90,7 +98,7 @@ export default function Entreprise_All() {
                       {Top.nom_compagnie}
                     </h3>
                     <p className="text-xs text-zinc-500 font-medium">
-                      {Top.type_entreprise} • {Top.ville}
+                      {Top.type_entreprise} - {Top.ville}
                     </p>
                   </div>
                 </div>
@@ -126,6 +134,7 @@ export default function Entreprise_All() {
             {petite.map((e: any) => (
               <div
                 key={e.id_entreprise}
+                onClick={() => setSelectedEntreprise(e)}
                 className="bg-[#121212] border border-white/[0.05] rounded-[2rem] p-5 flex flex-col justify-between cursor-pointer hover:bg-[#161616] hover:border-zinc-700 transition-all duration-300 group"
               >
                 <div className="w-10 h-10 rounded-xl bg-zinc-800/50 border border-white/[0.05] flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform">
@@ -188,6 +197,25 @@ export default function Entreprise_All() {
                 entreprise={item}
               />
             ))}
+            <div className="flex items-center justify-between px-2 pt-4">
+              <button
+                disabled={page === 0}
+                onClick={() => setPage((p) => p - 1)}
+                className="px-5 py-2 text-xs font-bold rounded-full border border-white/[0.05] bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                ← Précédent
+              </button>
+              <span className="text-xs text-zinc-500 font-medium">
+                Page {page + 1}
+              </span>
+              <button
+                disabled={entreprises.length < PAGE_SIZE}
+                onClick={() => setPage((p) => p + 1)}
+                className="px-5 py-2 text-xs font-bold rounded-full border border-white/[0.05] bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Suivant →
+              </button>
+            </div>
             {selectedEntreprise && (
               <Entreprise_Preview
                 entreprise={selectedEntreprise}
