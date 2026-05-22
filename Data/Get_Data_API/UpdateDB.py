@@ -22,7 +22,7 @@ except Exception as e:
 
 try:
     subprocess.run(["python", "add_logo.py"], check=True, cwd=ADD_ENTREPRISE_DIR)
-    subprocess.run(["python", "add_ranking.py"], check=True, cwd=ADD_ENTREPRISE_DIR)
     subprocess.run(["python", "add_stats.py"], check=True, cwd=ADD_ENTREPRISE_DIR)
+    subprocess.run(["python", "add_ranking.py"], check=True, cwd=ADD_ENTREPRISE_DIR)
 except Exception as e:
     print("Erreur Insertion Stats & logo :", e)
