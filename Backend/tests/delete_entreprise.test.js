@@ -1,3 +1,4 @@
+/* global describe, it, expect, jest, afterEach */
 const request = require("supertest");
 const express = require("express");
 
