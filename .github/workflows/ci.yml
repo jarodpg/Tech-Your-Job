@@ -36,32 +36,25 @@ jobs:
           cd Backend
           npm test
 
-      # install deps du front
+      # dependance front
       - name: Install frontend deps
         run: |
           cd Frontend/techyourjob-frontend
           npm install
 
-      # build le frontend
       - name: Build frontend
         run: |
           cd Frontend/techyourjob-frontend
           npm run build
 
-      # lance le frontend en bg
-      - name: Start frontend
-        run: |
-          cd Frontend/techyourjob-frontend
-          npm start &
-          sleep 10
-
+      # Install chrome
       - name: Install Chrome
         run: |
           wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
           echo "CHROME_PATH=/usr/bin/google-chrome-stable" >> $GITHUB_ENV
 
-      # lance le frontend en bg
+      # ca lance le vfront
       - name: Start frontend
         run: |
           cd Frontend/techyourjob-frontend
@@ -69,13 +62,11 @@ jobs:
           sleep 10
           curl -f http://localhost:3000 || (echo "Frontend not running!" && exit 1)
 
-      # audit Lighthouse
       - name: Lighthouse audit
         uses: treosh/lighthouse-ci-action@v12
-        env:
-          LHCI_CHROME_FLAGS: "--no-sandbox --disable-gpu"
         with:
           urls: |
             http://localhost:3000
           uploadArtifacts: true
           temporaryPublicStorage: true
+          configPath: .lighthouserc.json
