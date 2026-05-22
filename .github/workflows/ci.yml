@@ -39,19 +39,19 @@ jobs:
       # install deps du front
       - name: Install frontend deps
         run: |
-          cd Frontend
+          cd Frontend/techyourjob-frontend
           npm install
 
       # build le frontend
       - name: Build frontend
         run: |
-          cd Frontend
+          cd Frontend/techyourjob-frontend
           npm run build
 
       # lance le frontend en bg
       - name: Start frontend
         run: |
-          cd Frontend
+          cd Frontend/techyourjob-frontend
           npm start &
           sleep 10
 
