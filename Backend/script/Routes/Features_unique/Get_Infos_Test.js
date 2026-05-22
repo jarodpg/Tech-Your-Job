@@ -18,7 +18,8 @@ router.get("/test_post/:id", async (req, res) => {
             consigne,
             date_rendue,
             fichier_attendues,
-            attendues
+            attendues,
+            statut
         FROM candidature 
         WHERE id_poste = $1
     `;

@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 
+import { Save_Test_Technique } from "@/app/services/Test_Feature/Ajouter_test_technique";
+
 interface TestForm {
   description: string;
   dateRendu: string;
@@ -8,7 +10,15 @@ interface TestForm {
   fichiersAttendus: string[];
 }
 
-export default function AddTestTechnique() {
+interface AddTestTechniqueProps {
+  ID_poste: number;
+  onSuccess?: () => void;
+}
+
+export default function AddTestTechnique({
+  ID_poste,
+  onSuccess,
+}: AddTestTechniqueProps) {
   const [form, setForm] = useState<TestForm>({
     description: "",
     dateRendu: "",
@@ -35,9 +45,20 @@ export default function AddTestTechnique() {
       fichiersAttendus: prev.fichiersAttendus.filter((_, i) => i !== index),
     }));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.description.trim()) return;
-    console.log("Nouveau test:", form);
+    try {
+      await Save_Test_Technique(ID_poste, {
+        description: form.description,
+        dateRendu: form.dateRendu,
+        consignes: form.consignes,
+        fichiersAttendus: form.fichiersAttendus,
+        statut: "publie",
+      });
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      console.error("Erreur sauvegarde bio:", err);
+    }
   };
 
   const inputClass =

@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const connection = require("../DB");
 const bcrypt = require("bcrypt");
 
+// pour faire un token correcte
+const cookieOptions = require("../cookieConfig");
+
 // cest une librairie de cyber qui sert pour les antispams faut faire npm install express-rate-limit dans le terminal backend
 const rateLimit = require("express-rate-limit");
 
@@ -65,9 +68,7 @@ router.post("/login", loginLimiter, async (req, res) => {
 
     // je stocke l'access_token dans un cookie
     res.cookie("access_token", access_token, {
-      httpOnly: true, // empêche js de lire le cookie
-      sameSite: "strict", // le cookie est envoyé uniquement si la requête provient de notre site
-      secure: false, // car en localhost en http et non https
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000, // secondes dans 15min * 1000 car javascript compte en ms = durée de vie du cookie : de 1 heure
     });
     console.log("Access token created");
@@ -83,9 +84,7 @@ router.post("/login", loginLimiter, async (req, res) => {
 
     // je stocke le refresh_token dans un cookie
     res.cookie("refresh_token", refresh_token, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: false,
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     console.log("Refresh token created");

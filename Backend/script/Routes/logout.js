@@ -1,15 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { auth } = require("../Middleware");
+const cookieOptions = require("../cookieConfig");
 
-router.get("/logout", auth, (req, res) => {
-  try {
-    res.clearCookie("token");
-    res.redirect("/");
-  } catch (err) {
-    console.error("Internal server error:", err);
-    return res.status(500).json({ msg: "Internal server error" });
-  }
+router.get("/logout", (req, res) => {
+  res.clearCookie("access_token", cookieOptions);
+  res.clearCookie("refresh_token", cookieOptions);
+  return res.status(200).json({ msg: "Logged out" });
 });
 
 module.exports = router;
