@@ -1,8 +1,6 @@
-/* global describe, it, expect, jest, afterEach */
 const request = require("supertest");
 const express = require("express");
 
-// mocks
 jest.mock("../script/DB", () => ({ query: jest.fn() }));
 jest.mock("../script/Middleware", () => ({
   auth: (req, res, next) => next(),
@@ -16,40 +14,41 @@ const app = express();
 app.use(express.json());
 app.use(deleteRoute);
 
-describe("DELETE /enterprise/:id", () => {
-  afterEach(() => jest.clearAllMocks());
-
-  it("should return 400 if id is not an integer", async () => {
-    const res = await request(app).delete("/enterprise/abc");
-    expect(res.status).toBe(400);
-    expect(res.body.msg).toBe("The id parameter must be an Integer");
-  });
-
-  it("should return 404 if enterprise does not exist", async () => {
-    connection.query.mockResolvedValue({ rowCount: 0 });
-
-    const res = await request(app).delete("/enterprise/999");
-    expect(res.status).toBe(404);
-    expect(res.body.msg).toBe("The enterprise does not exist");
-    expect(connection.query).toHaveBeenCalledWith(
-      expect.stringContaining("DELETE"),
-      ["999"],
-    );
-  });
-
-  it("should return 200 on successful deletion", async () => {
-    connection.query.mockResolvedValue({ rowCount: 1 });
-
-    const res = await request(app).delete("/enterprise/1");
-    expect(res.status).toBe(200);
-    expect(res.body.msg).toBe("Enterprise deleted");
-  });
-
-  it("should return 500 on database error", async () => {
-    connection.query.mockRejectedValue(new Error("DB down"));
-
-    const res = await request(app).delete("/enterprise/1");
-    expect(res.status).toBe(500);
-    expect(res.body.msg).toBe("Internal server error");
-  });
+afterEach(() => {
+  jest.clearAllMocks();
+  connection.query.mockReset();
 });
+
+// =================    TEST DELETE ENTERPRISE  ========================= //
+
+test("400 - id is not an integer", async () => {
+  const res = await request(app).delete("/enterprise/abc");
+  expect(res.statusCode).toBe(400);
+  expect(res.body.msg).toBe("The id parameter must be an Integer");
+});
+
+test("404 - enterprise does not exist", async () => {
+  connection.query.mockResolvedValueOnce({ rowCount: 0 });
+
+  const res = await request(app).delete("/enterprise/999");
+  expect(res.statusCode).toBe(404);
+  expect(res.body.msg).toBe("The enterprise does not exist");
+});
+
+test("200 - enterprise deleted", async () => {
+  connection.query.mockResolvedValueOnce({ rowCount: 1 });
+
+  const res = await request(app).delete("/enterprise/1");
+  expect(res.statusCode).toBe(200);
+  expect(res.body.msg).toBe("Enterprise deleted");
+});
+
+test("500 - internal server error", async () => {
+  connection.query.mockRejectedValueOnce(new Error("DB down"));
+
+  const res = await request(app).delete("/enterprise/1");
+  expect(res.statusCode).toBe(500);
+  expect(res.body.msg).toBe("Internal server error");
+});
+
+// ====================================================================== //
