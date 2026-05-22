@@ -50,6 +50,11 @@ jobs:
       # Install chrome
       - name: Install Chrome
         run: |
+          sudo apt-get update
+          sudo apt-get install -y wget fonts-liberation libasound2 libatk-bridge2.0-0 \
+            libatk1.0-0 libatspi2.0-0 libcairo2 libcups2 libgbm1 libgtk-3-0 \
+            libnspr4 libnss3 libpango-1.0-0 libvulkan1 libxcomposite1 \
+            libxdamage1 libxfixes3 libxkbcommon0 libxrandr2 xdg-utils
           curl -fsSL -o google-chrome-stable.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get install -y ./google-chrome-stable.deb
           echo "CHROME_PATH=/usr/bin/google-chrome-stable" >> $GITHUB_ENV
