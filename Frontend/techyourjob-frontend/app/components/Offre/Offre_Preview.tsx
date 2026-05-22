@@ -132,7 +132,9 @@ export default function Offre_Preview({
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-white/10 bg-white/5 text-gray-300">
                 <FaBriefcase size={10} />
-                {Langue !== "None" ? Langue : DataPoste?.langues}
+                {Langue !== "None"
+                  ? Langue
+                  : DataPoste?.langues || "Non renseigné"}
               </span>
             </div>
           </div>
@@ -157,7 +159,8 @@ export default function Offre_Preview({
                 Salaire annuel
               </p>
               <p className="text-2xl font-semibold text-purple-300">
-                {DataPoste?.salaire_moyen_annuel} {DataPoste?.salaire_currency}
+                {DataPoste?.salaire_moyen_annuel || "Non renseigné"}{" "}
+                {DataPoste?.salaire_currency}
               </p>
             </div>
 
@@ -169,12 +172,14 @@ export default function Offre_Preview({
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3 text-sm">
                   <IoFileTray size={14} className="text-gray-500 shrink-0" />
-                  <span className="text-gray-300">{DataPoste?.categorie}</span>
+                  <span className="text-gray-300">
+                    {DataPoste?.categorie || "Non renseigné"}
+                  </span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <MdHomeWork size={14} className="text-gray-500 shrink-0" />
                   <span className="text-gray-300">
-                    {DataPoste?.frequency_remote}
+                    {DataPoste?.frequency_remote || "Non renseigné"}
                   </span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
@@ -183,7 +188,7 @@ export default function Offre_Preview({
                     className="text-gray-500 shrink-0"
                   />
                   <span className="text-gray-300">
-                    {DataPoste?.remote_policy} j / semaine
+                    {DataPoste?.remote_policy || "X"} j / semaine
                   </span>
                 </div>
               </div>

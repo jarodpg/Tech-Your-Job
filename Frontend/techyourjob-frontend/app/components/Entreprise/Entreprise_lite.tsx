@@ -45,7 +45,7 @@ export default function Entreprise_lite({
           </p>
           <div className="h-1 w-1 rounded-full bg-zinc-700" />
           <p className="text-xs text-zinc-500 font-medium truncate">
-            {entreprise.ville.slice(2, -2)}
+            {entreprise.ville ? entreprise.ville.slice(2, -2) : "Non fourni"}
           </p>
         </div>
         <div className="flex gap-2">

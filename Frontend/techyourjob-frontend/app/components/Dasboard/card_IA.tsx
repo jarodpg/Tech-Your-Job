@@ -32,7 +32,7 @@ export default function JobRecommendations() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}recommend`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recommend`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

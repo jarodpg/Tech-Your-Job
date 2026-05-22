@@ -1,43 +1,44 @@
 "use client";
 import { useState } from "react";
+
 const SECTEURS = [
-  "Automobile",
-  "Banque",
-  "B2B",
-  "B2C",
-  "Cloud",
-  "Hardware",
-  "Construction",
-  "Consultant",
-  "E-Commerce",
-  "Finance",
-  "Transport",
-  "Medicale",
-  "Ressources Humaine",
-  "Import Export",
-  "Industrie",
-  "Assurance",
-  "Media",
-  "Reseau",
-  "Imprimerie",
-  "Publication",
-  "Immobilier",
-  "Revente",
-  "Robotique",
-  "SAAS",
-  "Service",
-  "Software",
-  "Telecommunication",
-  "Voyage",
+  { display: "Automobile", value: "Automotive" },
+  { display: "Banque", value: "Banking_Mortgages" },
+  { display: "B2B", value: "B_B" },
+  { display: "B2C", value: "B_C" },
+  { display: "Cloud", value: "Cloud_Services" },
+  { display: "Hardware", value: "Computer_Hardware" },
+  { display: "Construction", value: "Construction" },
+  { display: "Conseil", value: "Consulting_Professional_Services" },
+  { display: "E-Commerce", value: "E_Commerce_Marketplaces" },
+  { display: "Finance", value: "Finance" },
+  { display: "Transport terrestre", value: "Ground_Transportation" },
+  { display: "Santé", value: "Health_Wellness" },
+  { display: "Import / Export", value: "Import_Export" },
+  { display: "Industrie", value: "Industrials_Manufacturing" },
+  { display: "Assurance", value: "Insurance" },
+  { display: "Média", value: "Media" },
+  { display: "Réseau", value: "Networking" },
+  { display: "Imprimerie", value: "Printing" },
+  { display: "Publication", value: "Publishing" },
+  { display: "Immobilier", value: "Real_Estate" },
+  { display: "Revente", value: "Retail" },
+  { display: "Robotique", value: "Robotics" },
+  { display: "SAAS", value: "SAAS" },
+  { display: "Services", value: "Services" },
+  { display: "Logiciel", value: "SoftwareConception" },
+  { display: "Télécommunication", value: "Telecommunications" },
+  { display: "Transport", value: "Transportation" },
+  { display: "Voyage", value: "Travel_Leisure" },
 ];
 
 const TYPES = [
-  "Software",
-  "Web",
-  "Consultant",
-  "Startup",
-  "Produit",
-  "Service",
+  { display: "Éditeur de logiciel", value: "software_publisher" },
+  { display: "Agence web", value: "web_agency" },
+  { display: "Cabinet de conseil", value: "consultiung_company" },
+  { display: "Startup", value: "startup" },
+  { display: "Société de service", value: "service_company" },
+  { display: "Produit", value: "product_company" },
 ];
 
 export default function SideBareEntreprise({ onFilterChange }) {
@@ -50,15 +51,15 @@ export default function SideBareEntreprise({ onFilterChange }) {
     list.includes(item) ? list.filter((i) => i !== item) : [...list, item];
 
   //chanegemnt de secteur
-  const handleSecteur = (s: string) => {
-    const updated = toggleItem(secteurs, s);
+  const handleSecteur = (value: string) => {
+    const updated = toggleItem(secteurs, value);
     setSecteurs(updated);
     onFilterChange({ sectors: updated.length ? updated : null });
   };
 
   //changement de type
-  const handleType = (t: string) => {
-    const updated = toggleItem(types, t);
+  const handleType = (value: string) => {
+    const updated = toggleItem(types, value);
     setTypes(updated);
     onFilterChange({ types: updated.length ? updated : null });
   };
@@ -149,15 +150,19 @@ function FilterGroup({ label, items, active, onToggle }) {
       {/* chips des filtres */}
       {active.length > 0 && !open && (
         <div className="flex flex-wrap gap-2">
-          {active.map((item) => (
-            <button
-              key={item}
-              onClick={() => onToggle(item)}
-              className="text-[10px] px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400 transition-all font-bold uppercase tracking-wider"
-            >
-              {item} <span className="ml-1 opacity-50">×</span>
-            </button>
-          ))}
+          {active.map((val) => {
+            const item = items.find((i) => i.value === val);
+            return (
+              <button
+                key={val}
+                onClick={() => onToggle(val)}
+                className="text-[10px] px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400 transition-all font-bold uppercase tracking-wider"
+              >
+                {item?.display ?? val}{" "}
+                <span className="ml-1 opacity-50">×</span>
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -166,15 +171,15 @@ function FilterGroup({ label, items, active, onToggle }) {
         <div className="flex flex-wrap gap-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
           {items.map((item) => (
             <button
-              key={item}
-              onClick={() => onToggle(item)}
+              key={item.value}
+              onClick={() => onToggle(item.value)}
               className={`text-[10px] px-3 py-1.5 rounded-lg border font-bold uppercase tracking-wider transition-all ${
-                active.includes(item)
+                active.includes(item.value)
                   ? "bg-purple-500/20 border-purple-500/40 text-purple-400"
                   : "bg-zinc-900/30 border-white/[0.05] text-zinc-500 hover:border-zinc-700 hover:text-zinc-300 hover:bg-zinc-800/50"
               }`}
             >
-              {item}
+              {item.display}
             </button>
           ))}
         </div>
