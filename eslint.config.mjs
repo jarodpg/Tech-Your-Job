@@ -27,7 +27,14 @@ export default [
     },
   },
   {
-    files: ["**/*.test.ts", "**/*.spec.ts", "**/*.test.tsx", "**/*.spec.tsx"],
+    files: [
+      "**/*.test.js",
+      "**/*.spec.js",
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      "**/*.test.tsx",
+      "**/*.spec.tsx",
+    ],
     languageOptions: {
       globals: {
         ...globals.jest,
