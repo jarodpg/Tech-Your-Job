@@ -213,7 +213,7 @@ function FormContent({
       <div className="text-center space-y-5">
         <h1 className="text-white text-7xl font-bold">Tech Your Job</h1>
         <p className="text-[#adadad] font-bold">
-          {isLogin ? "Does not have an Account? " : "Already have an account? "}
+          {isLogin ? "Aucun compte ?" : "Avez-vous déjà un compte? "}
           <span
             onClick={() => setIsLogin(!isLogin)}
             className="text-[#7288C9] underline cursor-pointer ml-1"
@@ -226,7 +226,7 @@ function FormContent({
       {/* formulaire */}
       <motion.div className="w-full bg-[#2c2c2c] rounded-[40px] py-12 px-10 shadow-2xl">
         <h2 className="text-white text-5xl font-bold text-center mb-10">
-          {isLogin ? "Welcome Back!" : "Welcome!"}
+          {isLogin ? "De retour ?" : "Bonjour!"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -244,13 +244,13 @@ function FormContent({
             <div className="space-y-4">
               <input
                 onChange={(e) => setFirstName(e.target.value)}
-                placeholder="First name"
+                placeholder="Prénom"
                 className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
                 required
               />
               <input
                 onChange={(e) => setLastName(e.target.value)}
-                placeholder="Last name"
+                placeholder="Nom"
                 className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
                 required
               />
@@ -261,14 +261,14 @@ function FormContent({
           <input
             type="email"
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email address"
+            placeholder="Adresse mail"
             className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
             required
           />
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            placeholder="Mot de passe"
             className="w-full bg-[#242424] text-white p-4 rounded-full border-1 border-[#8e8e8e] outline-none focus:border-[#7288C9] font-bold transition-all"
             required
           />
@@ -309,7 +309,7 @@ function FormContent({
                 href="/forgot-password"
                 className="text-[#7288C9] cursor-pointer font-bold underline"
               >
-                Forgot Password?
+                Mot de passe oublié?
               </Link>
             </div>
           )}
