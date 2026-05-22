@@ -50,7 +50,7 @@ export default function MapView({
       <RecenterMap location={location} />
 
       {/* .Map pour afficher tout les markers des postes */}
-      {distance > 0 &&
+      {(distance ?? 0) > 0 &&
         points.map((point, i) => (
           <Marker
             key={i}

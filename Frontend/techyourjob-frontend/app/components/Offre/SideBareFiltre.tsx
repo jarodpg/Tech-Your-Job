@@ -78,8 +78,24 @@ function Section({
   );
 }
 
+interface OffreFilterChangeParams {
+  remote?: string | null;
+  contract?: string | null;
+  minsalary?: number;
+  maxsalary?: number;
+  experience?: number;
+  location?: string | null;
+  distance?: number | null;
+  language?: string | null;
+  age?: number | null;
+}
+
 // ===== Composant principal ============================
-export default function SideBareFiltre({ onFilterChange }) {
+export default function SideBareFiltre({
+  onFilterChange,
+}: {
+  onFilterChange: (params: OffreFilterChangeParams) => void;
+}) {
   // Sections ouvertes
   const [openContrat, setOpenContrat] = useState(false);
   const [openDate, setOpenDate] = useState(false);

@@ -18,13 +18,14 @@ function Document({
 }: {
   image: string | null;
   titre: string;
+  onView: () => void;
 }) {
   return (
     <div className="w-full">
       <div className="grid grid-cols-[90px_1fr_28px] gap-3 items-center py-3">
         <div>
           <img
-            src={image}
+            src={image ?? undefined}
             className="w-[90px] h-[65px] object-cover rounded-md border border-white/15 bg-white"
           />
         </div>
@@ -42,7 +43,7 @@ function Document({
   );
 }
 
-export default function Document_priview({ isEdit }) {
+export default function Document_priview({ isEdit }: { isEdit: any }) {
   console.log("isedit ?", isEdit);
   // ouverture popup
   const [isDocumentEdit, setIsDocumentEdit] = useState(false);

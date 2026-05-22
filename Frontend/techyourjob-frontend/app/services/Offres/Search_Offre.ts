@@ -1,6 +1,6 @@
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function searchPosts(query, page) {
+export async function searchPosts(query: string, page: number) {
   const res = await fetch(
     `${BACKEND_URL}/posts/search?q=${encodeURIComponent(query)}&page=${page}`,
     {

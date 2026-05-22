@@ -82,6 +82,7 @@ function EnterpriseLogo({
 }
 
 interface ExperienceProAccountProps {
+  isEdit: boolean;
   infos: {
     experience: Info[];
     competences_experience: CompetenceItem[];
@@ -101,7 +102,6 @@ function Experience_Pro({
   competences_experience: CompetenceItem[];
   logo: string | null;
   entrepriseName: string;
-  img: string;
   titre: string;
   Lieu: string;
   Date: string;

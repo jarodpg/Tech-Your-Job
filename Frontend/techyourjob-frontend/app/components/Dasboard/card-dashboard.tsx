@@ -122,7 +122,7 @@ export default function DashboardModal({
   }, [isOpen]);
 
   // data user
-  const [Data, setData] = useState(null);
+  const [Data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchUser = async () => {
       const data = await Get_User_Info();
@@ -238,10 +238,10 @@ export default function DashboardModal({
           <div className="mt-10 pb-4">
             <h2 className="text-white text-lg font-semibold mb-6">Données</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="felx flex-col">
+              <div className="flex flex-col">
                 <Card_data type={false} />
               </div>
-              <div className="felx flex-col">
+              <div className="flex flex-col">
                 <Card_data type={true} />
               </div>
             </div>

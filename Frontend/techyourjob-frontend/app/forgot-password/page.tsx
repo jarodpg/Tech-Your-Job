@@ -6,7 +6,7 @@ export default function ForgotPasswordPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // ca evite de recahrger la page sinn ca crash
 
     try {
@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
       const data = await res.json(); // si aps en json ca bug pareil pas exploitable
       if (!res.ok) throw new Error(data.error); // :res.ok prend toute les reéponses entre 200 et 299 donc si pas ca envoie erreur
       setMessage(data.message); // si ok bah envoie le message l'email a bien été envoyé
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     }
   };

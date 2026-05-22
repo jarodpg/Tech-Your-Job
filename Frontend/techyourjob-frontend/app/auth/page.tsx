@@ -6,7 +6,9 @@ import { Login, Register } from "../services/Authentification/auth.service";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-export default function AuthPage() {
+import { Suspense } from "react";
+
+function AuthContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode");
@@ -42,7 +44,7 @@ export default function AuthPage() {
   const [isLocked, setIsLocked] = useState(false);
   const [Role, setRole] = useState("user"); // nouveau
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(""); //  initialisation de l'erreur au clic
 
@@ -159,6 +161,30 @@ export default function AuthPage() {
   );
 }
 
+export default function AuthPage() {
+  return (
+    <Suspense fallback={null}>
+      <AuthContent />
+    </Suspense>
+  );
+}
+
+interface FormContentProps {
+  isLogin: boolean;
+  setIsLogin: (val: boolean) => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  setEmail: (val: string) => void;
+  setPassword: (val: string) => void;
+  setFirstName: (val: string) => void;
+  setLastName: (val: string) => void;
+  HoneyPot: string;
+  setHoneyPot: (val: string) => void;
+  isLocked: boolean;
+  errorMessage: string;
+  Role: string;
+  setRole: (val: string) => void;
+}
+
 // composant pour les animations de fondu
 function FormContent({
   isLogin,
@@ -174,7 +200,7 @@ function FormContent({
   errorMessage,
   Role,
   setRole,
-}) {
+}: FormContentProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}

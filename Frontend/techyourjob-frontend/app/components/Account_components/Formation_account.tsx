@@ -142,6 +142,7 @@ export default function Formation_Account({
   isEdit,
   infos: initialInfos,
 }: {
+  isEdit: boolean;
   infos: Info[];
 }) {
   // formation sell=ectionner

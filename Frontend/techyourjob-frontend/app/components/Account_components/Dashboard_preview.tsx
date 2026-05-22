@@ -13,7 +13,7 @@ function Rond({
   preview2,
 }: {
   couleur: string;
-  nombre: string;
+  nombre: number | string;
   titre: string;
   preview1: string;
   preview2: string;
@@ -40,7 +40,7 @@ function Rond({
 }
 
 interface DashBoardPreviewProps {
-  infos: any;
+  infos?: any;
 }
 
 export default function DashBoard_Preview({ infos }: DashBoardPreviewProps) {
@@ -52,7 +52,7 @@ export default function DashBoard_Preview({ infos }: DashBoardPreviewProps) {
   const [dashboardOpen, setDashboardOpen] = useState(false);
 
   // data user
-  const [Data, setData] = useState(null);
+  const [Data, setData] = useState<any>(null);
   useEffect(() => {
     const fetchUser = async () => {
       const data = await Get_User_Info();

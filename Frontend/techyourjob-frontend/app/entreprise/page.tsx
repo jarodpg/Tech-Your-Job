@@ -13,9 +13,9 @@ import Footer from "../components/Autre/Footer";
 
 export default function Entreprise_All() {
   // const entreprise
-  const [entreprises, setEntreprises] = useState([]);
-  const [topEntreprises, setTopEntreprises] = useState([]);
-  const [selectedEntreprise, setSelectedEntreprise] = useState(null);
+  const [entreprises, setEntreprises] = useState<any[]>([]);
+  const [topEntreprises, setTopEntreprises] = useState<any[]>([]);
+  const [selectedEntreprise, setSelectedEntreprise] = useState<any>(null);
 
   // save des id
   const [startId, setStartId] = useState(0);
@@ -49,8 +49,8 @@ export default function Entreprise_All() {
         const data = await Get_Enterprises(
           false,
           startId,
-          filters.sectors,
-          filters.types,
+          filters.sectors || undefined,
+          filters.types || undefined,
         );
         setEntreprises(data);
       } catch {
@@ -62,7 +62,7 @@ export default function Entreprise_All() {
     fetchEntreprises();
   }, [filters, startId]);
 
-  const handleFilterChange = (newFilter) => {
+  const handleFilterChange = (newFilter: any) => {
     setFilters((prev) => ({ ...prev, ...newFilter }));
     setPage(0);
   };

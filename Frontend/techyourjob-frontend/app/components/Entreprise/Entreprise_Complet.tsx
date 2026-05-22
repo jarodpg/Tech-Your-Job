@@ -2,13 +2,19 @@
 import { useState } from "react";
 import Offre_Preview from "../Offre/Offre_Preview";
 
-export default function Entreprise_Preview({ entreprise, onClose }) {
+export default function Entreprise_Preview({
+  entreprise,
+  onClose,
+}: {
+  entreprise: any;
+  onClose: () => void;
+}) {
   if (!entreprise) return null;
 
   const offres = entreprise.offre || [];
 
   // poste selectionner
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
   const [open, setOpen] = useState(false);
 
   return (
@@ -74,7 +80,7 @@ export default function Entreprise_Preview({ entreprise, onClose }) {
 
           {/* Secteurs */}
           <div className="flex gap-2 flex-wrap">
-            {(entreprise.secteur_entreprise || []).map((s, i) => (
+            {(entreprise.secteur_entreprise || []).map((s: any, i: number) => (
               <span
                 key={i}
                 className="text-[10px] px-4 py-1.5 rounded-lg bg-zinc-900 border border-white/[0.05] text-zinc-300 font-bold uppercase tracking-wider"
@@ -163,7 +169,7 @@ export default function Entreprise_Preview({ entreprise, onClose }) {
             </div>
           ) : (
             <div className="flex flex-col gap-3">
-              {offres.map((offre) => (
+              {offres.map((offre: any) => (
                 <div
                   key={offre.id_poste}
                   onClick={() => {
@@ -197,7 +203,7 @@ export default function Entreprise_Preview({ entreprise, onClose }) {
         </div>
       </div>
       {open && selectedPost && (
-        <div onClick={(e) => e.stopPropagation()}>
+        <div onClick={(e: React.MouseEvent) => e.stopPropagation()}>
           <Offre_Preview onClose={() => setOpen(false)} Poste={selectedPost} />
         </div>
       )}

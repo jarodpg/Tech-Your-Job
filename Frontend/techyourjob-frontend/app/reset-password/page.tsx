@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function ResetPasswordPage() {
+import { Suspense } from "react";
+
+function ResetPasswordContent() {
   // récup le token et l'id depuis l'URL du lien recu par mail
   const searchParams = useSearchParams(); //lire parametre dans url
   const router = useRouter();
@@ -13,7 +15,7 @@ export default function ResetPasswordPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     //appélé quand le mec clic sur submit g
     e.preventDefault();
     setError(""); //nettoyage des messages auparavant
@@ -37,7 +39,7 @@ export default function ResetPasswordPage() {
 
       setMessage("Mot de passe mis à jour ! Redirection...");
       setTimeout(() => router.push("/login"), 1000); //si il n'y a pas derreur , apres que le mdp soit bien changé on peut rediriger vers le login
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     }
   };
@@ -108,5 +110,13 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

@@ -45,7 +45,7 @@ const AdminDashboard = () => {
   const [searchOffre, setSearchOffre] = useState("");
 
   // fonction de recherche
-  const handleSearch = async (what) => {
+  const handleSearch = async (what: string) => {
     setLoading(true);
     try {
       if (what == "user") {
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
   };
 
   // pour supprimer une entreprise
-  const handleDelete_entreprise = async (id) => {
+  const handleDelete_entreprise = async (id: number) => {
     setLoading(true);
     try {
       await Delete_Entreprise(id);
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
   };
 
   // pour supprimer un poste
-  const handleDetele_poste = async (id) => {
+  const handleDetele_poste = async (id: number) => {
     setLoading(true);
     try {
       await Delete_Poste(id);

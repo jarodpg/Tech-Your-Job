@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { searchPosts } from "@/app/services/Offres/Search_Offre";
 
-export default function SearchBar({ onSearchSuccess, onResetSearch }) {
+export default function SearchBar({
+  onSearchSuccess,
+  onResetSearch,
+}: {
+  onSearchSuccess: (posts: any[]) => void;
+  onResetSearch: () => void;
+}) {
   // on declare les constante qui servent pour notre fonction de recherche de filtre
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -33,7 +39,7 @@ export default function SearchBar({ onSearchSuccess, onResetSearch }) {
   };
 
   // pour lancer la recherche
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSearch();
     }
@@ -59,7 +65,7 @@ export default function SearchBar({ onSearchSuccess, onResetSearch }) {
           className="bg-[#8308D4] text-white text-sm font-semibold px-6 h-10 rounded-full shrink-0 hover:bg-[#9a0af5] transition-colors"
         >
           <span className="hidden xs:inline">Recherche</span>
-          <span className="xs:hidden">Rechercher</span> 
+          <span className="xs:hidden">Rechercher</span>
         </button>
       </div>
     </div>

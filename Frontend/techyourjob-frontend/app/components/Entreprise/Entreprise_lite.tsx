@@ -2,12 +2,12 @@
 
 interface Entreprise {
   id: number;
-  name: string;
+  nom_compagnie: string;
   logo: string;
   type_entreprise: string;
   secteur_entreprise: string[];
-  ville: string[];
-  nbr_offre: number;
+  ville: string;
+  nb_offre: number;
 }
 
 export default function Entreprise_lite({

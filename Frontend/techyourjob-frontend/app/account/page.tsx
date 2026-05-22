@@ -23,11 +23,13 @@ import AddTestTechnique from "../components/Account_components/Entreprise/AJoute
 import Reponse_candidats from "../components/Account_components/Entreprise/Managae_reponse";
 import Footer from "../components/Autre/Footer";
 
-export default function Account() {
+import { Suspense } from "react";
+
+function AccountContent() {
   const searchParams = useSearchParams();
   const viewUserId = searchParams.get("user");
 
-  const [Data, setData] = useState(null);
+  const [Data, setData] = useState<any>(null);
   const [isEdit, setIsEdit] = useState(true);
   const [isUser, setIsUser] = useState(true);
 
@@ -71,18 +73,13 @@ export default function Account() {
               )}
 
               {Data && <DashBoard_Preview />}
-              {Data && (
-                <Document_priview
-                  isEdit={isEdit}
-                  docs={Data.profil[0]?.document}
-                />
-              )}
+              {Data && <Document_priview isEdit={isEdit} />}
               {Data && (
                 <Competence_Preview
                   isEdit={isEdit}
                   infos={{
-                    competences_experience: Data.experience.flatMap((e) =>
-                      (e["compétences"] ?? []).map((c) => ({
+                    competences_experience: Data.experience.flatMap((e: any) =>
+                      (e["compétences"] ?? []).map((c: any) => ({
                         competence: c,
                         source: e.nom_entreprise,
                         sourceType: "experience" as const,
@@ -90,8 +87,8 @@ export default function Account() {
                         logo: e.logo ?? null,
                       })),
                     ),
-                    competences_formation: Data.formation.flatMap((f) =>
-                      (f["compétences"] ?? []).map((c) => ({
+                    competences_formation: Data.formation.flatMap((f: any) =>
+                      (f["compétences"] ?? []).map((c: any) => ({
                         competence: c,
                         source: f["nom_établissement"],
                         sourceType: "formation" as const,
@@ -149,8 +146,8 @@ export default function Account() {
                   isEdit={isEdit}
                   infos={{
                     experience: Data.experience,
-                    competences_experience: Data.experience.flatMap((e) =>
-                      (e["compétences"] ?? []).map((c) => ({
+                    competences_experience: Data.experience.flatMap((e: any) =>
+                      (e["compétences"] ?? []).map((c: any) => ({
                         competence: c,
                         source: e.nom_entreprise,
                       })),
@@ -172,5 +169,13 @@ export default function Account() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function Account() {
+  return (
+    <Suspense fallback={null}>
+      <AccountContent />
+    </Suspense>
   );
 }

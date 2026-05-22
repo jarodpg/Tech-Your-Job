@@ -41,7 +41,16 @@ const TYPES = [
   { display: "Produit", value: "product_company" },
 ];
 
-export default function SideBareEntreprise({ onFilterChange }) {
+interface FilterChangeParams {
+  sectors?: string[] | null;
+  types?: string[] | null;
+}
+
+export default function SideBareEntreprise({
+  onFilterChange,
+}: {
+  onFilterChange: (params: FilterChangeParams) => void;
+}) {
   // on save ceux qu'on coche
   const [secteurs, setSecteurs] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
@@ -110,7 +119,17 @@ export default function SideBareEntreprise({ onFilterChange }) {
   );
 }
 
-function FilterGroup({ label, items, active, onToggle }) {
+function FilterGroup({
+  label,
+  items,
+  active,
+  onToggle,
+}: {
+  label: string;
+  items: { display: string; value: string }[];
+  active: string[];
+  onToggle: (value: string) => void;
+}) {
   const [open, setOpen] = useState(false);
 
   return (

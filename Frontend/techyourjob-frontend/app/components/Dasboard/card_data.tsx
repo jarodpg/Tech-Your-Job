@@ -7,6 +7,7 @@ import DataCandidatureProfession from "../../../public/data/cache/candidatures_p
 interface rond {
   color: string;
   text: string;
+  value: number;
 }
 
 const RondItem = ({ color, text, value }: rond) => {
@@ -16,7 +17,7 @@ const RondItem = ({ color, text, value }: rond) => {
         className={`w-3 h-3 rounded-full`}
         style={{ backgroundColor: color }}
       ></span>
-      <div className="felx flex-row">
+      <div className="flex flex-row">
         <h3 className="text-black">{text}</h3>
         <h3 className="text-black">{value}%</h3>
       </div>
@@ -32,7 +33,17 @@ const C = SIZE / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 // fonction d'affichage d'un donuts
-function DonutChart({ data, total, label, value }) {
+function DonutChart({
+  data,
+  total,
+  label,
+  value,
+}: {
+  data: any[];
+  total: number | string | undefined;
+  label: string;
+  value?: number | string;
+}) {
   const sum = data.reduce((s, d) => s + d.value, 0);
   let offset = CIRCUMFERENCE * 0.25;
   console.log(DataCandidatureEntreprise, "licorne");

@@ -4,9 +4,10 @@ export interface Post {
   id_poste: number;
   display_name_fr: string | null;
   nom_compagnie: string;
+  logo: string;
   skills: { name: string; value: number }[];
   description: string;
-  salaire_moyen: number | null;
+  salaire_annuel_moyen: number | string | null;
   since_posted: string;
 }
 
