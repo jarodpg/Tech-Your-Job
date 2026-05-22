@@ -63,9 +63,11 @@ jobs:
       - name: Start frontend
         run: |
           cd Frontend/techyourjob-frontend
+          # Tue tout processus qui utiliserait encore le port 3000
+          sudo fuser -k 3000/tcp || true
           npm start &
-          sleep 10
-          curl -f http://localhost:3000 || (echo "Frontend not running!" && exit 1)
+          # Attente active du port 3000 (plus fiable que sleep)
+          timeout 60s bash -c 'until curl -f http://localhost:3000; do sleep 2; done'
 
       - name: Lighthouse audit
         uses: treosh/lighthouse-ci-action@v12
@@ -75,3 +77,5 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: .lighthouserc.json
+
+          chromeFlags: "--headless --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-software-rasterizer"
