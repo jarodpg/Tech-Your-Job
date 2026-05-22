@@ -55,7 +55,8 @@ export default function Plateforme_Edit({
     try {
       setLoading(true);
       await Update_User_Profil({ social: liste });
-      onSave(liste);
+      const result = Object.fromEntries(liste.map((p) => [p.icon, p.lien]));
+      onSave(result);
       onClose();
     } catch (err) {
       console.error("Erreur sauvegarde plateforme:", err);
@@ -175,17 +176,11 @@ export default function Plateforme_Edit({
 
         <div className="flex justify-end mt-5">
           <button
-            onClick={() => {
-              const result = Object.fromEntries(
-                liste.map((p) => [p.icon, p.lien]),
-              );
-              handleSave();
-              onSave(result);
-              onClose();
-            }}
-            className="bg-teal-500 hover:bg-teal-400 text-white text-sm font-semibold px-5 py-2 rounded-xl transition-colors"
+            onClick={handleSave}
+            disabled={loading}
+            className="bg-teal-500 hover:bg-teal-400 text-white text-sm font-semibold px-5 py-2 rounded-xl transition-colors disabled:opacity-50"
           >
-            Sauvegarder
+            {loading ? "Sauvegarde..." : "Sauvegarder"}
           </button>
         </div>
       </div>

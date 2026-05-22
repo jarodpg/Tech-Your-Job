@@ -152,7 +152,7 @@ export default function Reponse_candidats() {
                 </p>
               ) : (
                 users.map(([userKey, fichiers]) => {
-                  const userId = userKey.split("_")[1];
+                  const userId = parseInt(userKey.split("_")[1]);
                   return (
                     <div
                       key={userKey}

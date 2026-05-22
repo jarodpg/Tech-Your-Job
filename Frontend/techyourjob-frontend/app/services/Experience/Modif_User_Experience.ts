@@ -3,7 +3,7 @@ import { secureFetch } from "../Authentification/refresh";
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function Update_User_Experience(
-  ID,
+  ID: number,
   data: {
     enterprise_name?: string;
     title?: string;

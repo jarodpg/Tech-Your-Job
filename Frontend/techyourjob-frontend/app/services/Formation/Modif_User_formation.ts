@@ -3,7 +3,7 @@ import { secureFetch } from "../Authentification/refresh";
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function Update_User_Formation(
-  ID,
+  ID: number,
   data: {
     institution_name?: string;
     title?: string;
@@ -11,7 +11,7 @@ export async function Update_User_Formation(
     end?: string;
     description?: string;
     skills?: string[];
-    degree?: string[];
+    degree?: string;
   },
 ) {
   const res = await secureFetch(`${BACKEND_URL}/user/formation/${ID}`, {

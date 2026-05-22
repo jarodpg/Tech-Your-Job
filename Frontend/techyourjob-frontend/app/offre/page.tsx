@@ -15,6 +15,20 @@ const MapView = dynamic(() => import("../components/Offre/map_offre"), {
   ssr: false,
 });
 
+interface OffreFilterState {
+  reverse: string;
+  page: number;
+  remote: string | null;
+  contract: string | null;
+  minsalary: number | null;
+  maxsalary: number | null;
+  location: string | null;
+  distance: number | null;
+  language: string | null;
+  experience: number | null;
+  age: number | null;
+}
+
 export default function Offre_Page() {
   // pour connaitre le dernier ID
   const [actuelId, setactuelId] = useState(1);
@@ -25,17 +39,17 @@ export default function Offre_Page() {
   ]);
 
   // tout les points des postes
-  const [pointsPoste, setPointsPoste] = useState<[number, number][]>([]);
+  const [pointsPoste, setPointsPoste] = useState<any[]>([]);
 
   //  constante pour openOn envoie la liste des postes trouvés au composant parent
   const [open, setOpen] = useState(false);
-  const [test, setTest] = useState([]);
+  const [test, setTest] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // pour verifier si on recherche ou non
   const [isSearching, setIsSearching] = useState(false);
 
-  const [FIltre, setFIltre] = useState({
+  const [FIltre, setFIltre] = useState<OffreFilterState>({
     reverse: "false",
     page: 1,
     remote: null,
@@ -76,9 +90,9 @@ export default function Offre_Page() {
 
         setPointsPoste(
           posts
-            .filter((p) => p.latitude && p.longitude)
+            .filter((p: any) => p.latitude && p.longitude)
             // .map(p => [p.latitude, p.longitude] as [number, number])
-            .map((p) => ({
+            .map((p: any) => ({
               id: p.id_poste,
               lat: p.latitude,
               lon: p.longitude,
@@ -101,11 +115,11 @@ export default function Offre_Page() {
   }, [FIltre, actuelId]);
 
   // pour mettre els points a jour sur la map
-  const updateMapPoints = (posts) => {
+  const updateMapPoints = (posts: any[]) => {
     setPointsPoste(
       posts
-        .filter((p) => p.latitude && p.longitude)
-        .map((p) => ({
+        .filter((p: any) => p.latitude && p.longitude)
+        .map((p: any) => ({
           id: p.id_poste,
           lat: p.latitude,
           lon: p.longitude,
@@ -113,7 +127,7 @@ export default function Offre_Page() {
     );
   };
 
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
 
   return (
     <div className="flex flex-col bg-[#242424] min-h-screen">
@@ -137,7 +151,6 @@ export default function Offre_Page() {
 
       {/* Titre + bouton Filtres */}
       <div className="flex flex-row justify-between items-center px-15 py-5">
-        
         <h1 className="font-bold text-2xl md:text-4xl">Recommandation Job</h1>
         <button className="text-sm text-gray-400 border border-white/15 px-4 py-2 rounded-full hover:border-white/30 transition-colors">
           Filtres
@@ -217,7 +230,5 @@ export default function Offre_Page() {
 
       <Footer />
     </div>
-
-    
   );
 }

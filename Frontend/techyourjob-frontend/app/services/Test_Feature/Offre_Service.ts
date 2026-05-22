@@ -1,6 +1,6 @@
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function Get_Info_Test(id) {
+export async function Get_Info_Test(id: number) {
   const params = new URLSearchParams();
 
   const url = `${BACKEND_URL}/test_post/${id}`;

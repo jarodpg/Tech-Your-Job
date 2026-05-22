@@ -117,7 +117,7 @@ export default function Offre_Preview({
                 Compétences requises
               </h2>
               <div className="flex flex-wrap gap-2">
-                {DataPoste?.skills?.map((skill) => (
+                {DataPoste?.skills?.map((skill: any) => (
                   <span
                     key={skill.name}
                     className="inline-flex items-center px-3 py-1 rounded-full text-xs border border-purple-800/40 bg-purple-950/30 text-purple-300"

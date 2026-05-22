@@ -1,6 +1,12 @@
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function Register(name, firstname, email, password, role = "user") {
+export async function Register(
+  name: string,
+  firstname: string,
+  email: string,
+  password: string,
+  role: string = "user",
+) {
   console.log(name, firstname, email, password);
   const res = await fetch(`${BACKEND_URL}/register`, {
     method: "POST",
@@ -19,7 +25,7 @@ export async function Register(name, firstname, email, password, role = "user") 
   return res.json();
 }
 
-export async function Login(email, password) {
+export async function Login(email: string, password: string) {
   console.log(email, password);
   const res = await fetch(`${BACKEND_URL}/login`, {
     method: "POST",

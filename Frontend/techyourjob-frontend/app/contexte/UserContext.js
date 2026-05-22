@@ -10,7 +10,12 @@ import {
 } from "react";
 import { Get_User_Info } from "../services/Info_User_Service";
 
-const UserContext = createContext(null);
+const UserContext = createContext({
+  isLoggedIn: false,
+  prenom: "",
+  photoProfil: null,
+  loading: true,
+});
 
 export function UtilisateurData_erith({ children }) {
   const [user, setUser] = useState({
