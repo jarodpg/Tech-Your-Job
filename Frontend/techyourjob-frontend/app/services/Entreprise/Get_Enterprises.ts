@@ -9,9 +9,19 @@ export async function Get_Enterprises(
   if (types?.length) params.set("types", types.join(","));
 
   const query = params.toString() ? `?${params.toString()}` : "";
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/enterprise/${reverse}/${start}${query}`,
-  );
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/enterprise/${reverse}/${start}${query}`;
+
+  console.log("Fetching:", url);
+
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    if (res.status === 404) {
+      return [];
+    }
+    const body = await res.text();
+    throw new Error(`Erreur API ${res.status}: ${body}`);
+  }
 
   if (!res.ok) {
     const body = await res.text();

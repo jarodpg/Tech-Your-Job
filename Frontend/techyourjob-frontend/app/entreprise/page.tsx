@@ -17,11 +17,15 @@ export default function Entreprise_All() {
   const [topEntreprises, setTopEntreprises] = useState([]);
   const [selectedEntreprise, setSelectedEntreprise] = useState(null);
 
+  // save des id
+  const [startId, setStartId] = useState(0);
+  const [history, setHistory] = useState<number[]>([0]);
+
   // pour les filtres
+  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    secteur: null,
-    type: null,
-    remote: null,
+    sectors: null,
+    types: null,
   });
 
   // pour le top des entreprises
@@ -40,16 +44,23 @@ export default function Entreprise_All() {
   // on va recuperer X entreprise et on gere les filtres pour aller recharger
   useEffect(() => {
     const fetchEntreprises = async () => {
-      const data = await Get_Enterprises(
-        false,
-        page * PAGE_SIZE,
-        filters.sectors,
-        filters.types,
-      );
-      setEntreprises(data);
+      setLoading(true);
+      try {
+        const data = await Get_Enterprises(
+          false,
+          startId,
+          filters.sectors,
+          filters.types,
+        );
+        setEntreprises(data);
+      } catch {
+        setEntreprises([]);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchEntreprises();
-  }, [filters, page]);
+  }, [filters, startId]);
 
   const handleFilterChange = (newFilter) => {
     setFilters((prev) => ({ ...prev, ...newFilter }));
@@ -197,25 +208,39 @@ export default function Entreprise_All() {
                 entreprise={item}
               />
             ))}
-            <div className="flex items-center justify-between px-2 pt-4">
-              <button
-                disabled={page === 0}
-                onClick={() => setPage((p) => p - 1)}
-                className="px-5 py-2 text-xs font-bold rounded-full border border-white/[0.05] bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                ← Précédent
-              </button>
-              <span className="text-xs text-zinc-500 font-medium">
-                Page {page + 1}
-              </span>
-              <button
-                disabled={entreprises.length < PAGE_SIZE}
-                onClick={() => setPage((p) => p + 1)}
-                className="px-5 py-2 text-xs font-bold rounded-full border border-white/[0.05] bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                Suivant →
-              </button>
-            </div>
+            {!loading && (
+              <div className="flex items-center justify-between px-2 pt-4">
+                <button
+                  disabled={history.length <= 1}
+                  onClick={() => {
+                    const prev = [...history];
+                    prev.pop();
+                    setHistory(prev);
+                    setStartId(prev[prev.length - 1]);
+                  }}
+                  className="px-5 py-2 text-xs font-bold rounded-full border border-white/[0.05] bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  ← Précédent
+                </button>
+                <span className="text-xs text-zinc-500 font-medium">
+                  Page {page + 1}
+                </span>
+                <button
+                  disabled={entreprises.length < 5}
+                  onClick={() => {
+                    const lastId =
+                      entreprises[entreprises.length - 1]?.id_entreprise;
+                    if (lastId != null) {
+                      setHistory((prev) => [...prev, lastId + 1]);
+                      setStartId(lastId + 1);
+                    }
+                  }}
+                  className="px-5 py-2 text-xs font-bold rounded-full border border-white/[0.05] bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  Suivant →
+                </button>
+              </div>
+            )}
             {selectedEntreprise && (
               <Entreprise_Preview
                 entreprise={selectedEntreprise}
