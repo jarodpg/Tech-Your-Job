@@ -176,6 +176,7 @@ export default function Reponse_candidats() {
                         </button>
                         <button
                           onClick={async () => {
+                            window.alert("Candidature acceptee !");
                             try {
                               await Update_Stats_User(userId, {
                                 candidatures_positives: 1,
@@ -190,6 +191,7 @@ export default function Reponse_candidats() {
                         </button>
                         <button
                           onClick={async () => {
+                            window.alert("Candidature refusée !");
                             try {
                               await Update_Stats_User(userId, {
                                 candidatures_refusees: 1,

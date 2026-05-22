@@ -122,7 +122,7 @@ export default function Footer() {
                       : "Politique de Confidentialité"}
                   </h2>
                   <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">
-                    Tech Your Job • 2026
+                    Tech Your Job - 2026
                   </p>
                 </div>
                 <button
@@ -136,60 +136,133 @@ export default function Footer() {
               <div className="p-10 overflow-y-auto text-zinc-400 text-sm space-y-8 leading-relaxed custom-scrollbar bg-[#0d0d0d]">
                 {activePopup === "mentions" ? (
                   <>
-                    <h3 className="font-bold text-white text-base">
-                      1. Édition du site
-                    </h3>
-                    <p>
-                      Le site Tech Your Job est édité par les développeurs
-                      suivants :<br></br> Jarod Putman-Grain, Gabin Hannier,
-                      Nathan Sosniak, Antoine Graber.
-                    </p>
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        1. Édition du site
+                      </h3>
+                      <p>
+                        Le site <strong>Tech Your Job</strong> est édité par
+                        l'équipe de développement Epitech composée de : Jarod
+                        Putman-Grain, Gabin Hannier, Nathan Sosniak et Antoine
+                        Graber.
+                      </p>
+                    </section>
 
-                    <h3 className="font-bold text-white text-base">
-                      2. Propriété
-                    </h3>
-                    <p>
-                      L'ensemble des contenus, graphismes, designs et codes
-                      sources sont la propriété exclusive de Tech Your Job.
-                    </p>
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        2. Hébergement et Souveraineté
+                      </h3>
+                      <p>
+                        Conformément à notre charte éthique, l'intégralité des
+                        données est hébergée sur des serveurs situés en
+                        <strong> Union Européenne</strong>, garantissant une
+                        protection juridique optimale et la souveraineté de vos
+                        informations.
+                      </p>
+                    </section>
+
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        3. Propriété Intellectuelle
+                      </h3>
+                      <p>
+                        L'architecture technique, les algorithmes de matching et
+                        l'identité graphique sont la propriété exclusive de Tech
+                        Your Job. Toute reproduction sans accord préalable est
+                        interdite.
+                      </p>
+                    </section>
                   </>
                 ) : (
                   <>
-                    <h3 className="font-bold text-white text-base">
-                      1. Collecte et finalité des données
-                    </h3>
-                    <p>
-                      Nous collectons votre adresse e-mail, nom et prénom lors
-                      de votre inscription.{" "}
-                      <strong>
-                        Ces données sont strictement et uniquement collectées
-                        dans le cadre du fonctionnement de l'application web
-                        Tech Your Job
-                      </strong>{" "}
-                      (pour vous permettre de postuler aux offres et gérer votre
-                      profil). Elles ne seront en aucun cas revendues, partagées
-                      ou utilisées à des fins commerciales par des tiers.
-                    </p>
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        1. Collecte et Transparence (RGPD)
+                      </h3>
+                      <p>Nous distinguons deux types de données :</p>
+                      <ul className="list-disc pl-5 space-y-1">
+                        <li>
+                          <strong>Données Privées :</strong> Nom, email, mot de
+                          passe. Elles sont chiffrées et servent uniquement à la
+                          gestion de votre compte.
+                        </li>
+                        <li>
+                          <strong>Données Professionnelles :</strong>{" "}
+                          Compétences, métiers, expériences. Elles servent au
+                          fonctionnement de notre IA de recommandation.
+                        </li>
+                      </ul>
+                      <p className="text-purple-400 font-medium italic">
+                        Aucune donnée personnelle n'est revendue à des tiers.
+                      </p>
+                    </section>
 
-                    <h3 className="font-bold text-white text-base">
-                      2. Utilisation des cookies
-                    </h3>
-                    <p>
-                      Tech Your Job utilise uniquement des cookies essentiels ou
-                      techniques pour maintenir votre session utilisateur
-                      active. Aucun cookie de traçage publicitaire n'est
-                      utilisé.
-                    </p>
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        2. Éthique de l'IA et Algorithmes
+                      </h3>
+                      <p>
+                        Nos algorithmes sont audités pour bannir tout biais
+                        discriminatoire.
+                        <strong>
+                          {" "}
+                          Aucune candidature ne peut être rejetée
+                          automatiquement
+                        </strong>{" "}
+                        par notre IA sans une revue humaine par un recruteur
+                        (Human-in-the-loop).
+                      </p>
+                    </section>
 
-                    <h3 className="font-bold text-white text-base">
-                      3. Vos droits (RGPD)
-                    </h3>
-                    <p>
-                      Vous disposez d'un droit d'accès, de modification et de
-                      suppression de vos données personnelles depuis votre
-                      espace "Compte", ou sur simple demande par mail à
-                      support@techyourjob.fr.
-                    </p>
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        3. Conservation des données
+                      </h3>
+                      <div className="bg-white/[0.03] border border-white/[0.05] rounded-xl p-4">
+                        <table className="w-full text-[11px] uppercase tracking-wider">
+                          <tbody>
+                            <tr className="border-b border-white/[0.05]">
+                              <td className="py-2 font-bold text-zinc-500">
+                                Dossier Candidat
+                              </td>
+                              <td className="py-2 text-right text-white">
+                                2 ans (après dernier contact)
+                              </td>
+                            </tr>
+                            <tr className="border-b border-white/[0.05]">
+                              <td className="py-2 font-bold text-zinc-500">
+                                Données Connexion
+                              </td>
+                              <td className="py-2 text-right text-white">
+                                12 mois
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 font-bold text-zinc-500">
+                                Cookies Techniques
+                              </td>
+                              <td className="py-2 text-right text-white">
+                                13 mois
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+
+                    <section className="space-y-3">
+                      <h3 className="font-bold text-white text-base">
+                        4. Vos Droits et Contact
+                      </h3>
+                      <p>
+                        Vous bénéficiez d'un <strong>droit à l'oubli</strong>{" "}
+                        total. Vous pouvez demander la suppression définitive de
+                        vos données depuis votre compte ou via :
+                        <span className="text-purple-400 block mt-1">
+                          support@techyourjob.fr
+                        </span>
+                      </p>
+                    </section>
                   </>
                 )}
               </div>

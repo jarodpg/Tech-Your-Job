@@ -89,7 +89,3 @@ L'entreprise peut choisir l'achat à l'unité ou un **Abonnement Entreprise +** 
 - **API Payante :** Vente de tokens pour accéder aux données de notre API (flux d'offres spécifiques).
 
 ---
-
-## 4. Roadmap Produit et Technique
-
-Maintenant que les fonctionnalités sont définies, nous allons prioriser leur développement pour le prototype grandeur nature (MVP).

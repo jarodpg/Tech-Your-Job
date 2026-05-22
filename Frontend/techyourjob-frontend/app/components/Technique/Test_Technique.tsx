@@ -236,7 +236,7 @@ export default function Test_Technique({
                       Glissez votre fichier ou cliquez pour parcourir
                     </p>
                     <span className="text-gray-600 text-xs">
-                      Format accepte : .zip uniquement
+                      Format accepte : Tout type
                     </span>
                     <input
                       type="file"
