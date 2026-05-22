@@ -39,7 +39,11 @@ function Rond({
   );
 }
 
-export default function DashBoard_Preview() {
+interface DashBoardPreviewProps {
+  infos: any;
+}
+
+export default function DashBoard_Preview({ infos }: DashBoardPreviewProps) {
   //date
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
