@@ -120,7 +120,7 @@ export default function SideBareFiltre({ onFilterChange }) {
   const [experience, setExperience] = useState([0]);
 
   // Dates
-  const [startDate, setStartDate] = useState("");
+  const [startDate] = useState(new Date().toISOString().split("T")[0]);
   const [endDate, setEndDate] = useState("");
 
   // localisation
@@ -131,10 +131,10 @@ export default function SideBareFiltre({ onFilterChange }) {
   };
 
   useEffect(() => {
-    if (startDate && endDate) {
+    if (endDate) {
       onFilterChange({ age: jourEntreDate });
     }
-  }, [startDate, endDate]);
+  }, [endDate]);
 
   const formatDate = (d: string) =>
     new Date(d + "T00:00:00").toLocaleDateString("fr-FR", {
@@ -201,7 +201,6 @@ export default function SideBareFiltre({ onFilterChange }) {
     setLocationInput("");
     setDistance([0]);
     setLangueSelectionnee(null);
-    setStartDate("");
     setEndDate("");
 
     onFilterChange({
@@ -320,33 +319,16 @@ export default function SideBareFiltre({ onFilterChange }) {
         onToggle={() => setOpenDate(!openDate)}
       >
         <div className="flex flex-col gap-2">
-      
           <div className="grid grid-cols-1 gap-3">
-        {/* Début */}
+            {/* Début */}
             <div className="flex flex-col gap-1">
               <span className="text-[10px] uppercase tracking-widest text-gray-500">
                 Début
               </span>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                  if (endDate && e.target.value > endDate) setEndDate("");
-                }}
-                className={`
-                  w-full rounded-lg px-3 py-1.5 text-xs border outline-none
-                  transition-all cursor-pointer [color-scheme:dark]
-                  ${
-                    startDate
-                      ? "bg-purple-950/50 border-purple-800/60 text-purple-300"
-                      : "bg-white/5 border-white/10 text-gray-300 focus:border-purple-700/50 focus:bg-purple-950/20"
-                  }
-                `}
-              />
+              <span className="w-full rounded-lg px-3 py-1.5 text-xs border bg-white/5 border-white/10 text-gray-300 focus:border-purple-700/50 focus:bg-purple-950/20">
+                {new Date().toLocaleDateString("fr-FR")}
+              </span>
             </div>
-
-            <span className="text-gray-600 pb-2 text-xs">→</span>
 
             {/* Fin */}
             <div className="flex flex-col gap-1 flex-1">
@@ -372,27 +354,19 @@ export default function SideBareFiltre({ onFilterChange }) {
           </div>
 
           {/* Resume */}
-          {startDate && endDate ? (
+          {endDate && jourEntreDate && jourEntreDate > 0 ? (
             <p className="text-[11px] text-purple-400">
-              {formatDate(startDate)} → {formatDate(endDate)}
-              <span className="text-gray-600 ml-1">- {jourEntreDate}j</span>
-            </p>
-          ) : startDate ? (
-            <p className="text-[11px] text-purple-400">
-              À partir du {formatDate(startDate)}
+              Période de {jourEntreDate} jour{jourEntreDate > 1 ? "s" : ""}
             </p>
           ) : (
             <p className="text-[11px] text-gray-600">
-              Sélectionnez une période
+              Sélectionnez une date de fin
             </p>
           )}
 
-          {(startDate || endDate) && (
+          {endDate && (
             <button
-              onClick={() => {
-                setStartDate("");
-                setEndDate("");
-              }}
+              onClick={() => setEndDate("")}
               className="flex items-center gap-1 text-[11px] text-gray-600 hover:text-gray-400 transition-colors w-fit"
             >
               <FaTimes size={10} />
