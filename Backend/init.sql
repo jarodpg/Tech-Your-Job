@@ -15,6 +15,9 @@ CREATE TABLE entreprise (
     rank INT
 );
 
+
+
+
 CREATE TABLE poste (
     id_poste INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_entreprise INT REFERENCES entreprise(id_entreprise) ON DELETE CASCADE,
@@ -73,7 +76,7 @@ CREATE TABLE profil_utilisateur(
     plateforme JSONB,
     profession_actuelle VARCHAR(100),
     experiences_annees INTEGER,
-    document TEXT[],
+    document JSONB DEFAULT '[]'::jsonb,
     langues TEXT[],
     nb_vues_profil INTEGER DEFAULT 0,
     candidatures_envoyees INTEGER DEFAULT 0,

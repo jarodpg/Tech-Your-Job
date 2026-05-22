@@ -82,7 +82,7 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
             <div className="flex flex-col flex-1 gap-1">
               <label className="text-gray-400 text-xs">Nom</label>
               <input
-                value={form.nom}
+                value={form.nom ?? ""}
                 onChange={(e) => setForm({ ...form, nom: e.target.value })}
                 className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-300 text-sm outline-none focus:border-teal-400/50 transition-colors"
                 placeholder="Nom"
@@ -91,7 +91,7 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
             <div className="flex flex-col flex-1 gap-1">
               <label className="text-gray-400 text-xs">Prenom</label>
               <input
-                value={form.prenom}
+                value={form.prenom ?? ""}
                 onChange={(e) => setForm({ ...form, prenom: e.target.value })}
                 className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-300 text-sm outline-none focus:border-teal-400/50 transition-colors"
                 placeholder="Prenom"
@@ -102,7 +102,7 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
           <div className="flex flex-col gap-1">
             <label className="text-gray-400 text-xs">Profession actuelle</label>
             <input
-              value={form.profession_actuelle}
+              value={form.profession_actuelle ?? ""}
               onChange={(e) =>
                 setForm({ ...form, profession_actuelle: e.target.value })
               }
@@ -115,7 +115,7 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
             <div className="flex flex-col flex-1 gap-1">
               <label className="text-gray-400 text-xs">Localisation</label>
               <input
-                value={form.localisation}
+                value={form.localisation ?? ""}
                 onChange={(e) =>
                   setForm({ ...form, localisation: e.target.value })
                 }
@@ -126,7 +126,7 @@ export default function Infos_Edit({ isOpen, onClose, infos, onSave }: Props) {
             <div className="flex flex-col flex-1 gap-1">
               <label className="text-gray-400 text-xs">Pays</label>
               <input
-                value={form.pays}
+                value={form.pays ?? ""}
                 onChange={(e) => setForm({ ...form, pays: e.target.value })}
                 className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-gray-300 text-sm outline-none focus:border-teal-400/50 transition-colors"
                 placeholder="Ex: France"

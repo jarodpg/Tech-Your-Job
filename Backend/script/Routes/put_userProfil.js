@@ -156,6 +156,17 @@ router.put(
           bannerURL =
             bannerURL || selectProfilUtilisateurRequest.rows[0].banniere;
           docURL = docURL || selectProfilUtilisateurRequest.rows[0].document;
+
+          if (typeof docURL === "string") {
+            try {
+              docURL = JSON.parse(docURL);
+            } catch {
+              docURL = [];
+            }
+          }
+          if (!Array.isArray(docURL)) {
+            docURL = [];
+          }
         }
       }
 
@@ -170,7 +181,7 @@ router.put(
                 langues = $5,
                 photo_profil = $6,
                 banniere = $7,
-                document = $8
+                document = $8::jsonb
             WHERE id_utilisateur = $9
         `;
       await connection.query(sqlUpdateUtilisateur, [
@@ -181,7 +192,7 @@ router.put(
         language,
         avatarURL,
         bannerURL,
-        JSON.stringify(docURL),
+        docURL ? JSON.stringify(docURL) : "[]",
         req.token.id,
       ]);
 

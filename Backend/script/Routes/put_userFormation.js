@@ -3,6 +3,12 @@ const connection = require("../DB");
 const { auth } = require("../Middleware");
 const router = express.Router();
 
+function toArray(val) {
+  if (Array.isArray(val)) return val;
+  if (typeof val === "string" && val.trim()) return [val];
+  return [];
+}
+
 function normalizeText(text) {
   return text
     .normalize("NFD")
@@ -113,6 +119,10 @@ router.put("/user/formation/:id", auth, async (req, res) => {
             AND 
                 id_formation = $10
         `;
+
+    skills = Array.isArray(skills) ? skills : toArray(skills);
+    degree = Array.isArray(degree) ? degree : toArray(degree);
+
     await connection.query(sqlUpdateFormationUtilisateur, [
       institution_id ?? null,
       institution_name,
@@ -165,8 +175,8 @@ router.post("/user/formation", auth, async (req, res) => {
         start || null,
         end || null,
         description ?? "",
-        skills ?? [],
-        degree ?? null,
+        toArray(skills),
+        toArray(degree),
       ],
     );
 

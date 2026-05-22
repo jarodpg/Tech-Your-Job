@@ -24,7 +24,7 @@ export default function Reponse_candidats() {
   // poste des l'entreprise
   useEffect(() => {
     const fetchPostes = async () => {
-      const data = await Get_Enterprise(2);
+      const data = await Get_Enterprise(1);
       setPostes(data?.offre ?? []);
     };
     fetchPostes();
