@@ -70,7 +70,7 @@ export default function Account() {
                 </div>
               )}
 
-              {Data && <DashBoard_Preview infos={Data.profil[0]} />}
+              {Data && <DashBoard_Preview />}
               {Data && (
                 <Document_priview
                   isEdit={isEdit}
